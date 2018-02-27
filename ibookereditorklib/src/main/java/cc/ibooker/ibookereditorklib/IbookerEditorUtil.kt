@@ -1,5 +1,6 @@
 package cc.ibooker.ibookereditorklib
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import android.util.TypedValue
@@ -29,7 +30,7 @@ class IbookerEditorUtil// 构造方法
             val text = if (start == end) "" else ibookerEd.text.toString().substring(start, end)
             return RangeData(start, end, text)
         }
-        set(data) = ibookerEd.setSelection(data.start, data.end)
+        set(data) = ibookerEd.setSelection(if (data.start >= 0) data.start else 0, if (data.end >= 0) data.end else 0)
 
     init {
         ibookerEd = ibookerEditorEditView.ibookerEd!!
@@ -165,6 +166,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 单词首字母大写
      */
+    @SuppressLint("SetTextI18n")
     internal fun capitals() {
         // 初始化
         val rangeData = selectionInfo
@@ -242,7 +244,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -274,7 +277,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -306,7 +310,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -338,7 +343,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -370,7 +376,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -402,7 +409,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
@@ -433,7 +441,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         thisline += "\n[链接描述](http://www.ibooker.cc)"
@@ -458,7 +467,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
@@ -513,7 +523,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         thisline += "\n![图片描述](http://ibooker.cc/favicon.ico/)"
@@ -538,7 +549,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         val thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         var j = 1
@@ -580,7 +592,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val pattern = Pattern.compile("^-\\s.*$")
@@ -610,7 +623,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
@@ -641,7 +655,8 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val pattern = Pattern.compile("^-\\s+\\[x\\]\\s+.*$")
@@ -670,7 +685,8 @@ class IbookerEditorUtil// 构造方法
         val start = rangeData.start
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         thisline += ("\n|  h1   |    h2   |    h3   |"
@@ -697,7 +713,8 @@ class IbookerEditorUtil// 构造方法
         val start = rangeData.start
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         thisline += "\n<html>\n<!--在这里插入内容-->\n</html>"
@@ -721,7 +738,8 @@ class IbookerEditorUtil// 构造方法
         val start = rangeData.start
         val text = ibookerEd.text.toString()
         val temp = text.substring(0, start)
-        val line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+        if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         thisline = thisline + "\n***"
