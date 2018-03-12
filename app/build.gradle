@@ -29,6 +29,3 @@ dependencies {
     implementation project(':ibookereditorklib')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
-repositories {
-    mavenCentral()
-}

@@ -50,10 +50,10 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     // 初始化
     private fun init(context: Context) {
         backImg = ImageView(context)
-        val backParams = LinearLayout.LayoutParams(IbookerEditorUtil.dpToPx(context, 30F), ViewGroup.LayoutParams.WRAP_CONTENT)
+        val backParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22F))
         backParams.setMargins(IbookerEditorUtil.dpToPx(context, 5F), 0, IbookerEditorUtil.dpToPx(context, 5F), 0)
         backImg!!.layoutParams = backParams
-        backImg!!.setImageResource(R.drawable.icon_back)
+        backImg!!.setImageResource(R.drawable.icon_back_black)
         backImg!!.adjustViewBounds = true
         backImg!!.contentDescription = resources.getString(R.string.back)
         backImg!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK
