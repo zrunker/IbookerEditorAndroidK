@@ -71,10 +71,10 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         // 赋值
-        val pattern = Pattern.compile("^[\\*]+.*[\\*]+$")
+        val pattern = Pattern.compile("^[*]+.*[*]+$")
         if (pattern.matcher(selectTxt!!).matches()) {
             // 如果已加粗，去掉
-            selectTxt = selectTxt.replace("^[\\*]+([^\\*]*)[\\*]+$".toRegex(), "$1")
+            selectTxt = selectTxt.replace("^[*]+([^*]*)[*]+$".toRegex(), "$1")
             finalTxt = text.substring(0, start) + selectTxt + text.substring(end, text.length)
         } else {
             finalTxt = text.substring(0, start) + "**" + (if (TextUtils.isEmpty(selectTxt)) "加粗" else text.substring(start, end)) + "**" + text.substring(end, text.length)
@@ -97,10 +97,10 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         // 赋值
-        val pattern = Pattern.compile("^[\\*]+.*[\\*]+$")
+        val pattern = Pattern.compile("^[*]+.*[*]+$")
         if (pattern.matcher(selectTxt!!).matches()) {
             // 如果已加粗，去掉
-            selectTxt = selectTxt.replace("^[\\*]+([^\\*]*)[\\*]+$".toRegex(), "$1")
+            selectTxt = selectTxt.replace("^[*]+([^*]*)[*]+$".toRegex(), "$1")
             finalTxt = text.substring(0, start) + selectTxt + text.substring(end, text.length)
         } else {
             finalTxt = text.substring(0, start) + "*" + (if (TextUtils.isEmpty(selectTxt)) "斜体" else text.substring(start, end)) + "*" + text.substring(end, text.length)
@@ -123,10 +123,10 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         // 赋值
-        val pattern = Pattern.compile("^[\\~]+.*[\\~]+$")
+        val pattern = Pattern.compile("^[~]+.*[~]+$")
         if (pattern.matcher(selectTxt!!).matches()) {
             // 如果已删除线，去掉
-            selectTxt = selectTxt.replace("^[\\~]+([^\\~]*)[\\~]+$".toRegex(), "$1")
+            selectTxt = selectTxt.replace("^[~]+([^~]*)[~]+$".toRegex(), "$1")
             finalTxt = text.substring(0, start) + selectTxt + text.substring(end, text.length)
         } else {
             finalTxt = text.substring(0, start) + "~~" + (if (TextUtils.isEmpty(selectTxt)) "删除线" else text.substring(start, end)) + "~~" + text.substring(end, text.length)
@@ -149,10 +149,10 @@ class IbookerEditorUtil// 构造方法
         val end = rangeData.end
         val text = ibookerEd.text.toString()
         // 赋值
-        val pattern = Pattern.compile("^[\\_]+.*[\\_]+$")
+        val pattern = Pattern.compile("^[_]+.*[_]+$")
         if (pattern.matcher(selectTxt!!).matches()) {
             // 如果已下划线，去掉
-            selectTxt = selectTxt.replace("^[\\_]+([^\\_]*)[\\_]+$".toRegex(), "$1")
+            selectTxt = selectTxt.replace("^[_]+([^_]*)[_]+$".toRegex(), "$1")
             finalTxt = text.substring(0, start) + selectTxt + text.substring(end, text.length)
         } else {
             finalTxt = text.substring(0, start) + "__" + (if (TextUtils.isEmpty(selectTxt)) "下划线" else text.substring(start, end)) + "__" + text.substring(end, text.length)
@@ -250,10 +250,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^#\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^#\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^#\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "# " + thisline
+            "# " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -283,10 +283,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^##\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^##\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^##\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "## " + thisline
+            "## " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -316,10 +316,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^###\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^###\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^###\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "### " + thisline
+            "### " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -349,10 +349,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^####\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^####\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^####\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "#### " + thisline
+            "#### " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -382,10 +382,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^#####\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^#####\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^#####\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "##### " + thisline
+            "##### " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -415,10 +415,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         // 赋值
         val pattern = Pattern.compile("^######\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^######\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^######\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "###### " + thisline
+            "###### " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -473,10 +473,10 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
         val pattern = Pattern.compile("^>.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^>(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^>(.*)$".toRegex(), "$1")
         } else {
-            thisline = '>' + thisline
+            '>' + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -502,10 +502,10 @@ class IbookerEditorUtil// 构造方法
         val selectTxt = rangeData.text
 
         val pattern = Pattern.compile("^`{3}[\\s\\S]*`{3}$")
-        if (pattern.matcher(selectTxt!!).matches()) {
-            finalTxt = text.substring(0, start) + selectTxt.replace("^`{3}[\\n]([\\s\\S]*)[\\n]`{3}$".toRegex(), "$1") + text.substring(end, text.length)
+        finalTxt = if (pattern.matcher(selectTxt!!).matches()) {
+            text.substring(0, start) + selectTxt.replace("^`{3}[\\n]([\\s\\S]*)[\\n]`{3}$".toRegex(), "$1") + text.substring(end, text.length)
         } else {
-            finalTxt = text.substring(0, start) + "\n```\n" + selectTxt + "\n```\n" + text.substring(end, text.length)
+            text.substring(0, start) + "\n```\n" + selectTxt + "\n```\n" + text.substring(end, text.length)
         }
         ibookerEd.setText(finalTxt)
         // 设置光标位置
@@ -597,10 +597,10 @@ class IbookerEditorUtil// 构造方法
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val pattern = Pattern.compile("^-\\s.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^-\\s(.*)$".toRegex(), "$1")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^-\\s(.*)$".toRegex(), "$1")
         } else {
-            thisline = "- " + thisline
+            "- " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -628,11 +628,11 @@ class IbookerEditorUtil// 构造方法
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
-        val pattern = Pattern.compile("^-\\s+\\[\\s{0,1}\\]\\s+.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^-\\s+\\[\\s{0,1}\\]\\s+(.*)$".toRegex(), "$1")
+        val pattern = Pattern.compile("^-\\s+\\[\\s?]\\s+.*$")
+        thisline = if (pattern.matcher(thisline).matches()) {
+            thisline.replace("^-\\s+\\[\\s?]\\s+(.*)$".toRegex(), "$1")
         } else {
-            thisline = "- [ ] " + thisline
+            "- [ ] " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -659,11 +659,9 @@ class IbookerEditorUtil// 构造方法
         if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val pattern = Pattern.compile("^-\\s+\\[x\\]\\s+.*$")
-        if (pattern.matcher(thisline).matches()) {
-            thisline = thisline.replace("^-\\s+\\[x\\]\\s+(.*)$".toRegex(), "$1")
-        } else {
-            thisline = "- [x] " + thisline
+        val pattern = Pattern.compile("^-\\s+\\[x]\\s+.*$")
+        thisline = if (pattern.matcher(thisline).matches()) thisline.replace("^-\\s+\\[x]\\s+(.*)$".toRegex(), "$1") else {
+            "- [x] " + thisline
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -742,7 +740,7 @@ class IbookerEditorUtil// 构造方法
         if (line < 0) line = 0
         var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline = thisline + "\n***"
+        thisline += "\n***"
         allLine[line] = thisline
         var finalTxt = ""
         for (str in allLine) {
