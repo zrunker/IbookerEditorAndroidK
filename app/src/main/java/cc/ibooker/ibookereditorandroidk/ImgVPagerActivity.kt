@@ -121,9 +121,9 @@ class ImgVPagerActivity : AppCompatActivity(), View.OnClickListener {
             R.id.img_share// 分享
             -> Toast.makeText(this@ImgVPagerActivity, "执行分享", Toast.LENGTH_LONG).show()
             R.id.img_left// 左移图片
-            -> mViewPager!!.currentItem = if (currentPosition == 0) mViewPager!!.childCount - 1 else currentPosition - 1
+            -> mViewPager!!.currentItem = if (currentPosition == 0) imgAllPathList!!.size - 1 else currentPosition - 1
             R.id.img_right// 右移事件
-            -> mViewPager!!.currentItem = if (currentPosition == mViewPager!!.childCount - 1) 0 else currentPosition + 1
+            -> mViewPager!!.currentItem = if (currentPosition == imgAllPathList!!.size - 1) 0 else currentPosition + 1
         }
     }
 }
