@@ -8,6 +8,9 @@ import android.widget.Toast
 import cc.ibooker.ibookereditorklib.IbookerEditorView
 import cc.ibooker.ibookereditorlib.IbookerEditorPreView
 import java.util.*
+import android.content.Intent
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +41,12 @@ class MainActivity : AppCompatActivity() {
         ibookerEditorView.ibookerEditorVpView?.preView?.setIbookerEditorImgPreviewListener(object : IbookerEditorPreView.IbookerEditorImgPreviewListener {
             override fun onIbookerEditorImgPreview(currentPath: String, position: Int, imgAllPathList: ArrayList<String>) {
                 Toast.makeText(this@MainActivity, currentPath + "===" + position + "===" + imgAllPathList.toString(), Toast.LENGTH_LONG).show()
+
+                val intent = Intent(this@MainActivity, ImgVPagerActivity::class.java)
+                intent.putExtra("currentPath", currentPath)
+                intent.putExtra("position", position)
+                intent.putStringArrayListExtra("imgAllPathList", imgAllPathList)
+                startActivity(intent)
             }
         })
     }
