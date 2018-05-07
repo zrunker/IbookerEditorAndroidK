@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import cc.ibooker.ibookereditorklib.IbookerEditorView
-import cc.ibooker.ibookereditorlib.IbookerEditorPreView
+import cc.ibooker.ibookereditorklib.IbookerEditorPreView
 import java.util.*
 import android.content.Intent
 

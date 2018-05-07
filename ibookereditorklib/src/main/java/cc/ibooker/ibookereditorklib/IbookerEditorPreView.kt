@@ -1,4 +1,4 @@
-package cc.ibooker.ibookereditorlib
+package cc.ibooker.ibookereditorklib
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,6 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.webkit.*
-import cc.ibooker.ibookereditorklib.IbookerEditorJsCheckImgEvent
 import java.util.*
 
 /**
@@ -28,6 +27,8 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         val webSettings = this.settings
         // 允许JS
         webSettings.javaScriptEnabled = true
+        // 支持插件
+        webSettings.pluginState = WebSettings.PluginState.ON;
         // 设置允许JS弹窗
         webSettings.javaScriptCanOpenWindowsAutomatically = true
         // access Assets and resources

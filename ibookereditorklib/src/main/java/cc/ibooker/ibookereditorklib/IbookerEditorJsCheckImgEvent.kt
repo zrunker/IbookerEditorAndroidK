@@ -1,7 +1,6 @@
 package cc.ibooker.ibookereditorklib
 
 import android.webkit.JavascriptInterface
-import cc.ibooker.ibookereditorlib.IbookerEditorPreView
 import java.util.*
 
 /**
