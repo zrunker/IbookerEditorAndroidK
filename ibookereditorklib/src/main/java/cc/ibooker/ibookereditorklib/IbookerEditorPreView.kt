@@ -2,6 +2,8 @@ package cc.ibooker.ibookereditorklib
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -191,6 +193,17 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
             this.isExecuteHtmlCompile = true
             this.ibookerEditorHtml = ibookerEditorHtml
         }
+    }
+
+    /**
+     * 获取整个WebView截图
+     */
+    fun getWebViewBitmap(): Bitmap {
+        val picture = this.capturePicture()
+        val bitmap = Bitmap.createBitmap(picture.width, picture.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        picture.draw(canvas)
+        return bitmap
     }
 
     // 图片预览接口
