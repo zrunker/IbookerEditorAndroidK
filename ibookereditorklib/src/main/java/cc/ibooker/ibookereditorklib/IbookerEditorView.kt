@@ -181,7 +181,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         val text = ibookerEditorVpView!!.editView?.ibookerEd?.text.toString()
         // 执行预览
         if (!TextUtils.isEmpty(text)) {
-            ibookerEditorVpView!!.preView?.ibookerHtmlCompile(text)
+            ibookerEditorVpView!!.preView?.ibookerCompile(text)
         }
     }
 }// 构造方法

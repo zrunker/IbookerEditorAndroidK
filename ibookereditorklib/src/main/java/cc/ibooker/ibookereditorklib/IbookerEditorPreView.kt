@@ -13,6 +13,16 @@ import java.util.*
  * Created by 邹峰立 on 2018/2/11.
  */
 class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : WebView(context, attrs, defStyleAttr) {
+    /**
+     * 是否完成本地文件加载
+     */
+    var isLoadFinished = false
+        private set// 本地文件是否加载完成
+    private var isExecuteCompile = false// 是否执行预览
+    private var isExecuteHtmlCompile = false// 是否执行HTML预览
+    private var ibookerEditorText: String? = null
+    private var ibookerEditorHtml: String? = null
+
     private var imgPathList: ArrayList<String>? = null// WebView所有图片地址
     private var ibookerEditorJsCheckImgEvent: IbookerEditorJsCheckImgEvent? = null
 
@@ -22,13 +32,15 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     // 初始化
-    @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface", "JavascriptInterface")
+    @SuppressLint("AddJavascriptInterface", "SetJavaScriptEnabled", "JavascriptInterface")
     private fun init() {
         val webSettings = this.settings
+        // 支持内容重新布局
+        webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         // 允许JS
         webSettings.javaScriptEnabled = true
         // 支持插件
-        webSettings.pluginState = WebSettings.PluginState.ON;
+        webSettings.pluginState = WebSettings.PluginState.ON
         // 设置允许JS弹窗
         webSettings.javaScriptCanOpenWindowsAutomatically = true
         // access Assets and resources
@@ -53,13 +65,25 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         // 隐藏原生的缩放控件
         webSettings.displayZoomControls = false
 
-
         // 隐藏滚动条
         this.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         // 使页面获取焦点，防止点击无响应
         this.requestFocus()
         // 设置WebViewClient
         this.webViewClient = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.loadUrl(request.url.toString())
+                }
+                return true
+            }
+
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 // 当网页加载出错时，加载本地错误文件
                 this@IbookerEditorPreView.loadUrl("file:///android_asset/error.html")
@@ -67,7 +91,15 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
 
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
-                addWebViewListener()
+                isLoadFinished = true
+                if (isExecuteCompile) {
+                    ibookerCompile(ibookerEditorText)
+                } else if (isExecuteHtmlCompile) {
+                    ibookerHtmlCompile(ibookerEditorHtml)
+                } else {
+                    addWebViewListener()
+                }
+
             }
         }
         // 添加js
@@ -113,18 +145,52 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     /**
-     * 执行Html预览
+     * 执行预览
      *
      * @param ibookerEditorText 待预览内容 非HTML
      */
-    fun ibookerHtmlCompile(ibookerEditorText: String) {
+    fun ibookerCompile(ibookerEditorText: String?) {
         var ibookerEditorText = ibookerEditorText
-        ibookerEditorText = ibookerEditorText.replace("\\n".toRegex(), "\\\\n")
-        val js = "javascript:ibookerHtmlCompile('$ibookerEditorText')"
-        this.loadUrl(js)
+        if (isLoadFinished) {
+            ibookerEditorText = ibookerEditorText!!.replace("\\n".toRegex(), "\\\\n")
+            val js = "javascript:ibookerCompile('$ibookerEditorText')"
+            this.loadUrl(js)
 
-        // 重新添加Webview相关监听
-        addWebViewListener()
+            // 重新WebView添加监听
+            addWebViewListener()
+
+            this.isExecuteCompile = false
+            this.ibookerEditorText = null
+            this.isExecuteHtmlCompile = false
+            this.ibookerEditorHtml = null
+        } else {
+            this.isExecuteCompile = true
+            this.ibookerEditorText = ibookerEditorText
+        }
+
+    }
+
+    /**
+     * 执行Html预览
+     *
+     * @param ibookerEditorHtml 待预览内容 HTML
+     */
+    fun ibookerHtmlCompile(ibookerEditorHtml: String?) {
+        if (isLoadFinished) {
+            val js = "javascript:ibookerHtmlCompile('$ibookerEditorHtml')"
+            this.loadUrl(js)
+
+            // 重新WebView添加监听
+            addWebViewListener()
+
+            this.isExecuteHtmlCompile = false
+            this.ibookerEditorHtml = null
+            this.isExecuteCompile = false
+            this.ibookerEditorText = null
+        } else {
+            this.isExecuteHtmlCompile = true
+            this.ibookerEditorHtml = ibookerEditorHtml
+        }
     }
 
     // 图片预览接口
@@ -134,6 +200,5 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
 
     fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorImgPreviewListener) {
         ibookerEditorJsCheckImgEvent!!.setmIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener)
-
     }
 }

@@ -3,10 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IbookerEditorAndroidK.iml" filepath="$PROJECT_DIR$/IbookerEditorAndroidK.iml" />
-      <module fileurl="file://$PROJECT_DIR$/IbookerEditorAndroidK.iml" filepath="$PROJECT_DIR$/IbookerEditorAndroidK.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ibookereditorklib/ibookereditorandroidklib.iml" filepath="$PROJECT_DIR$/ibookereditorklib/ibookereditorandroidklib.iml" />
       <module fileurl="file://$PROJECT_DIR$/ibookereditorklib/ibookereditorklib.iml" filepath="$PROJECT_DIR$/ibookereditorklib/ibookereditorklib.iml" />
     </modules>
   </component>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" content="text/html">
     <title>首页 - 书客编辑器</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,20 +20,30 @@
     <link rel="shortcut icon" href="file:///android_asset/favicon.ico">
     <link rel="icon" type="image/gif" href="file:///android_asset/animated_favicon1.gif">
 
-    <link rel="stylesheet" rev="stylesheet" href="file:///android_asset/ibooker_editor_md_min.css" type="text/css"/>
-    <link rel="stylesheet" rev="stylesheet" href="file:///android_asset/ibooker_editor_min.css" type="text/css"/>
+    <link rel="stylesheet" rev="stylesheet" href="file:///android_asset/ibookereditor/css/ibooker_editor_md_min.css" type="text/css"/>
+    <link rel="stylesheet" rev="stylesheet" href="file:///android_asset/ibookereditor/css/ibooker_editor_min.css" type="text/css"/>
 
+    <link rel="stylesheet" rev="stylesheet" href="file:///android_asset/highlight/styles/googlecode.css" type="text/css"/>
+
+    <!-- 引入编辑器js -->
+    <script type="text/javascript" src="file:///android_asset/ibookereditor/js/showdown.min.js"></script>
+    <!-- 引入jQuery -->
+    <script type="text/javascript" src="file:///android_asset/highlight/jquery-3.2.1.min.js"></script>
+    <!-- 引入高亮 -->
+    <script type="text/javascript" src="file:///android_asset/highlight/highlight.pack.js"></script>
+</head>
 <body>
 <!-- 书客编辑器 -->
 <div id="ibooker_editor" class="ibooker_editor_content"></div>
 </body>
-<!-- 引入编辑器js -->
-<script type="text/javascript" src="file:///android_asset/showdown.min.js"></script>
 <script type="text/javascript">
+    var preIbookerEditorContent = null;
+
+    // 执行预览-非Html
 	var eConverter = null;
-	function ibookerHtmlCompile(ibookerEditorText) {
-		if (ibookerEditorText) {
-			if (eConverter == null) {
+	function ibookerCompile(ibookerEditorText) {
+		if (ibookerEditorText && ibookerEditorText != null && ibookerEditorText != "") {
+			if (eConverter == null || eConverter == undefined || eConverter == "") {
 				eConverter = new showdown.Converter();
 				// 设置属性
 				eConverter.setOption('omitExtraWLInCodeBlocks', true);
@@ -56,12 +66,25 @@
 				eConverter.setOption('openLinksInNewWindow', true);
 				eConverter.setOption('backslashEscapesHTMLTags', true);
 				eConverter.setOption('emoji', true);
-				<!--eConverter.setOption('completeHTMLDocument', true);-->
+				// eConverter.setOption('completeHTMLDocument', true);
 				eConverter.setOption('metadata', true);
 				eConverter.setOption('splitAdjacentBlockquotes', true);
 				eConverter.setFlavor('github');
 			}
-			document.getElementById('ibooker_editor').innerHTML = eConverter.makeHtml(ibookerEditorText);
+
+			ibookerHtmlCompile(eConverter.makeHtml(ibookerEditorText));
+		}
+	};
+
+	// 执行预览HTML
+	function ibookerHtmlCompile(ibookerEditorHtml) {
+		if (ibookerEditorHtml && ibookerEditorHtml != null && ibookerEditorHtml != "") {
+			if (preIbookerEditorContent === ibookerEditorHtml) {
+				return;
+			}
+			preIbookerEditorContent = ibookerEditorHtml;
+			document.getElementById('ibooker_editor').innerHTML = ibookerEditorHtml;
+			highlightCode();
 		}
 	};
 
@@ -75,6 +98,13 @@
 			}
 		}
 		return imgPaths;
+	};
+
+	/* 代码高亮 */
+	function highlightCode() {
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
 	}
 </script>
 </html>
