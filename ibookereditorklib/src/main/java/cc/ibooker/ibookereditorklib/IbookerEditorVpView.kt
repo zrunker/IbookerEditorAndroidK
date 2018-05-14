@@ -13,10 +13,8 @@ import java.util.*
 class IbookerEditorVpView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewPager(context, attrs) {
     // 编辑控件
     var editView: IbookerEditorEditView? = null
-        private set
     // 预览控件
     var preView: IbookerEditorPreView? = null
-        private set
     private var mDatas: ArrayList<View>? = null
     private var adapter: IbookerEditorVpAdapter? = null
 
@@ -44,7 +42,7 @@ class IbookerEditorVpView @JvmOverloads constructor(context: Context, attrs: Att
      */
     private fun setAdapter() {
         if (adapter == null) {
-            adapter = IbookerEditorVpAdapter(mDatas!!)
+            adapter = IbookerEditorVpAdapter(this.mDatas!!)
             this.setAdapter(adapter)
         } else {
             adapter!!.reflashData(this.mDatas!!)

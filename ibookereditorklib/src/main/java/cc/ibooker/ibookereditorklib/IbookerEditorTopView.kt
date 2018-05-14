@@ -18,21 +18,13 @@ import android.widget.LinearLayout
 class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
     // getter
     var backImg: ImageView? = null
-        private set
     var aboutImg: ImageView? = null
-        private set
-    var rightLayout: LinearLayout? = null
-        private set
+    private var rightLayout: LinearLayout? = null
     var undoIBtn: ImageButton? = null
-        private set
     var redoIBtn: ImageButton? = null
-        private set
     var editIBtn: ImageButton? = null
-        private set
     var previewIBtn: ImageButton? = null
-        private set
     var helpIBtn: ImageButton? = null
-        private set
 
     private var onTopClickListener: OnTopClickListener? = null
 
@@ -40,8 +32,9 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         orientation = LinearLayout.HORIZONTAL
         setBackgroundColor(Color.parseColor("#EFEFEF"))
         gravity = Gravity.CENTER_VERTICAL
-        minimumHeight = IbookerEditorUtil.dpToPx(context, 48F)
-        setPadding(IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F))
+        minimumHeight = IbookerEditorUtil.dpToPx(context, 48f)
+
+        setPadding(IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f))
         layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         init(context)
@@ -50,8 +43,8 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     // 初始化
     private fun init(context: Context) {
         backImg = ImageView(context)
-        val backParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22F))
-        backParams.setMargins(IbookerEditorUtil.dpToPx(context, 5F), 0, IbookerEditorUtil.dpToPx(context, 5F), 0)
+        val backParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22f))
+        backParams.setMargins(IbookerEditorUtil.dpToPx(context, 5f), 0, IbookerEditorUtil.dpToPx(context, 5f), 0)
         backImg!!.layoutParams = backParams
         backImg!!.setImageResource(R.drawable.icon_back_black)
         backImg!!.adjustViewBounds = true
@@ -66,13 +59,13 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         addView(rightLayout)
 
         val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        layoutParams.setMargins(IbookerEditorUtil.dpToPx(context, 5F), 0, IbookerEditorUtil.dpToPx(context, 5F), 0)
+        layoutParams.setMargins(IbookerEditorUtil.dpToPx(context, 5f), 0, IbookerEditorUtil.dpToPx(context, 5f), 0)
 
         undoIBtn = ImageButton(context)
         undoIBtn!!.layoutParams = layoutParams
         undoIBtn!!.setBackgroundResource(R.drawable.draw_undo)
         undoIBtn!!.contentDescription = resources.getString(R.string.undo)
-        undoIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        undoIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         undoIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDO
         undoIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(undoIBtn)
@@ -81,7 +74,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         redoIBtn!!.layoutParams = layoutParams
         redoIBtn!!.setBackgroundResource(R.drawable.draw_redo)
         redoIBtn!!.contentDescription = resources.getString(R.string.redo)
-        redoIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        redoIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         redoIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_REDO
         redoIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(redoIBtn)
@@ -90,7 +83,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         editIBtn!!.layoutParams = layoutParams
         editIBtn!!.setBackgroundResource(R.drawable.draw_edit)
         editIBtn!!.contentDescription = resources.getString(R.string.edit)
-        editIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        editIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         editIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EDIT
         editIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(editIBtn)
@@ -99,7 +92,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         previewIBtn!!.layoutParams = layoutParams
         previewIBtn!!.setBackgroundResource(R.drawable.draw_preview)
         previewIBtn!!.contentDescription = resources.getString(R.string.preview)
-        previewIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        previewIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         previewIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_PREVIEW
         previewIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(previewIBtn)
@@ -108,18 +101,18 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         helpIBtn!!.layoutParams = layoutParams
         helpIBtn!!.setBackgroundResource(R.drawable.draw_help)
         helpIBtn!!.contentDescription = resources.getString(R.string.help)
-        helpIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        helpIBtn!!.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         helpIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP
         helpIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(helpIBtn)
 
-        val params = LinearLayout.LayoutParams(IbookerEditorUtil.dpToPx(context, 29F), IbookerEditorUtil.dpToPx(context, 29F))
-        params.setMargins(IbookerEditorUtil.dpToPx(context, 5F), 0, IbookerEditorUtil.dpToPx(context, 5F), 0)
+        val params = LinearLayout.LayoutParams(IbookerEditorUtil.dpToPx(context, 29f), IbookerEditorUtil.dpToPx(context, 29f))
+        params.setMargins(IbookerEditorUtil.dpToPx(context, 5f), 0, IbookerEditorUtil.dpToPx(context, 5f), 0)
         aboutImg = ImageView(context)
         aboutImg!!.layoutParams = params
         aboutImg!!.setImageResource(R.drawable.ibooker_editor_logo)
         aboutImg!!.contentDescription = resources.getString(R.string.about)
-        aboutImg!!.setPadding(IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F), IbookerEditorUtil.dpToPx(context, 5F))
+        aboutImg!!.setPadding(IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f), IbookerEditorUtil.dpToPx(context, 5f))
         aboutImg!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT
         aboutImg!!.setOnClickListener(this)
         rightLayout!!.addView(aboutImg)

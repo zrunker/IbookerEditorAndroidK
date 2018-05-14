@@ -9,7 +9,7 @@ import java.util.*
  */
 class IbookerEditorJsCheckImgEvent {
     private var mImgPathList: ArrayList<String>? = null
-    private var mIbookerEditorImgPreviewListener: IbookerEditorPreView.IbookerEditorImgPreviewListener? = null
+    private var mIbookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener? = null
 
     fun getmImgPathList(): ArrayList<String>? {
         return mImgPathList
@@ -19,11 +19,11 @@ class IbookerEditorJsCheckImgEvent {
         this.mImgPathList = mImgPathList
     }
 
-    fun getmIbookerEditorImgPreviewListener(): IbookerEditorPreView.IbookerEditorImgPreviewListener? {
+    fun getmIbookerEditorImgPreviewListener(): IbookerEditorWebView.IbookerEditorImgPreviewListener? {
         return mIbookerEditorImgPreviewListener
     }
 
-    fun setmIbookerEditorImgPreviewListener(mIbookerEditorImgPreviewListener: IbookerEditorPreView.IbookerEditorImgPreviewListener) {
+    fun setmIbookerEditorImgPreviewListener(mIbookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener) {
         this.mIbookerEditorImgPreviewListener = mIbookerEditorImgPreviewListener
     }
 

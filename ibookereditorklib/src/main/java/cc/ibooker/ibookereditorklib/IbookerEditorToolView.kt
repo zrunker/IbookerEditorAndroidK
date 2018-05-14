@@ -16,60 +16,34 @@ import android.widget.LinearLayout
  */
 class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : HorizontalScrollView(context, attrs, defStyleAttr) {
     // getter
-    var toolLayout: LinearLayout? = null
-        private set
+    private var toolLayout: LinearLayout? = null
     var boldIBtn: ImageButton? = null
-        private set
     var italicIBtn: ImageButton? = null
-        private set
     var strikeoutIBtn: ImageButton? = null
-        private set
     var underlineIBtn: ImageButton? = null
-        private set
     var capitalsIBtn: ImageButton? = null
-        private set
     var uppercaseIBtn: ImageButton? = null
-        private set
     var lowercaseIBtn: ImageButton? = null
-        private set
     var h1IBtn: ImageButton? = null
-        private set
     var h2IBtn: ImageButton? = null
-        private set
     var h3IBtn: ImageButton? = null
-        private set
     var h4IBtn: ImageButton? = null
-        private set
     var h5IBtn: ImageButton? = null
-        private set
     var h6IBtn: ImageButton? = null
-        private set
     var linkIBtn: ImageButton? = null
-        private set
     var quoteIBtn: ImageButton? = null
-        private set
     var codeIBtn: ImageButton? = null
-        private set
     var imguIBtn: ImageButton? = null
-        private set
     var olIBtn: ImageButton? = null
-        private set
     var ulIBtn: ImageButton? = null
-        private set
     var unselectedIBtn: ImageButton? = null
-        private set
     var selectedIBtn: ImageButton? = null
-        private set
     var tableIBtn: ImageButton? = null
-        private set
     var htmlIBtn: ImageButton? = null
-        private set
     var hrIBtn: ImageButton? = null
-        private set
     var emojiIBtn: ImageButton? = null
-        private set
 
-    var onToolClickListener: OnToolClickListener? = null
+    private var onToolClickListener: OnToolClickListener? = null
 
     init {
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -82,13 +56,14 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
     private fun init(context: Context) {
         toolLayout = LinearLayout(context)
         toolLayout!!.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        toolLayout!!.minimumHeight = IbookerEditorUtil.dpToPx(context, 46F)
+        toolLayout!!.minimumHeight = IbookerEditorUtil.dpToPx(context, 46f)
         toolLayout!!.gravity = Gravity.CENTER_VERTICAL
         toolLayout!!.orientation = LinearLayout.HORIZONTAL
         addView(toolLayout)
 
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.setMargins(IbookerEditorUtil.dpToPx(context, 6F), IbookerEditorUtil.dpToPx(context, 6F), IbookerEditorUtil.dpToPx(context, 6F), IbookerEditorUtil.dpToPx(context, 6F))
+
+        layoutParams.setMargins(IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f))
         // 粗体
         boldIBtn = ImageButton(context)
         setImageBtn(boldIBtn!!, layoutParams, R.drawable.draw_bold, resources.getString(R.string.bold), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD)
@@ -233,7 +208,7 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         imageButton.layoutParams = layoutParams
         imageButton.setBackgroundResource(resid)
         imageButton.contentDescription = contentDescription
-        imageButton.setPadding(IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F), IbookerEditorUtil.dpToPx(context, 13F))
+        imageButton.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
         imageButton.tag = tag
         imageButton.setOnClickListener { v ->
             if (onToolClickListener != null)
@@ -521,5 +496,9 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
      */
     interface OnToolClickListener {
         fun onToolClick(tag: Any)
+    }
+
+    fun setOnToolClickListener(onToolClickListener: OnToolClickListener) {
+        this.onToolClickListener = onToolClickListener
     }
 }// 构造方法

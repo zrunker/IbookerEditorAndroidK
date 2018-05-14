@@ -7,20 +7,26 @@ import android.graphics.Color
 import android.os.Build
 import android.support.annotation.ColorInt
 import android.support.annotation.RequiresApi
+import android.support.v4.widget.NestedScrollView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
 import java.util.*
 
 /**
  * 书客编辑器 - 编辑界面
  * Created by 邹峰立 on 2018/2/11.
  */
-class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ScrollView(context, attrs, defStyleAttr) {
+class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : NestedScrollView(context, attrs, defStyleAttr) {
+    var ibookerTitleEd: EditText? = null
+    var lineView: View? = null
     var ibookerEd: EditText? = null
 
     private var textList: ArrayList<String>? = ArrayList()
@@ -40,13 +46,32 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         linearLayout.orientation = LinearLayout.VERTICAL
         addView(linearLayout)
 
+        ibookerTitleEd = EditText(context)
+        ibookerTitleEd!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50F))
+        ibookerTitleEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
+        ibookerTitleEd!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
+        ibookerTitleEd!!.setSingleLine(true)
+        ibookerTitleEd!!.setLines(1)
+        ibookerTitleEd!!.setTextColor(Color.parseColor("#444444"))
+        ibookerTitleEd!!.textSize = 18f
+        ibookerTitleEd!!.setLineSpacing(4f, 1.3f)
+        ibookerTitleEd!!.hint = "标题"
+        ibookerTitleEd!!.gravity = Gravity.CENTER_VERTICAL
+        linearLayout.addView(ibookerTitleEd)
+
+        lineView = View(context)
+        lineView!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+        lineView!!.setBackgroundColor(Color.parseColor("#BABABA"))
+        linearLayout.addView(lineView)
+
         ibookerEd = EditText(context)
-        ibookerEd!!.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        ibookerEd!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         ibookerEd!!.gravity = Gravity.TOP or Gravity.START
         ibookerEd!!.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
         ibookerEd!!.setSingleLine(false)
         ibookerEd!!.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        ibookerEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 8F), IbookerEditorUtil.dpToPx(context, 8F), IbookerEditorUtil.dpToPx(context, 8F), IbookerEditorUtil.dpToPx(context, 8F))
+        ibookerEd!!.hint = "书客创作，从这里开始"
+        ibookerEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
         ibookerEd!!.setBackgroundResource(android.R.color.transparent)
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
         ibookerEd!!.textSize = 16f
@@ -111,6 +136,7 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
                 }
             }
         })
+        ibookerEd!!.setHorizontallyScrolling(false)
         linearLayout.addView(ibookerEd)
 
         (ibookerEd!!.context as Activity).window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -184,13 +210,88 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
     }
 
     /**
-     * 设置编辑控件背景颜色
+     * 设置输入框背景颜色
      *
      * @param color 背景颜色
      */
-    fun setIbookerBackgroundColor(@ColorInt color: Int): IbookerEditorEditView {
-        this.setBackgroundColor(color)
+    fun setIbookerEdBackgroundColor(@ColorInt color: Int): IbookerEditorEditView {
+        ibookerEd!!.setBackgroundColor(color)
         return this
     }
 
+    /**
+     * 设置标题显示或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setIbookerTitleEdVisibility(visibility: Int): IbookerEditorEditView {
+        if (visibility == View.GONE || visibility == View.VISIBLE || visibility == View.INVISIBLE) {
+            if (ibookerTitleEd != null)
+                ibookerTitleEd!!.visibility = visibility
+            if (lineView != null)
+                lineView!!.visibility = visibility
+        }
+        return this
+    }
+
+    /**
+     * 设置标题输入框字体大小
+     *
+     * @param size 字体大小
+     */
+    fun setIbookerTitleEdTextSize(size: Float): IbookerEditorEditView {
+        ibookerTitleEd!!.textSize = size
+        return this
+    }
+
+    /**
+     * 设置标题输入框字体颜色
+     *
+     * @param color 字体颜色
+     */
+    fun setIbookerTitleEdTextColor(@ColorInt color: Int): IbookerEditorEditView {
+        ibookerTitleEd!!.setTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置标题输入框hint内容
+     *
+     * @param hint hint内容
+     */
+    fun setIbookerTitleEdHint(hint: CharSequence): IbookerEditorEditView {
+        ibookerTitleEd!!.hint = hint
+        return this
+    }
+
+    /**
+     * 设置标题输入框hint颜色
+     *
+     * @param color hint颜色
+     */
+    fun setIbookerTitleEdHintTextColor(@ColorInt color: Int): IbookerEditorEditView {
+        ibookerTitleEd!!.setHintTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条的背景颜色
+     *
+     * @param color 颜色
+     */
+    fun setLineViewBackgroundColor(@ColorInt color: Int): IbookerEditorEditView {
+        lineView!!.setBackgroundColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条显示或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setLineViewVisibility(visibility: Int): IbookerEditorEditView {
+        if (visibility == View.GONE || visibility == View.VISIBLE || visibility == View.INVISIBLE)
+            lineView!!.visibility = visibility
+        return this
+    }
 }// 三种构造方法

@@ -15,7 +15,7 @@ class IbookerEditorUtil// 构造方法
 (ibookerEditorEditView: IbookerEditorEditView) {
 
     // 操作的EditText
-    private val ibookerEd: EditText
+    private val ibookerEd: EditText = ibookerEditorEditView.ibookerEd!!
 
     /**
      * 获取EditText光标相关信息
@@ -32,23 +32,9 @@ class IbookerEditorUtil// 构造方法
         }
         set(data) = ibookerEd.setSelection(if (data.start >= 0) data.start else 0, if (data.end >= 0) data.end else 0)
 
-    init {
-        ibookerEd = ibookerEditorEditView.ibookerEd!!
-    }
-
     // 内部类 - 保存光标相关信息
-    private inner class RangeData {
-        var start: Int = 0
-        var end: Int = 0
-        var text: String? = null
-
-        constructor() : super() {}
-
-        constructor(start: Int, end: Int, text: String) {
-            this.start = start
-            this.end = end
-            this.text = text
-        }
+    private inner class RangeData(var start: Int, var end: Int, text: String) {
+        var text: String? = text
 
         override fun toString(): String {
             return "RangeData{" +
