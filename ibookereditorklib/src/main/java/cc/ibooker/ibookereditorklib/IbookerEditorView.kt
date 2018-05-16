@@ -193,8 +193,11 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setBackgroundColor(ibookerWebViewBackgroundColor)
 
             // 底部工具栏
-            val ibookerEditorToolViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorToolView_BackgroundColor, -0x1)
-            ibookerEditorToolView!!.setBackgroundColor(ibookerEditorToolViewBackgroundColor)
+            val ibookerEditorToolViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorToolView_BackgroundColor, 0xff)
+            if (ibookerEditorToolViewBackgroundColor == 0xff)
+                ibookerEditorToolView!!.setBackgroundResource(R.drawable.bg_ibooker_editor_tool)
+            else
+                ibookerEditorToolView!!.setBackgroundColor(ibookerEditorToolViewBackgroundColor)
 
             val boldIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_BoldIBtn_Visible, true)
             val boldIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_BoldIBtn_Res, R.drawable.draw_bold)
@@ -324,7 +327,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ta.recycle()
         }
 
-        changeVpUpdateIbookerEditorTopView(0)
+//        changeVpUpdateIbookerEditorTopView(0)
     }
 
     // 设置ViewPager变化
