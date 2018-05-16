@@ -327,7 +327,8 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ta.recycle()
         }
 
-//        changeVpUpdateIbookerEditorTopView(0)
+        ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_edit_orange)
+        ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_preview_gray)
     }
 
     // 设置ViewPager变化
