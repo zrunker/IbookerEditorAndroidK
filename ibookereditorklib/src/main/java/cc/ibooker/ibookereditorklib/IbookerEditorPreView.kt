@@ -39,8 +39,11 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         addView(linearLayout)
 
         ibookerTitleTv = TextView(context)
-        ibookerTitleTv!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50F))
-        ibookerTitleTv!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
+        val titleParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50f))
+        val dp10 = IbookerEditorUtil.dpToPx(context, 10f)
+        titleParams.leftMargin = dp10
+        titleParams.rightMargin = dp10
+        ibookerTitleTv!!.layoutParams = titleParams
         ibookerTitleTv!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
         ibookerTitleTv!!.setSingleLine(true)
         ibookerTitleTv!!.setLines(1)
@@ -58,6 +61,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         linearLayout.addView(lineView)
 
         ibookerEditorWebView = IbookerEditorWebView(context)
+        ibookerEditorWebView!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         linearLayout.addView(ibookerEditorWebView)
     }
 

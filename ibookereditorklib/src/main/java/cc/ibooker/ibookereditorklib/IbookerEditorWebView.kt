@@ -69,7 +69,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         // 隐藏滚动条
         this.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         // 使页面获取焦点，防止点击无响应
-        this.requestFocus()
+        requestFocus()
         // 设置WebViewClient
         this.webViewClient = object : WebViewClient() {
 
@@ -103,9 +103,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         }
         // 添加js
         ibookerEditorJsCheckImgEvent = IbookerEditorJsCheckImgEvent()
-        this.addJavascriptInterface(ibookerEditorJsCheckImgEvent, "ibookerEditorJsCheckImgEvent")
+        addJavascriptInterface(ibookerEditorJsCheckImgEvent, "ibookerEditorJsCheckImgEvent")
         // 加载本地HTML
-        this.loadUrl("file:///android_asset/ibooker_editor_index.html")
+        loadUrl("file:///android_asset/ibooker_editor_index.html")
     }
 
     // 给WebView添加相关监听

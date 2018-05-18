@@ -47,8 +47,11 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         addView(linearLayout)
 
         ibookerTitleEd = EditText(context)
-        ibookerTitleEd!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50F))
-        ibookerTitleEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
+        val titleParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50f))
+        val dp10 = IbookerEditorUtil.dpToPx(context, 10f)
+        titleParams.leftMargin = dp10
+        titleParams.rightMargin = dp10
+        ibookerTitleEd!!.layoutParams = titleParams
         ibookerTitleEd!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
         ibookerTitleEd!!.setSingleLine(true)
         ibookerTitleEd!!.setLines(1)
