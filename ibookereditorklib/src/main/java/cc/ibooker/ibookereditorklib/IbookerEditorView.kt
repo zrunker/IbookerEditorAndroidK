@@ -3,9 +3,11 @@ package cc.ibooker.ibookereditorklib
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -15,6 +17,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+
 
 /**
  * 书客编辑器布局
@@ -29,11 +32,27 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     // 底部工具栏
     var ibookerEditorToolView: IbookerEditorToolView? = null
     // 底部工具栏-操作类
-    private var ibookerEditorUtil: IbookerEditorUtil? = null
+    var ibookerEditorUtil: IbookerEditorUtil? = null
 
     // 工具栏进入和退出动画
     private var inAnim: Animation? = null
     private var outAnim: Animation? = null
+    private var editIBtnDefaultRes = R.drawable.icon_ibooker_editor_edit_gray
+    private var editIBtnSelectedRes = R.drawable.icon_ibooker_editor_edit_orange
+    private var previewIBtnDefaultRes = R.drawable.icon_ibooker_editor_preview_gray
+    private var previewIBtnSelectedRes = R.drawable.icon_ibooker_editor_preview_orange
+
+    /**
+     * 是否完成本地文件加载
+     */
+    val isLoadFinished: Boolean
+        get() = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.isLoadFinished
+
+    /**
+     * 获取整个WebView截图
+     */
+    val webViewBitmap: Bitmap
+        get() = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
 
     init {
         orientation = LinearLayout.VERTICAL
@@ -51,7 +70,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         addView(ibookerEditorTopView)
         // 中间区域ViewPager
         ibookerEditorVpView = IbookerEditorVpView(context)
-        ibookerEditorVpView!!.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        ibookerEditorVpView!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         ibookerEditorVpView!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
@@ -65,7 +84,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             }
         })
-        ibookerEditorVpView!!.currentItem = 0
+        ibookerEditorVpView!!.setCurrentItem(0)
         changeVpUpdateIbookerEditorTopView(0)
         addView(ibookerEditorVpView)
         // 底部工具栏
@@ -107,15 +126,17 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             // 编辑模式
             val editIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_EditIBtn_Visible, true)
-            val editIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_EditIBtn_Res, R.drawable.draw_edit)
+            editIBtnDefaultRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_EditIBtn_Default_Res, editIBtnDefaultRes)
+            editIBtnSelectedRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_EditIBtn_Selected_Res, editIBtnSelectedRes)
             ibookerEditorTopView!!.editIBtn!!.visibility = if (editIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnRes)
+            ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnDefaultRes)
 
             // 预览模式
             val previewIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_PreviewIBtn_Visible, true)
-            val previewIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_PreviewIBtn_Res, R.drawable.draw_preview)
+            previewIBtnDefaultRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_PreviewIBtn_Default_Res, previewIBtnDefaultRes)
+            previewIBtnSelectedRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_PreviewIBtn_Selected_Res, previewIBtnSelectedRes)
             ibookerEditorTopView!!.previewIBtn!!.visibility = if (previewIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(previewIBtnRes)
+            ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(previewIBtnDefaultRes)
 
             // 帮助
             val helpIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_HelpIBtn_Visible, true)
@@ -327,16 +348,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ta.recycle()
         }
 
-        ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_edit_orange)
-        ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_preview_gray)
+        ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnSelectedRes)
+        ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(previewIBtnDefaultRes)
     }
 
     // 设置ViewPager变化
     private fun changeVpUpdateIbookerEditorTopView(position: Int) {
         if (ibookerEditorTopView != null)
             if (position == 0) {
-                ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_edit_orange)
-                ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_preview_gray)
+                ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnSelectedRes)
+                ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(previewIBtnDefaultRes)
 
                 // 设置动画
                 if (ibookerEditorToolView != null) {
@@ -347,8 +368,8 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
                 openInputSoft(true)
             } else if (position == 1) {
-                ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_edit_gray)
-                ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(R.drawable.icon_ibooker_editor_preview_orange)
+                ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnDefaultRes)
+                ibookerEditorTopView!!.previewIBtn!!.setBackgroundResource(previewIBtnSelectedRes)
                 // 执行预览
                 ibookerCompile()
 
@@ -388,15 +409,15 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP -> {// 帮助
                 val intent = Intent()
                 intent.action = "android.intent.action.VIEW"
-                val contentUrl1 = Uri.parse("http://ibooker.cc/article/1/detail")
-                intent.data = contentUrl1
+                val contentUrl = Uri.parse("http://ibooker.cc/article/1/detail")
+                intent.data = contentUrl
                 context.startActivity(intent)
             }
             IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT -> {// 关于
                 val intent = Intent()
                 intent.action = "android.intent.action.VIEW"
-                val contentUrl2 = Uri.parse("http://ibooker.cc/article/182/detail")
-                intent.data = contentUrl2
+                val contentUrl = Uri.parse("http://ibooker.cc/article/182/detail")
+                intent.data = contentUrl
                 context.startActivity(intent)
             }
         }
@@ -404,6 +425,8 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
     // 工具栏按钮点击事件监听
     override fun onToolClick(tag: Any) {
+        ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.clearFocus()
+        ibookerEditorVpView!!.editView!!.ibookerEd!!.requestFocus()
         if (ibookerEditorUtil == null)
         // 初始化ibookerEditorUtil
             ibookerEditorUtil = IbookerEditorUtil(ibookerEditorVpView!!.editView!!)
@@ -488,7 +511,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param visibility 状态
      */
-    fun setIbookerEditorTopViewVisibility(visibility: Int): IbookerEditorView {
+    fun setIETopViewVisibility(visibility: Int): IbookerEditorView {
         if (visibility == View.VISIBLE || visibility == View.GONE || visibility == View.INVISIBLE)
             ibookerEditorTopView!!.visibility = visibility
         return this
@@ -499,7 +522,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param color 背景颜色
      */
-    fun setIbookerEditorEditViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+    fun setIEEditViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
         ibookerEditorVpView!!.editView!!.setBackgroundColor(color)
         ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.setBackgroundColor(color)
         ibookerEditorVpView!!.editView!!.ibookerEd!!.setBackgroundColor(color)
@@ -511,10 +534,622 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param color 背景颜色
      */
-    fun setIbookerEditorPreViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+    fun setIEPreViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.setBackgroundColor(color)
         ibookerEditorVpView!!.preView!!.ibookerTitleTv!!.setBackgroundColor(color)
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setBackgroundColor(color)
         return this
+    }
+
+    // 设置返回按钮backImg
+    fun setIETopViewBackImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setBackImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewBackImgVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setBackImgVisibility(visibility)
+        return this
+    }
+
+    // 设置撤销按钮undoIBtn
+    fun setIETopViewUndoImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setUndoImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewUndoIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setUndoIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置重做按钮
+    fun setIETopViewRedoImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setRedoImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewRedoIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setRedoIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置编辑按钮
+    fun setIETopViewEditImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setEditImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewEditIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setEditIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置预览按钮
+    fun setIETopViewPreviewImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setPreviewImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewPreviewIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setPreviewIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置帮助按钮
+    fun setIETopViewHelpImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setHelpImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewHelpIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setHelpIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置关于按钮
+    fun setIETopViewAboutImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setAboutImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewAboutImgVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setAboutImgVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 设置输入框字体大小
+     *
+     * @param size 字体大小
+     */
+    fun setIEEditViewIbookerEdTextSize(size: Float): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerEdTextSize(size)
+        return this
+    }
+
+    /**
+     * 设置输入框字体颜色
+     *
+     * @param color 字体颜色
+     */
+    fun setIEEditViewIbookerEdTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerEdTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置输入框hint内容
+     *
+     * @param hint hint内容
+     */
+    fun setIEEditViewIbookerEdHint(hint: CharSequence): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerEdHint(hint)
+        return this
+    }
+
+    /**
+     * 设置输入框hint颜色
+     *
+     * @param color hint颜色
+     */
+    fun setIEEditViewIbookerEdHintTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerEdHintTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置输入框背景颜色
+     *
+     * @param color 背景颜色
+     */
+    fun setIEEditViewIbookerEdBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerEdBackgroundColor(color)
+        return this
+    }
+
+    /**
+     * 设置标题显示或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setIEEditViewIbookerTitleEdVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerTitleEdVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 设置标题输入框字体大小
+     *
+     * @param size 字体大小
+     */
+    fun setIEEditViewIbookerTitleEdTextSize(size: Float): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerTitleEdTextSize(size)
+        return this
+    }
+
+    /**
+     * 设置标题输入框字体颜色
+     *
+     * @param color 字体颜色
+     */
+    fun setIEEditViewIbookerTitleEdTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerTitleEdTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置标题输入框hint内容
+     *
+     * @param hint hint内容
+     */
+    fun setIEEditViewIbookerTitleEdHint(hint: CharSequence): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerTitleEdHint(hint)
+        return this
+    }
+
+    /**
+     * 设置标题输入框hint颜色
+     *
+     * @param color hint颜色
+     */
+    fun setIEEditViewIbookerTitleEdHintTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setIbookerTitleEdHintTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条的背景颜色
+     *
+     * @param color 颜色
+     */
+    fun setIEEditViewLineViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setLineViewBackgroundColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条显示或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setIEEditViewLineViewVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.setLineViewVisibility(visibility)
+        return this
+    }
+
+    // 粗体
+    fun setIEToolViewBoldIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setBoldIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewBoldIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setBoldIBtnVisibility(visibility)
+        return this
+    }
+
+    // 斜体
+    fun setIEToolViewItalicIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setItalicIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewItalicIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setItalicIBtnVisibility(visibility)
+        return this
+    }
+
+    // 删除线
+    fun setIEToolViewStrikeoutIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setStrikeoutIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewStrikeoutIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setStrikeoutIBtnVisibility(visibility)
+        return this
+    }
+
+    // 下划线
+    fun setIEToolViewUnderlineIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUnderlineIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewUnderlineIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUnderlineIBtnVisibility(visibility)
+        return this
+    }
+
+    // 单词首字母大写
+    fun setIEToolViewCapitalsIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setCapitalsIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewCapitalsIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setCapitalsIBtnVisibility(visibility)
+        return this
+    }
+
+    // 单词转大写
+    fun setIEToolViewUppercaseIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUppercaseIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewUppercaseIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUppercaseIBtnVisibility(visibility)
+        return this
+    }
+
+    // 单词转小写
+    fun setIEToolViewLowercaseIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setLowercaseIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewLowercaseIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setLowercaseIBtnVisibility(visibility)
+        return this
+    }
+
+    // 一级标题
+    fun setIEToolViewH1IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH1IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH1IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH1IBtnVisibility(visibility)
+        return this
+    }
+
+    // 二级标题
+    fun setIEToolViewH2IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH2IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH2IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH2IBtnVisibility(visibility)
+        return this
+    }
+
+    // 三级标题
+    fun setIEToolViewH3IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH3IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH3IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH3IBtnVisibility(visibility)
+        return this
+    }
+
+    // 四级标题
+    fun setIEToolViewH4IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH4IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH4IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH4IBtnVisibility(visibility)
+        return this
+    }
+
+    // 五级标题
+    fun setIEToolViewH5IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH5IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH5IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH5IBtnVisibility(visibility)
+        return this
+    }
+
+    // 六级标题
+    fun setIEToolViewH6IBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH6IBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewH6IBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setH6IBtnVisibility(visibility)
+        return this
+    }
+
+    // 链接
+    fun setIEToolViewLinkIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setLinkIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewLinkIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setLinkIBtnVisibility(visibility)
+        return this
+    }
+
+    // 引用
+    fun setIEToolViewQuoteIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setQuoteIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewQuoteIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setQuoteIBtnVisibility(visibility)
+        return this
+    }
+
+    // 代码
+    fun setIEToolViewCodeIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setCodeIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewCodeIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setCodeIBtnVisibility(visibility)
+        return this
+    }
+
+    // 图片
+    fun setIEToolViewImguIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setImguIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewImguIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setImguIBtnVisibility(visibility)
+        return this
+    }
+
+    // 数字列表
+    fun setIEToolViewOlIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setOlIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewOlIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setOlIBtnVisibility(visibility)
+        return this
+    }
+
+    // 普通列表
+    fun setIEToolViewUlIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUlIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewUlIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUlIBtnVisibility(visibility)
+        return this
+    }
+
+    // 列表未选中
+    fun setIEToolViewUnselectedIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUnselectedIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewUnselectedIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setUnselectedIBtnVisibility(visibility)
+        return this
+    }
+
+    // 列表选中
+    fun setIEToolViewSelectedIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setSelectedIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewSelectedIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setSelectedIBtnVisibility(visibility)
+        return this
+    }
+
+    // 表格
+    fun setIEToolViewTableIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setTableIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewTableIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setTableIBtnVisibility(visibility)
+        return this
+    }
+
+    // HTML
+    fun setIEToolViewHtmlIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setHtmlIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewHtmlIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setHtmlIBtnVisibility(visibility)
+        return this
+    }
+
+    // 分割线
+    fun setIEToolViewHrIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setHrIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewHrIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setHrIBtnVisibility(visibility)
+        return this
+    }
+
+    // 表情
+    fun setIEToolViewEmojiIBtnImageResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setEmojiIBtnImageResource(resId)
+        return this
+    }
+
+    fun setIEToolViewEmojiIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorToolView!!.setEmojiIBtnVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 设置WebView控件背景颜色
+     *
+     * @param color 背景颜色
+     */
+    fun setIEPreViewIbookerEditorWebViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerEditorWebViewBackgroundColor(color)
+        return this
+    }
+
+    /**
+     * 设置标题显示 或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setIEPreViewIbookerTitleTvVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerTitleTvVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 设置标题字体大小
+     *
+     * @param size 字体大小
+     */
+    fun setIEPreViewIbookerTitleTvTextSize(size: Float): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerTitleTvTextSize(size)
+        return this
+    }
+
+    /**
+     * 设置标题字体颜色
+     *
+     * @param color 字体颜色
+     */
+    fun setIEPreViewIbookerTitleTvTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerTitleTvTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置标题hint内容
+     *
+     * @param hint hint内容
+     */
+    fun setIEPreViewIbookerTitleTvHint(hint: CharSequence): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerTitleTvHint(hint)
+        return this
+    }
+
+    /**
+     * 设置标题hint颜色
+     *
+     * @param color hint颜色
+     */
+    fun setIEPreViewIbookerTitleTvHintTextColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerTitleTvHintTextColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条的背景颜色
+     *
+     * @param color 颜色
+     */
+    fun setIEPreViewLineViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setLineViewBackgroundColor(color)
+        return this
+    }
+
+    /**
+     * 设置线条显示或者隐藏
+     *
+     * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
+     */
+    fun setIEPreViewLineViewVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setLineViewVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 执行预览
+     *
+     * @param ibookerEditorText 待预览内容 非HTML
+     */
+    fun ibookerCompile(ibookerEditorText: String) {
+        ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.ibookerCompile(ibookerEditorText)
+    }
+
+    /**
+     * 执行Html预览
+     *
+     * @param ibookerEditorHtml 待预览内容 HTML
+     */
+    fun ibookerHtmlCompile(ibookerEditorHtml: String) {
+        ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.ibookerHtmlCompile(ibookerEditorHtml)
+    }
+
+    /**
+     * 编辑框顶部按钮点击监听
+     */
+    fun setOnTopClickListener(onTopClickListener: IbookerEditorTopView.OnTopClickListener) {
+        ibookerEditorTopView!!.setOnTopClickListener(onTopClickListener)
+    }
+
+    /**
+     * 编辑区输入标题监听
+     */
+    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: IbookerEditorEditView.OnIbookerTitleEdTextChangedListener) {
+        ibookerEditorVpView!!.editView!!.setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener)
+    }
+
+    /**
+     * 编辑区输入内容监听
+     */
+    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: IbookerEditorEditView.OnIbookerEdTextChangedListener) {
+        ibookerEditorVpView!!.editView!!.setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener)
+    }
+
+    /**
+     * 底部工具栏监听
+     */
+    fun setOnToolClickListener(onToolClickListener: IbookerEditorToolView.OnToolClickListener) {
+        ibookerEditorToolView!!.setOnToolClickListener(onToolClickListener)
+    }
+
+    /**
+     * 图片预览接口
+     */
+    fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener) {
+        ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener)
+    }
+
+    /**
+     * Url加载状态接口
+     */
+    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebView.IbookerEditorWebViewUrlLoadingListener) {
+        ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener)
     }
 }// 构造方法

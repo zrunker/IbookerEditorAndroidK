@@ -44,6 +44,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         titleParams.leftMargin = dp10
         titleParams.rightMargin = dp10
         ibookerTitleTv!!.layoutParams = titleParams
+        ibookerTitleTv!!.setPadding(0, 0, 0, 0)
         ibookerTitleTv!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
         ibookerTitleTv!!.setSingleLine(true)
         ibookerTitleTv!!.setLines(1)
@@ -80,7 +81,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
      */
-    fun setIbookerTitleTdVisibility(visibility: Int): IbookerEditorPreView {
+    fun setIbookerTitleTvVisibility(visibility: Int): IbookerEditorPreView {
         if (visibility == View.GONE || visibility == View.VISIBLE || visibility == View.INVISIBLE) {
             if (ibookerTitleTv != null)
                 ibookerTitleTv!!.visibility = visibility
@@ -95,7 +96,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param size 字体大小
      */
-    fun setIbookerTitleTdTextSize(size: Float): IbookerEditorPreView {
+    fun setIbookerTitleTvTextSize(size: Float): IbookerEditorPreView {
         ibookerTitleTv!!.textSize = size
         return this
     }
@@ -105,7 +106,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param color 字体颜色
      */
-    fun setIbookerTitleTdTextColor(@ColorInt color: Int): IbookerEditorPreView {
+    fun setIbookerTitleTvTextColor(@ColorInt color: Int): IbookerEditorPreView {
         ibookerTitleTv!!.setTextColor(color)
         return this
     }
@@ -115,7 +116,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param hint hint内容
      */
-    fun setIbookerTitleTdHint(hint: CharSequence): IbookerEditorPreView {
+    fun setIbookerTitleTvHint(hint: CharSequence): IbookerEditorPreView {
         ibookerTitleTv!!.hint = hint
         return this
     }
@@ -125,7 +126,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param color hint颜色
      */
-    fun setIbookerTitleTdHintTextColor(@ColorInt color: Int): IbookerEditorPreView {
+    fun setIbookerTitleTvHintTextColor(@ColorInt color: Int): IbookerEditorPreView {
         ibookerTitleTv!!.setHintTextColor(color)
         return this
     }

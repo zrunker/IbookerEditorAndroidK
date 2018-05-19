@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -18,7 +19,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     /**
      * 是否完成本地文件加载
      */
-    private var isLoadFinished = false // 本地文件是否加载完成
+    var isLoadFinished = false // 本地文件是否加载完成
     private var isExecuteCompile = false// 是否执行预览
     private var isExecuteHtmlCompile = false// 是否执行HTML预览
     private var ibookerEditorText: String? = null
@@ -86,12 +87,27 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             }
 
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
-                // 当网页加载出错时，加载本地错误文件
-                this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                if (ibookerEditorWebViewUrlLoadingListener != null)
+                    ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
+                else
+                    // 当网页加载出错时，加载本地错误文件
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
             }
 
+            override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
+                if (ibookerEditorWebViewUrlLoadingListener != null)
+                    ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
+                else
+                    // 当网页加载出错时，加载本地错误文件
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+            }
+
+//            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+//                if (ibookerEditorWebViewUrlLoadingListener != null)
+//                    ibookerEditorWebViewUrlLoadingListener!!.onPageStarted(view, url, favicon)
+//            }
+
             override fun onPageFinished(view: WebView, url: String) {
-                super.onPageFinished(view, url)
                 isLoadFinished = true
                 when {
                     isExecuteCompile -> ibookerCompile(ibookerEditorText)
@@ -99,6 +115,8 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                     else -> addWebViewListener()
                 }
 
+                if (ibookerEditorWebViewUrlLoadingListener != null)
+                    ibookerEditorWebViewUrlLoadingListener!!.onPageFinished(view, url)
             }
         }
         // 添加js
@@ -210,5 +228,22 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
 
     fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorImgPreviewListener) {
         ibookerEditorJsCheckImgEvent!!.setmIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener)
+    }
+
+    // Url加载状态监听
+    interface IbookerEditorWebViewUrlLoadingListener {
+        fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError)
+
+        fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError)
+
+        fun onPageStarted(view: WebView, url: String, favicon: Bitmap)
+
+        fun onPageFinished(view: WebView, url: String)
+    }
+
+    private var ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebViewUrlLoadingListener? = null
+
+    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebViewUrlLoadingListener) {
+        this.ibookerEditorWebViewUrlLoadingListener = ibookerEditorWebViewUrlLoadingListener
     }
 }

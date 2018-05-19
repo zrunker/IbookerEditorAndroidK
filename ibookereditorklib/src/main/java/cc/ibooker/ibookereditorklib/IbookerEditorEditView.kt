@@ -12,19 +12,26 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.*
+import android.view.ActionMode
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-import java.util.*
+
+import java.util.ArrayList
 
 /**
  * 书客编辑器 - 编辑界面
  * Created by 邹峰立 on 2018/2/11.
  */
-class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : NestedScrollView(context, attrs, defStyleAttr) {
+open class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : NestedScrollView(context, attrs, defStyleAttr) {
     var ibookerTitleEd: EditText? = null
     var lineView: View? = null
     var ibookerEd: EditText? = null
@@ -32,6 +39,10 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
     private var textList: ArrayList<String>? = ArrayList()
     private var isSign = true// 标记是否需要记录currentPos=textList.size()和textList
     private var currentPos = 0
+
+    private var onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener? = null
+
+    private var onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener? = null
 
     init {
         isVerticalScrollBarEnabled = false
@@ -52,6 +63,7 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         titleParams.leftMargin = dp10
         titleParams.rightMargin = dp10
         ibookerTitleEd!!.layoutParams = titleParams
+        ibookerTitleEd!!.setPadding(0, 0, 0, 0)
         ibookerTitleEd!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
         ibookerTitleEd!!.setSingleLine(true)
         ibookerTitleEd!!.setLines(1)
@@ -59,7 +71,23 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         ibookerTitleEd!!.textSize = 18f
         ibookerTitleEd!!.setLineSpacing(4f, 1.3f)
         ibookerTitleEd!!.hint = "标题"
-        ibookerTitleEd!!.gravity = Gravity.CENTER_VERTICAL
+        ibookerTitleEd!!.gravity = Gravity.CENTER_VERTICAL or Gravity.START
+        ibookerTitleEd!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                if (onIbookerTitleEdTextChangedListener != null)
+                    onIbookerTitleEdTextChangedListener!!.beforeTextChanged(s, start, count, after)
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (onIbookerTitleEdTextChangedListener != null)
+                    onIbookerTitleEdTextChangedListener!!.onTextChanged(s, start, before, count)
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (onIbookerTitleEdTextChangedListener != null)
+                    onIbookerTitleEdTextChangedListener!!.afterTextChanged(s)
+            }
+        })
         linearLayout.addView(ibookerTitleEd)
 
         lineView = View(context)
@@ -73,7 +101,7 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         ibookerEd!!.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
         ibookerEd!!.setSingleLine(false)
         ibookerEd!!.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
-        ibookerEd!!.hint = "书客创作，从这里开始"
+        ibookerEd!!.hint = "书客编辑器，从这里开始"
         ibookerEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
         ibookerEd!!.setBackgroundResource(android.R.color.transparent)
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
@@ -121,11 +149,13 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         }
         ibookerEd!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
+                if (onIbookerEdTextChangedListener != null)
+                    onIbookerEdTextChangedListener!!.beforeTextChanged(s, start, count, after)
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
+                if (onIbookerEdTextChangedListener != null)
+                    onIbookerEdTextChangedListener!!.onTextChanged(s, start, before, count)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -137,6 +167,8 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
                         currentPos = textList!!.size
                     }
                 }
+                if (onIbookerEdTextChangedListener != null)
+                    onIbookerEdTextChangedListener!!.afterTextChanged(s)
             }
         })
         ibookerEd!!.setHorizontallyScrolling(false)
@@ -296,5 +328,35 @@ class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: A
         if (visibility == View.GONE || visibility == View.VISIBLE || visibility == View.INVISIBLE)
             lineView!!.visibility = visibility
         return this
+    }
+
+    /**
+     * 标题输入框输入监听
+     */
+    interface OnIbookerTitleEdTextChangedListener {
+        fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
+
+        fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
+
+        fun afterTextChanged(s: Editable)
+    }
+
+    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener) {
+        this.onIbookerTitleEdTextChangedListener = onIbookerTitleEdTextChangedListener
+    }
+
+    /**
+     * 内容输入框监听
+     */
+    interface OnIbookerEdTextChangedListener {
+        fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int)
+
+        fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int)
+
+        fun afterTextChanged(s: Editable?)
+    }
+
+    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener) {
+        this.onIbookerEdTextChangedListener = onIbookerEdTextChangedListener
     }
 }// 三种构造方法
