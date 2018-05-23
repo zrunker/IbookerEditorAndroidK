@@ -353,7 +353,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     // 设置ViewPager变化
-    private fun changeVpUpdateIbookerEditorTopView(position: Int) {
+    public fun changeVpUpdateIbookerEditorTopView(position: Int) {
         if (ibookerEditorTopView != null)
             if (position == 0) {
                 ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnSelectedRes)
@@ -649,6 +649,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * 设置输入框text内容
+     *
+     * @param text text内容
+     */
+    fun setIEEditViewIbookerEdText(text: CharSequence): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.ibookerEd!!.setText(text)
+        return this
+    }
+
+    /**
      * 设置输入框hint颜色
      *
      * @param color hint颜色
@@ -705,6 +715,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      */
     fun setIEEditViewIbookerTitleEdHint(hint: CharSequence): IbookerEditorView {
         ibookerEditorVpView!!.editView!!.setIbookerTitleEdHint(hint)
+        return this
+    }
+
+    /**
+     * 设置标题输入框text内容
+     *
+     * @param text text内容
+     */
+    fun setIEEditViewIbookerTitleEdText(text: CharSequence): IbookerEditorView {
+        ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.setText(text)
         return this
     }
 
