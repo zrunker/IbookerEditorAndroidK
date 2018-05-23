@@ -47,6 +47,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
     init {
         isVerticalScrollBarEnabled = false
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        isFillViewport = true
         init(context)
     }
 

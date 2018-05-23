@@ -23,9 +23,9 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
     var ibookerEditorWebView: IbookerEditorWebView? = null
 
     init {
-
         isVerticalScrollBarEnabled = false
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        isFillViewport = true
         init(context)
     }
 
