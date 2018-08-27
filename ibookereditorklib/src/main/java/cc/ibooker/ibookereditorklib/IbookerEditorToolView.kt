@@ -45,10 +45,15 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
 
     private var onToolClickListener: OnToolClickListener? = null
 
+    private var dp13 = 0
+
     init {
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         setBackgroundResource(R.drawable.bg_ibooker_editor_tool)
         isVerticalScrollBarEnabled = false
+
+        dp13 = IbookerEditorUtil.dpToPx(context, 13f)
+
         init(context)
     }
 
@@ -62,8 +67,8 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         addView(toolLayout)
 
         val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-
-        layoutParams.setMargins(IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f), IbookerEditorUtil.dpToPx(context, 6f))
+        val dp6 = IbookerEditorUtil.dpToPx(context, 6f)
+        layoutParams.setMargins(dp6, dp6, dp6, dp6)
         // 粗体
         boldIBtn = ImageButton(context)
         setImageBtn(boldIBtn!!, layoutParams, R.drawable.draw_bold, resources.getString(R.string.bold), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD)
@@ -208,7 +213,7 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         imageButton.layoutParams = layoutParams
         imageButton.setBackgroundResource(resid)
         imageButton.contentDescription = contentDescription
-        imageButton.setPadding(IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f), IbookerEditorUtil.dpToPx(context, 13f))
+        imageButton.setPadding(dp13, dp13, dp13, dp13)
         imageButton.tag = tag
         imageButton.setOnClickListener { v ->
             if (onToolClickListener != null)

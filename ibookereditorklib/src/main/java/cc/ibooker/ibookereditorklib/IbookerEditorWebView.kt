@@ -8,6 +8,7 @@ import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.view.View
 import android.webkit.*
 import java.util.*
 
@@ -29,8 +30,16 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     private var ibookerEditorJsCheckImgEvent: IbookerEditorJsCheckImgEvent? = null
 
     init {
-
+        isVerticalScrollBarEnabled = false
+        setVerticalScrollbarOverlay(false)
+        isHorizontalScrollBarEnabled = false
+        setHorizontalScrollbarOverlay(false)
         init()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
+        super.onMeasure(widthMeasureSpec, expandSpec)
     }
 
     // 初始化
@@ -90,7 +99,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
                 else
-                    // 当网页加载出错时，加载本地错误文件
+                // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
             }
 
@@ -98,7 +107,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
                 else
-                    // 当网页加载出错时，加载本地错误文件
+                // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
             }
 

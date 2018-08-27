@@ -12,20 +12,13 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.ActionMode
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 书客编辑器 - 编辑界面
@@ -40,6 +33,8 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
     private var isSign = true// 标记是否需要记录currentPos=textList.size()和textList
     private var currentPos = 0
 
+    private var dp10 = 0
+
     private var onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener? = null
 
     private var onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener? = null
@@ -48,6 +43,9 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         isVerticalScrollBarEnabled = false
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         isFillViewport = true
+
+        dp10 = IbookerEditorUtil.dpToPx(context, 10f)
+
         init(context)
     }
 
@@ -60,7 +58,6 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
 
         ibookerTitleEd = EditText(context)
         val titleParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50f))
-        val dp10 = IbookerEditorUtil.dpToPx(context, 10f)
         titleParams.leftMargin = dp10
         titleParams.rightMargin = dp10
         ibookerTitleEd!!.layoutParams = titleParams
@@ -103,7 +100,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         ibookerEd!!.setSingleLine(false)
         ibookerEd!!.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         ibookerEd!!.hint = "书客编辑器，从这里开始"
-        ibookerEd!!.setPadding(IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f), IbookerEditorUtil.dpToPx(context, 10f))
+        ibookerEd!!.setPadding(dp10, dp10, dp10, dp10)
         ibookerEd!!.setBackgroundResource(android.R.color.transparent)
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
         ibookerEd!!.textSize = 16f

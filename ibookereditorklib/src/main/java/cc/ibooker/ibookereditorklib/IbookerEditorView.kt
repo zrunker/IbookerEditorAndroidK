@@ -1,13 +1,19 @@
 package cc.ibooker.ibookereditorklib
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
+import android.os.Environment
+import android.os.Handler
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -17,6 +23,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
 
 
 /**
@@ -26,13 +35,20 @@ import android.widget.LinearLayout
 class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), IbookerEditorTopView.OnTopClickListener, IbookerEditorToolView.OnToolClickListener {
     // 顶部控件
     // getter/setter
-    var ibookerEditorTopView: IbookerEditorTopView? = null
+    private var ibookerEditorTopView: IbookerEditorTopView? = null
     // 中间区域ViewPager
     var ibookerEditorVpView: IbookerEditorVpView? = null
     // 底部工具栏
-    var ibookerEditorToolView: IbookerEditorToolView? = null
+    private var ibookerEditorToolView: IbookerEditorToolView? = null
     // 底部工具栏-操作类
-    var ibookerEditorUtil: IbookerEditorUtil? = null
+    private var ibookerEditorUtil: IbookerEditorUtil? = null
+
+    // 权限申请模块
+    private val needPermissions = arrayOf(
+            // SDK在Android 6.0+需要进行运行检测的权限如下：
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE)
 
     // 工具栏进入和退出动画
     private var inAnim: Animation? = null
@@ -84,8 +100,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             }
         })
-        ibookerEditorVpView!!.setCurrentItem(0)
-        changeVpUpdateIbookerEditorTopView(0)
+        ibookerEditorVpView!!.currentItem = 0
         addView(ibookerEditorVpView)
         // 底部工具栏
         ibookerEditorToolView = IbookerEditorToolView(context)
@@ -149,6 +164,18 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             val aboutImgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_AboutImg_Res, R.drawable.ibooker_editor_logo)
             ibookerEditorTopView!!.aboutImg!!.visibility = if (aboutImgVisible) View.VISIBLE else View.GONE
             ibookerEditorTopView!!.aboutImg!!.setImageResource(aboutImgRes)
+
+            // 分享
+            val shareIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_ShareIBtn_Visible, true)
+            val shareIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ShareIBtn_Res, R.drawable.draw_share)
+            ibookerEditorTopView!!.shareIBtn!!.visibility = if (shareIBtnVisible) View.VISIBLE else View.GONE
+            ibookerEditorTopView!!.shareIBtn!!.setBackgroundResource(shareIBtnRes)
+
+            // 更多
+            val elseIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_ElseIBtn_Visible, true)
+            val elseIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ElseIBtn_Res, R.drawable.draw_else)
+            ibookerEditorTopView!!.elseIBtn!!.visibility = if (elseIBtnVisible) View.VISIBLE else View.GONE
+            ibookerEditorTopView!!.elseIBtn!!.setBackgroundResource(elseIBtnRes)
 
             // 编辑框
             val ibookerEditorEditViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorEditView_BackgroundColor, -0x1)
@@ -420,6 +447,14 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                 intent.data = contentUrl
                 context.startActivity(intent)
             }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SHARE -> {// 分享
+                ibookerEditorVpView!!.currentItem = 1
+                if (!hasPermission(*needPermissions)) {
+                    requestPermission(12112, *needPermissions)
+                } else {
+                    generateBitmap()
+                }
+            }
         }
     }
 
@@ -615,6 +650,29 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
     fun setIETopViewAboutImgVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setAboutImgVisibility(visibility)
+        return this
+    }
+
+
+    // 设置分享按钮
+    fun setIETopViewShareIBtnResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setShareIBtnResource(resId)
+        return this
+    }
+
+    fun setIETopViewShareIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setShareIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置更多按钮
+    fun setIETopViewElseIBtnResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setElseIBtnResource(resId)
+        return this
+    }
+
+    fun setIETopViewElseIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setElseIBtnVisibility(visibility)
         return this
     }
 
@@ -1171,5 +1229,78 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      */
     fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebView.IbookerEditorWebViewUrlLoadingListener) {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener)
+    }
+
+    /**
+     * 生成File文件
+     */
+    fun createSDDirs(path: String): File? {
+        if (Environment.getExternalStorageState() == "mounted") {
+            val dir = File(path)
+            var bool = true
+            if (!dir.exists()) {
+                bool = dir.mkdirs()
+            }
+            return if (!bool) null else dir
+        } else {
+            return null
+        }
+    }
+
+    /**
+     * 生成图片
+     */
+    fun generateBitmap() {
+        Handler().postDelayed({
+            if (ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.isLoadFinished) {
+                Toast.makeText(this@IbookerEditorView.context, "图片生成中...", Toast.LENGTH_SHORT).show()
+                val bitmap = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
+                try {
+                    val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
+                    val fileName = System.currentTimeMillis().toString() + ".jpg"
+                    val dir = File(filePath)
+                    val bool = dir.exists()
+                    if (!bool)
+                        createSDDirs(filePath)
+                    val file = File(filePath, fileName)
+
+                    val fOut = FileOutputStream(file)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
+                    fOut.flush()
+                    fOut.close()
+
+                    // 进入图片预览
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setDataAndType(Uri.fromFile(file), "image/*")
+                    this@IbookerEditorView.context.startActivity(intent)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    bitmap.recycle()
+                    System.gc()
+                }
+            } else {
+                generateBitmap()
+            }
+        }, 500)
+    }
+
+    /**
+     * 权限检查方法，false代表没有该权限，ture代表有该权限
+     */
+    fun hasPermission(vararg permissions: String): Boolean {
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(this.context, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false
+            }
+        }
+        return true
+    }
+
+    /**
+     * 权限请求方法
+     */
+    fun requestPermission(code: Int, vararg permissions: String) {
+        ActivityCompat.requestPermissions(this.context as Activity, permissions, code)
     }
 }// 构造方法

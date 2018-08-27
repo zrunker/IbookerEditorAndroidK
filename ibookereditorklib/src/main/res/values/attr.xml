@@ -20,6 +20,10 @@
         <attr name="IbookerEditorTopView_AboutImg_Res" format="reference" />
         <attr name="IbookerEditorTopView_HelpIBtn_Visible" format="boolean" />
         <attr name="IbookerEditorTopView_HelpIBtn_Res" format="reference" />
+        <attr name="IbookerEditorTopView_ShareIBtn_Visible" format="boolean" />
+        <attr name="IbookerEditorTopView_ShareIBtn_Res" format="reference" />
+        <attr name="IbookerEditorTopView_ElseIBtn_Visible" format="boolean" />
+        <attr name="IbookerEditorTopView_ElseIBtn_Res" format="reference" />
 
         <!--编辑框-->
         <attr name="IbookerEditorEditView_BackgroundColor" format="color" />
