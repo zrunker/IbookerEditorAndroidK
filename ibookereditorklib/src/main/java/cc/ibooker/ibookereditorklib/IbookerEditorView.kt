@@ -425,10 +425,14 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         when (tag) {
             IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK -> // 返回
                 (context as Activity).finish()
-            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDO -> // 撤销
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDO -> { // 撤销
+                ibookerEditorVpView!!.currentItem = 0
                 ibookerEditorVpView!!.editView!!.undo()
-            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_REDO -> // 重做
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_REDO -> {// 重做
+                ibookerEditorVpView!!.currentItem = 0
                 ibookerEditorVpView!!.editView!!.redo()
+            }
             IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EDIT -> // 编辑
                 ibookerEditorVpView!!.currentItem = 0
             IbookerEditorEnum.TOOLVIEW_TAG.IBTN_PREVIEW -> // 预览
