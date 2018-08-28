@@ -117,6 +117,10 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             // 获取自定义属性，并设置
             val ta = getContext().obtainStyledAttributes(attrs, R.styleable.IbookerEditorView)
 
+            // 整体
+            val ibookerEditorViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorView_BackgroundColor, -0x1)
+            this.setBackgroundColor(ibookerEditorViewBackgroundColor)
+
             // 顶部工具栏
             val ibookerEditorTopViewVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_Visible, true)
             ibookerEditorTopView!!.visibility = if (ibookerEditorTopViewVisible) View.VISIBLE else View.GONE
