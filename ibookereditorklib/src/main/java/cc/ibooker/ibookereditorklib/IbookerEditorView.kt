@@ -1294,6 +1294,35 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * 生成图片文件
+     */
+    fun generateFile(): File? {
+        var file: File? = null
+        Toast.makeText(this@IbookerEditorView.context, "图片生成中...", Toast.LENGTH_SHORT).show()
+        val bitmap = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
+        try {
+            val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
+            val fileName = System.currentTimeMillis().toString() + ".jpg"
+            val dir = File(filePath)
+            val bool = dir.exists()
+            if (!bool)
+                createSDDirs(filePath)
+            file = File(filePath, fileName)
+
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            bitmap.recycle()
+            System.gc()
+        }
+        return file
+    }
+
+    /**
      * 权限检查方法，false代表没有该权限，ture代表有该权限
      */
     fun hasPermission(vararg permissions: String): Boolean {
