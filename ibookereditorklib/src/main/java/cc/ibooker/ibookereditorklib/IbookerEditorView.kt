@@ -790,7 +790,10 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      * @param text text内容
      */
     fun setIEEditViewIbookerTitleEdText(text: CharSequence): IbookerEditorView {
-        ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.setText(text)
+        if (!TextUtils.isEmpty(text)) {
+            ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.setText(text)
+            ibookerEditorVpView!!.editView!!.ibookerTitleEd!!.setSelection(text.length)
+        }
         return this
     }
 
