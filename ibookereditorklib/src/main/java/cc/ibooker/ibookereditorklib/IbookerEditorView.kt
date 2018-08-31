@@ -7,13 +7,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -32,7 +35,7 @@ import java.io.FileOutputStream
  * 书客编辑器布局
  * Created by 邹峰立 on 2018/2/11.
  */
-class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), IbookerEditorTopView.OnTopClickListener, IbookerEditorToolView.OnToolClickListener {
+class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), IbookerEditorTopView.OnTopClickListener, IbookerEditorToolView.OnToolClickListener, IbookerEditorToolView.OnToolLongClickListener {
     // 顶部控件
     // getter/setter
     private var ibookerEditorTopView: IbookerEditorTopView? = null
@@ -70,12 +73,15 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     val webViewBitmap: Bitmap
         get() = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
 
+    private var tooltipsPopuwindow: TooltipsPopuwindow? = null
+
     init {
         orientation = LinearLayout.VERTICAL
         layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         setBackgroundColor(Color.parseColor("#FFFFFF"))
 
         init(context, attrs)
+        addSoftInputListener()
     }
 
     // 初始化
@@ -105,6 +111,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         // 底部工具栏
         ibookerEditorToolView = IbookerEditorToolView(context)
         ibookerEditorToolView!!.setOnToolClickListener(this)
+        ibookerEditorToolView!!.setOnToolLongClickListener(this)
         addView(ibookerEditorToolView)
         // 底部工具栏 - 管理类
         ibookerEditorUtil = IbookerEditorUtil(ibookerEditorVpView!!.editView!!)
@@ -384,7 +391,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     // 设置ViewPager变化
-    public fun changeVpUpdateIbookerEditorTopView(position: Int) {
+    fun changeVpUpdateIbookerEditorTopView(position: Int) {
         if (ibookerEditorTopView != null)
             if (position == 0) {
                 ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnSelectedRes)
@@ -417,6 +424,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
     // 关闭/开启软盘
     private fun openInputSoft(isOpen: Boolean) {
+        closeTooltipsPopuwindow()
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (isOpen)
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -528,6 +536,113 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
+    // 工具栏长按事件监听
+    override fun onToolLongClick(tag: Any) {
+        tooltipsPopuwindow = TooltipsPopuwindow(context)
+        when (tag) {
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD -> {// 加粗
+                tooltipsPopuwindow!!.setTooltipsTv("加粗")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.boldIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC -> {// 斜体
+                tooltipsPopuwindow!!.setTooltipsTv("斜体")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.italicIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT -> {// 删除线
+                tooltipsPopuwindow!!.setTooltipsTv("删除线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.strikeoutIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE -> {// 下划线
+                tooltipsPopuwindow!!.setTooltipsTv("下划线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.underlineIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS -> {// 单词首字母大写
+                tooltipsPopuwindow!!.setTooltipsTv("单词首字母大写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.capitalsIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE -> {// 字母转大写
+                tooltipsPopuwindow!!.setTooltipsTv("字母转大写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.uppercaseIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE -> {// 字母转小写
+                tooltipsPopuwindow!!.setTooltipsTv("字母转小写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.lowercaseIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1 -> {// 一级标题
+                tooltipsPopuwindow!!.setTooltipsTv("一级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h1IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2 -> {// 二级标题
+                tooltipsPopuwindow!!.setTooltipsTv("二级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h2IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3 -> {// 三级标题
+                tooltipsPopuwindow!!.setTooltipsTv("三级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h3IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4 -> {// 四级标题
+                tooltipsPopuwindow!!.setTooltipsTv("四级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h4IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5 -> {// 五级标题
+                tooltipsPopuwindow!!.setTooltipsTv("五级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h5IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6 -> {// 六级标题
+                tooltipsPopuwindow!!.setTooltipsTv("六级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h6IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK -> {// 超链接
+                tooltipsPopuwindow!!.setTooltipsTv("超链接")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.linkIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE -> {// 引用
+                tooltipsPopuwindow!!.setTooltipsTv("引用")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.quoteIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE -> {// 代码
+                tooltipsPopuwindow!!.setTooltipsTv("代码")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.codeIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U -> {// 图片
+                tooltipsPopuwindow!!.setTooltipsTv("图片")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.imguIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL -> {// 数字列表
+                tooltipsPopuwindow!!.setTooltipsTv("数字列表")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.olIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL -> {// 普通列表
+                tooltipsPopuwindow!!.setTooltipsTv("普通列表")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.ulIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED -> {// 复选框未选中
+                tooltipsPopuwindow!!.setTooltipsTv("复选框未选中")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.unselectedIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED -> {// 复选框选中
+                tooltipsPopuwindow!!.setTooltipsTv("复选框选中")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.selectedIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE -> {// 表格
+                tooltipsPopuwindow!!.setTooltipsTv("表格")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.tableIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML -> {// HTML
+                tooltipsPopuwindow!!.setTooltipsTv("HTML")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.htmlIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR -> {// 分割线
+                tooltipsPopuwindow!!.setTooltipsTv("分割线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.hrIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI -> {// emoji表情
+                tooltipsPopuwindow!!.setTooltipsTv("emoji表情")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.emojiIBtn!!, 0)
+            }
+        }
+    }
+
     // 执行Text预览
     private fun ibookerCompile() {
         // 获取待转义内容
@@ -547,6 +662,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         outAnim!!.cancel()
         outAnim = null
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.destroy()
+        closeTooltipsPopuwindow()
     }
 
     /**
@@ -1229,6 +1345,13 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * 底部工具栏长按监听
+     */
+    fun setOnToolLongClickListener(onToolLongClickListener: IbookerEditorToolView.OnToolLongClickListener) {
+        ibookerEditorToolView!!.setOnToolLongClickListener(onToolLongClickListener)
+    }
+
+    /**
      * 图片预览接口
      */
     fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener) {
@@ -1282,7 +1405,15 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
                     // 进入图片预览
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setDataAndType(Uri.fromFile(file), "image/*")
+                    val uri: Uri
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.fileProvider", file)
+                    } else {
+                        uri = Uri.fromFile(file)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    intent.setDataAndType(uri, "image/*")
                     this@IbookerEditorView.context.startActivity(intent)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -1328,7 +1459,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * 权限检查方法，false代表没有该权限，ture代表有该权限
      */
-    fun hasPermission(vararg permissions: String): Boolean {
+    private fun hasPermission(vararg permissions: String): Boolean {
         for (permission in permissions) {
             if (ContextCompat.checkSelfPermission(this.context, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false
@@ -1340,7 +1471,30 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * 权限请求方法
      */
-    fun requestPermission(code: Int, vararg permissions: String) {
+    private fun requestPermission(code: Int, vararg permissions: String) {
         ActivityCompat.requestPermissions(this.context as Activity, permissions, code)
+    }
+
+    /**
+     * 关闭tooltipsPopuwindow
+     */
+    fun closeTooltipsPopuwindow() {
+        if (tooltipsPopuwindow != null)
+            tooltipsPopuwindow!!.dismiss()
+    }
+
+    /**
+     * 监听软键盘显示隐藏
+     */
+    private fun addSoftInputListener() {
+        val decorView = (context as Activity).window.decorView
+        decorView.viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            decorView.getWindowVisibleDisplayFrame(rect)
+            val displayHight = rect.bottom - rect.top
+            val hight = decorView.height
+            if (displayHight > hight / 3 * 2)
+                closeTooltipsPopuwindow()
+        }
     }
 }// 构造方法

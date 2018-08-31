@@ -44,6 +44,7 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
     var emojiIBtn: ImageButton? = null
 
     private var onToolClickListener: OnToolClickListener? = null
+    private var onToolLongClickListener: OnToolLongClickListener? = null
 
     private var dp13 = 0
 
@@ -218,6 +219,11 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         imageButton.setOnClickListener { v ->
             if (onToolClickListener != null)
                 onToolClickListener!!.onToolClick(v.tag)
+        }
+        imageButton.setOnLongClickListener { v ->
+            if (onToolLongClickListener != null)
+                onToolLongClickListener!!.onToolLongClick(v.tag)
+            true
         }
     }
 
@@ -503,7 +509,18 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         fun onToolClick(tag: Any)
     }
 
+    /**
+     * 长按事件监听
+     */
+    interface OnToolLongClickListener {
+        fun onToolLongClick(tag: Any)
+    }
+
     fun setOnToolClickListener(onToolClickListener: OnToolClickListener) {
         this.onToolClickListener = onToolClickListener
+    }
+
+    fun setOnToolLongClickListener(onToolLongClickListener: OnToolLongClickListener) {
+        this.onToolLongClickListener = onToolLongClickListener
     }
 }// 构造方法
