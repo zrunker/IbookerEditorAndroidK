@@ -188,6 +188,12 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ibookerEditorTopView!!.elseIBtn!!.visibility = if (elseIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorTopView!!.elseIBtn!!.setBackgroundResource(elseIBtnRes)
 
+            // 设置
+            val setIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_SetIBtn_Visible, true)
+            val setIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_SetIBtn_Res, R.drawable.draw_set)
+            ibookerEditorTopView!!.setIBtn!!.visibility = if (setIBtnVisible) View.VISIBLE else View.GONE
+            ibookerEditorTopView!!.setIBtn!!.setBackgroundResource(setIBtnRes)
+
             // 编辑框
             val ibookerEditorEditViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorEditView_BackgroundColor, -0x1)
             ibookerEditorVpView!!.editView!!.setBackgroundColor(ibookerEditorEditViewBackgroundColor)
@@ -470,6 +476,9 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                 } else {
                     generateBitmap()
                 }
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SET -> {// 设置
+
             }
         }
     }

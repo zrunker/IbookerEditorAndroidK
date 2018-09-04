@@ -27,12 +27,16 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     var helpIBtn: ImageButton? = null
     var shareIBtn: ImageButton? = null
     var elseIBtn: ImageButton? = null
+    var setIBtn: ImageButton? = null
 
     private var onTopClickListener: OnTopClickListener? = null
 
     private var dp5 = 0
     private var dp13 = 0
     private var dp29 = 0
+    private var dp3_5 = 0
+    private var dp4_5 = 0
+    private var dp12 = 0
 
     init {
         orientation = LinearLayout.HORIZONTAL
@@ -40,8 +44,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = IbookerEditorUtil.dpToPx(context, 48f)
 
-        dp5 = IbookerEditorUtil.dpToPx(context, 5f)
         dp13 = IbookerEditorUtil.dpToPx(context, 13f)
+        dp12 = IbookerEditorUtil.dpToPx(context, 12f)
+        dp3_5 = IbookerEditorUtil.dpToPx(context, 3.5f)
+        dp4_5 = IbookerEditorUtil.dpToPx(context, 4.5f)
+        dp5 = IbookerEditorUtil.dpToPx(context, 5f)
         dp29 = IbookerEditorUtil.dpToPx(context, 29f)
 
         setPadding(dp5, dp5, dp5, dp5)
@@ -120,18 +127,27 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         shareIBtn!!.layoutParams = layoutParams
         shareIBtn!!.setBackgroundResource(R.drawable.draw_share)
         shareIBtn!!.contentDescription = resources.getString(R.string.share)
-        shareIBtn!!.setPadding(dp13, dp13, dp13, dp13)
+        shareIBtn!!.setPadding(dp12, dp12, dp12, dp12)
         shareIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SHARE
         shareIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(shareIBtn)
 
+        setIBtn = ImageButton(context)
+        setIBtn!!.layoutParams = layoutParams
+        setIBtn!!.setBackgroundResource(R.drawable.draw_set)
+        setIBtn!!.contentDescription = resources.getString(R.string.set)
+        setIBtn!!.setPadding(dp12, dp12, dp12, dp12)
+        setIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SET
+        setIBtn!!.setOnClickListener(this)
+        rightLayout!!.addView(setIBtn)
+
         val params = LinearLayout.LayoutParams(dp29, dp29)
-        params.setMargins(dp5, 0, dp5, 0)
+        params.setMargins(dp3_5, 0, dp3_5, 0)
         aboutImg = ImageView(context)
         aboutImg!!.layoutParams = params
         aboutImg!!.setImageResource(R.drawable.ibooker_editor_logo)
         aboutImg!!.contentDescription = resources.getString(R.string.about)
-        aboutImg!!.setPadding(dp5, dp5, dp5, dp5)
+        aboutImg!!.setPadding(dp4_5, dp4_5, dp4_5, dp4_5)
         aboutImg!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT
         aboutImg!!.setOnClickListener(this)
         rightLayout!!.addView(aboutImg)
@@ -249,6 +265,17 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
     fun setElseIBtnVisibility(visibility: Int): IbookerEditorTopView {
         elseIBtn!!.visibility = visibility
+        return this
+    }
+
+    // 设置按钮
+    fun setSetIBtnResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        setIBtn!!.setImageResource(resId)
+        return this
+    }
+
+    fun setSetIBtnVisibility(visibility: Int): IbookerEditorTopView {
+        setIBtn!!.visibility = visibility
         return this
     }
 

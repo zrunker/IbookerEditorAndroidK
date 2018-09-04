@@ -16,7 +16,7 @@ class TooltipsPopuwindow @JvmOverloads constructor(context: Context, attrs: Attr
 
     init {
 
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_tooltips, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.ibooker_editor_layout_tooltips, null)
         tooltipsTv = view.findViewById(R.id.tv_name)
         contentView = view
         isFocusable = true
