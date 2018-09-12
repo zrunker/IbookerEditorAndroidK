@@ -99,16 +99,23 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
                 else
-                    // 当网页加载出错时，加载本地错误文件
+                // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
             }
 
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
-                handler.proceed()
+                if (error.primaryError == SslError.SSL_DATE_INVALID
+                        || error.primaryError == SslError.SSL_EXPIRED
+                        || error.primaryError == SslError.SSL_INVALID
+                        || error.primaryError == SslError.SSL_UNTRUSTED) {
+                    handler.proceed()
+                } else {
+                    handler.cancel()
+                }
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
                 else
-                    // 当网页加载出错时，加载本地错误文件
+                // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
             }
 
