@@ -1,10 +1,12 @@
 package cc.ibooker.ibookereditorklib
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 
@@ -15,11 +17,13 @@ class TooltipsPopuwindow @JvmOverloads constructor(context: Context, attrs: Attr
     private val tooltipsTv: TextView
 
     init {
-
         val view = LayoutInflater.from(context).inflate(R.layout.ibooker_editor_layout_tooltips, null)
         tooltipsTv = view.findViewById(R.id.tv_name)
         contentView = view
         isFocusable = true
+        setBackgroundDrawable(BitmapDrawable())
+        height = ViewGroup.LayoutParams.WRAP_CONTENT
+        width = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
     fun setTooltipsTv(text: String) {
