@@ -224,224 +224,297 @@ class IbookerEditorUtil// 构造方法
      * 一级标题
      */
     internal fun h1() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^#\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^#\\s(.*)$".toRegex(), "$1")
-        } else {
-            "# " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^#\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^#\\s(.*)$".toRegex(), "$1")
+            } else {
+                "# $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 二级标题
      */
     internal fun h2() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^##\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^##\\s(.*)$".toRegex(), "$1")
-        } else {
-            "## " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^##\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^##\\s(.*)$".toRegex(), "$1")
+            } else {
+                "## $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 三级标题
      */
     internal fun h3() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^###\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^###\\s(.*)$".toRegex(), "$1")
-        } else {
-            "### " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^###\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^###\\s(.*)$".toRegex(), "$1")
+            } else {
+                "### $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 四级标题
      */
     internal fun h4() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^####\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^####\\s(.*)$".toRegex(), "$1")
-        } else {
-            "#### " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^####\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^####\\s(.*)$".toRegex(), "$1")
+            } else {
+                "#### $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 五级标题
      */
     internal fun h5() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^#####\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^#####\\s(.*)$".toRegex(), "$1")
-        } else {
-            "##### " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^#####\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^#####\\s(.*)$".toRegex(), "$1")
+            } else {
+                "##### $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 六级标题
      */
     internal fun h6() {
-        // 初始化
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        // 赋值
-        val pattern = Pattern.compile("^######\\s.*$")
-        thisline = if (pattern.matcher(thisline).matches()) {
-            thisline.replace("^######\\s(.*)$".toRegex(), "$1")
-        } else {
-            "###### " + thisline
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val end = rangeData.end
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = if (texts.isEmpty()) "" else texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            // 赋值
+            val pattern = Pattern.compile("^######\\s.*$")
+            thisline = if (pattern.matcher(thisline).matches()) {
+                thisline.replace("^######\\s(.*)$".toRegex(), "$1")
+            } else {
+                "###### $thisline"
+            }
+            val finalTxt = StringBuilder()
+            if (allLine.isNotEmpty()) {
+                if (line < allLine.size)
+                    allLine[line] = thisline
+                for (str in allLine) {
+                    finalTxt.append(str).append("\n")
+                }
+            } else
+                finalTxt.append(thisline).append("\n")
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = end + finalTxt.length - text.length - 1
+            rangeData.end = if (position > 0 && position > thisline.length) position else thisline.length
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
-        }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 超链接
      */
     internal fun link() {
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline += "\n[链接描述](http://www.ibooker.cc)"
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            thisline += "\n[链接描述](http://www.ibooker.cc)"
+            allLine[line] = thisline
+            val finalTxt = StringBuilder()
+            for (str in allLine) {
+                finalTxt.append(str).append("\n")
+            }
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = finalTxt.indexOf(thisline) + thisline.length + 1
+            rangeData.end = if (position >= finalTxt.length) finalTxt.length else position
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
@@ -462,7 +535,7 @@ class IbookerEditorUtil// 构造方法
         thisline = if (pattern.matcher(thisline).matches()) {
             thisline.replace("^>(.*)$".toRegex(), "$1")
         } else {
-            '>' + thisline
+            ">$thisline"
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -504,26 +577,33 @@ class IbookerEditorUtil// 构造方法
      * 图片
      */
     internal fun imgu() {
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val end = rangeData.end
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline += "\n![图片描述](http://ibooker.cc/favicon.ico/)"
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            thisline += "\n![图片描述](http://ibooker.cc/resources/images-logos/ic_launcher_192.png)"
+            allLine[line] = thisline
+            val finalTxt = StringBuilder()
+            for (str in allLine) {
+                finalTxt.append(str).append("\n")
+            }
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = finalTxt.indexOf(thisline) + thisline.length + 1
+            rangeData.end = if (position >= finalTxt.length) finalTxt.length else position
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
@@ -586,7 +666,7 @@ class IbookerEditorUtil// 构造方法
         thisline = if (pattern.matcher(thisline).matches()) {
             thisline.replace("^-\\s(.*)$".toRegex(), "$1")
         } else {
-            "- " + thisline
+            "- $thisline"
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -618,7 +698,7 @@ class IbookerEditorUtil// 构造方法
         thisline = if (pattern.matcher(thisline).matches()) {
             thisline.replace("^-\\s+\\[\\s?]\\s+(.*)$".toRegex(), "$1")
         } else {
-            "- [ ] " + thisline
+            "- [ ] $thisline"
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -647,7 +727,7 @@ class IbookerEditorUtil// 构造方法
         val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val pattern = Pattern.compile("^-\\s+\\[x]\\s+.*$")
         thisline = if (pattern.matcher(thisline).matches()) thisline.replace("^-\\s+\\[x]\\s+(.*)$".toRegex(), "$1") else {
-            "- [x] " + thisline
+            "- [x] $thisline"
         }
         allLine[line] = thisline
         var finalTxt = ""
@@ -665,78 +745,102 @@ class IbookerEditorUtil// 构造方法
      * 表格
      */
     internal fun tables() {
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline += ("\n|  h1   |    h2   |    h3   |"
-                + "\n|:------|:-------:|--------:|"
-                + "\n| 100   | [a][1]  | ![b][2] |"
-                + "\n| *foo* | **bar** | ~~baz~~ |")
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            thisline += ("\n|  h1   |    h2   |    h3   |"
+                    + "\n|:------|:-------:|--------:|"
+                    + "\n| 100   | [a][1]  | ![b][2] |"
+                    + "\n| *foo* | **bar** | ~~baz~~ |")
+            allLine[line] = thisline
+            val finalTxt = StringBuilder()
+            for (str in allLine) {
+                finalTxt.append(str).append("\n")
+            }
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = finalTxt.indexOf(thisline) + thisline.length + 1
+            rangeData.end = if (position >= finalTxt.length) finalTxt.length else position
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = rangeData.end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * HTML
      */
     internal fun html() {
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline += "\n<html>\n<!--在这里插入内容-->\n</html>"
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            thisline += "\n<html>\n<!--在这里插入内容-->\n</html>"
+            allLine[line] = thisline
+            val finalTxt = StringBuilder()
+            for (str in allLine) {
+                finalTxt.append(str).append("\n")
+            }
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = finalTxt.indexOf(thisline) + thisline.length - 8
+            rangeData.end = if (position >= finalTxt.length) finalTxt.length else position
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = rangeData.end + finalTxt.length - text.length - 9
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
      * 分割线
      */
     internal fun hr() {
-        val rangeData = selectionInfo
-        val start = rangeData.start
-        val text = ibookerEd.text.toString()
-        val temp = text.substring(0, start)
-        var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
-        if (line < 0) line = 0
-        var thisline = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[line]
-        val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        thisline += "\n***"
-        allLine[line] = thisline
-        var finalTxt = ""
-        for (str in allLine) {
-            finalTxt = finalTxt + str + "\n"
+        try {
+            val rangeData = selectionInfo
+            val start = rangeData.start
+            val text = ibookerEd.text.toString()
+            val temp = text.substring(0, start)
+            var line = temp.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray().size - 1
+            val texts = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            if (line >= texts.size) line = texts.size - 1
+            if (line < 0) line = 0
+            var thisline = texts[line]
+            val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            thisline = "$thisline\n***"
+            allLine[line] = thisline
+            val finalTxt = StringBuilder()
+            for (str in allLine) {
+                finalTxt.append(str).append("\n")
+            }
+            ibookerEd.setText(finalTxt.toString())
+            // 设置光标位置
+            val position = finalTxt.indexOf(thisline) + thisline.length + 1
+            rangeData.end = if (position >= finalTxt.length) finalTxt.length else position
+            rangeData.start = rangeData.end
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-        ibookerEd.setText(finalTxt)
-        // 设置光标位置
-        rangeData.end = rangeData.end + finalTxt.length - text.length
-        rangeData.start = rangeData.end
-        selectionInfo = rangeData
+
     }
 
     /**
