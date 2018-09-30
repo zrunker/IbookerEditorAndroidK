@@ -22,7 +22,7 @@ import android.content.Context.MODE_MULTI_PROCESS
 /**
  * 编辑界面设置
  */
-class IbookerEditerSetPopuwindow internal constructor(private val context: Context, private val ibookerEditorView: IbookerEditorView) : PopupWindow(context), View.OnClickListener {
+class IbookerEditorSetPopuwindow internal constructor(private val context: Context, private val ibookerEditorView: IbookerEditorView) : PopupWindow(context), View.OnClickListener {
     private var seekBar: SeekBar? = null
     private var followSysTv: TextView? = null
     private var editFontSizeTv: TextView? = null

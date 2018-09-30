@@ -8,35 +8,54 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 
 /**
  * 书客编辑器 - 顶部布局
  * Created by 邹峰立 on 2018/2/11.
  */
 class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr), View.OnClickListener {
+    //    private ImageView backImg, aboutImg;
     // getter
-    var backImg: ImageView? = null
-    var aboutImg: ImageView? = null
-    private var rightLayout: LinearLayout? = null
+    var backTv: TextView? = null
+        private set
+    //    public ImageView getBackImg() {
+    //        return backImg;
+    //    }
+
+    //    public ImageView getAboutImg() {
+    //        return aboutImg;
+    //    }
+
+    var rightLayout: LinearLayout? = null
+        private set
     var undoIBtn: ImageButton? = null
+        private set
     var redoIBtn: ImageButton? = null
+        private set
     var editIBtn: ImageButton? = null
+        private set
     var previewIBtn: ImageButton? = null
-    var helpIBtn: ImageButton? = null
+        private set
+    //    public ImageButton getHelpIBtn() {
+    //        return helpIBtn;
+    //    }
+
     var shareIBtn: ImageButton? = null
+        private set
     var elseIBtn: ImageButton? = null
+        private set
     var setIBtn: ImageButton? = null
+    private val helpIBtn: ImageButton? = null
+    private val dp13: Int
+    private val dp3_5: Int
+    private val dp4_5: Int
+    private val dp5: Int
+    private val dp12: Int
+    private val dp29: Int
 
     private var onTopClickListener: OnTopClickListener? = null
-
-    private var dp5 = 0
-    private var dp13 = 0
-    private var dp29 = 0
-    private var dp3_5 = 0
-    private var dp4_5 = 0
-    private var dp12 = 0
 
     init {
         orientation = LinearLayout.HORIZONTAL
@@ -59,16 +78,30 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
     // 初始化
     private fun init(context: Context) {
-        backImg = ImageView(context)
+        //        backImg = new ImageView(context);
+        //        LayoutParams backParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22F));
+        //        backParams.setMargins(dp5, 0, dp5, 0);
+        //        backImg.setLayoutParams(backParams);
+        //        backImg.setImageResource(R.drawable.icon_back_black);
+        //        backImg.setAdjustViewBounds(true);
+        //        backImg.setContentDescription(getResources().getString(R.string.back));
+        //        backImg.setTag(IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK);
+        //        backImg.setOnClickListener(this);
+        //        addView(backImg);
+
+        backTv = TextView(context)
         val backParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22f))
         backParams.setMargins(dp5, 0, dp5, 0)
-        backImg!!.layoutParams = backParams
-        backImg!!.setImageResource(R.drawable.icon_back_black)
-        backImg!!.adjustViewBounds = true
-        backImg!!.contentDescription = resources.getString(R.string.back)
-        backImg!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK
-        backImg!!.setOnClickListener(this)
-        addView(backImg)
+        backTv!!.layoutParams = backParams
+        backTv!!.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_back_black, 0, 0, 0)
+        backTv!!.compoundDrawablePadding = dp5
+        backTv!!.contentDescription = resources.getString(R.string.back)
+        backTv!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK
+        backTv!!.gravity = Gravity.CENTER
+        backTv!!.textSize = 15f
+        backTv!!.setTextColor(Color.parseColor("#777777"))
+        backTv!!.setOnClickListener(this)
+        addView(backTv)
 
         rightLayout = LinearLayout(context)
         rightLayout!!.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
@@ -114,15 +147,6 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         previewIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(previewIBtn)
 
-        helpIBtn = ImageButton(context)
-        helpIBtn!!.layoutParams = layoutParams
-        helpIBtn!!.setBackgroundResource(R.drawable.draw_help)
-        helpIBtn!!.contentDescription = resources.getString(R.string.help)
-        helpIBtn!!.setPadding(dp13, dp13, dp13, dp13)
-        helpIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP
-        helpIBtn!!.setOnClickListener(this)
-        rightLayout!!.addView(helpIBtn)
-
         shareIBtn = ImageButton(context)
         shareIBtn!!.layoutParams = layoutParams
         shareIBtn!!.setBackgroundResource(R.drawable.draw_share)
@@ -141,22 +165,31 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         setIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(setIBtn)
 
-        val params = LinearLayout.LayoutParams(dp29, dp29)
-        params.setMargins(dp3_5, 0, dp3_5, 0)
-        aboutImg = ImageView(context)
-        aboutImg!!.layoutParams = params
-        aboutImg!!.setImageResource(R.drawable.ibooker_editor_logo)
-        aboutImg!!.contentDescription = resources.getString(R.string.about)
-        aboutImg!!.setPadding(dp4_5, dp4_5, dp4_5, dp4_5)
-        aboutImg!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT
-        aboutImg!!.setOnClickListener(this)
-        rightLayout!!.addView(aboutImg)
+        //        helpIBtn = new ImageButton(context);
+        //        helpIBtn.setLayoutParams(layoutParams);
+        //        helpIBtn.setBackgroundResource(R.drawable.draw_help);
+        //        helpIBtn.setContentDescription(getResources().getString(R.string.help));
+        //        helpIBtn.setPadding(dp13, dp13, dp13, dp13);
+        //        helpIBtn.setTag(IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP);
+        //        helpIBtn.setOnClickListener(this);
+        //        rightLayout.addView(helpIBtn);
+
+        //        LayoutParams params = new LayoutParams(dp29, dp29);
+        //        params.setMargins(dp3_5, 0, dp3_5, 0);
+        //        aboutImg = new ImageView(context);
+        //        aboutImg.setLayoutParams(params);
+        //        aboutImg.setImageResource(R.drawable.ibooker_editor_logo);
+        //        aboutImg.setContentDescription(getResources().getString(R.string.about));
+        //        aboutImg.setPadding(dp4_5, dp4_5, dp4_5, dp4_5);
+        //        aboutImg.setTag(IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT);
+        //        aboutImg.setOnClickListener(this);
+        //        rightLayout.addView(aboutImg);
 
         elseIBtn = ImageButton(context)
         elseIBtn!!.layoutParams = layoutParams
         elseIBtn!!.setBackgroundResource(R.drawable.draw_else)
         elseIBtn!!.contentDescription = resources.getString(R.string._else)
-        elseIBtn!!.setPadding(dp13, dp13, dp13, dp13)
+        elseIBtn!!.setPadding(dp12, dp12, dp12, dp12)
         elseIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ELSE
         elseIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(elseIBtn)
@@ -168,14 +201,35 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
             onTopClickListener!!.onTopClick(v.tag)
     }
 
-    // 设置返回按钮backImg
-    fun setBackImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
-        backImg!!.setImageResource(resId)
+    //    // 设置返回按钮backImg
+    //    public IbookerEditorTopView setBackImageResource(@DrawableRes int resId) {
+    //        backImg.setImageResource(resId);
+    //        return this;
+    //    }
+    //
+    //    public IbookerEditorTopView setBackImgVisibility(int visibility) {
+    //        backImg.setVisibility(visibility);
+    //        return this;
+    //    }
+
+    // 设置返回按钮backTv
+    fun setBackTvResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        backTv!!.setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0)
         return this
     }
 
-    fun setBackImgVisibility(visibility: Int): IbookerEditorTopView {
-        backImg!!.visibility = visibility
+    fun setBackTvVisibility(visibility: Int): IbookerEditorTopView {
+        backTv!!.visibility = visibility
+        return this
+    }
+
+    fun setBackTvFontNum(num: Int): IbookerEditorTopView {
+        if (num > 0) {
+            var text = num.toString() + ""
+            if (num > 100000)
+                text = (num / 100000).toString() + "W"
+            backTv!!.text = text
+        }
         return this
     }
 
@@ -223,28 +277,27 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         return this
     }
 
-    // 设置帮助按钮
-    fun setHelpImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
-        helpIBtn!!.setImageResource(resId)
-        return this
-    }
+    //    // 设置帮助按钮
+    //    public IbookerEditorTopView setHelpImageResource(@DrawableRes int resId) {
+    //        helpIBtn.setImageResource(resId);
+    //        return this;
+    //    }
+    //
+    //    public IbookerEditorTopView setHelpIBtnVisibility(int visibility) {
+    //        helpIBtn.setVisibility(visibility);
+    //        return this;
+    //    }
 
-    fun setHelpIBtnVisibility(visibility: Int): IbookerEditorTopView {
-        helpIBtn!!.visibility = visibility
-        return this
-    }
-
-    // 设置关于按钮
-    fun setAboutImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
-        aboutImg!!.setImageResource(resId)
-        return this
-    }
-
-    fun setAboutImgVisibility(visibility: Int): IbookerEditorTopView {
-        aboutImg!!.visibility = visibility
-        return this
-    }
-
+    //    // 设置关于按钮
+    //    public IbookerEditorTopView setAboutImageResource(@DrawableRes int resId) {
+    //        aboutImg.setImageResource(resId);
+    //        return this;
+    //    }
+    //
+    //    public IbookerEditorTopView setAboutImgVisibility(int visibility) {
+    //        aboutImg.setVisibility(visibility);
+    //        return this;
+    //    }
 
     // 设置分享按钮
     fun setShareIBtnResource(@DrawableRes resId: Int): IbookerEditorTopView {

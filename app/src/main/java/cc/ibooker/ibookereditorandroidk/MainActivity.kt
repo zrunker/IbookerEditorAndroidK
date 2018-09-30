@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         val ibookerEditorView = findViewById<IbookerEditorView>(R.id.ibookereditorview)
         ibookerEditorView.setIEEditViewBackgroundColor(Color.parseColor("#DDDDDD"))
-                .setIETopViewBackImgVisibility(View.VISIBLE)
-                .setIETopViewHelpIBtnVisibility(View.VISIBLE)
+//                .setIETopViewBackImgVisibility(View.VISIBLE)
+//                .setIETopViewHelpIBtnVisibility(View.VISIBLE)
                 .setIEEditViewIbookerEdHint("书客编辑器")
                 .setIEToolViewEmojiIBtnVisibility(View.GONE)
                 .setIbookerEditorImgPreviewListener(object : IbookerEditorWebView.IbookerEditorImgPreviewListener {
