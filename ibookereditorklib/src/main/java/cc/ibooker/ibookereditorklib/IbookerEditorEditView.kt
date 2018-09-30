@@ -35,6 +35,12 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
 
     private var dp10 = 0
 
+    private var currentTextSize = 16f
+
+    fun getCurrentTextSize(): Float {
+        return currentTextSize
+    }
+
     private var onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener? = null
 
     private var onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener? = null
@@ -103,7 +109,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         ibookerEd!!.setPadding(dp10, dp10, dp10, dp10)
         ibookerEd!!.setBackgroundResource(android.R.color.transparent)
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
-        ibookerEd!!.textSize = 16f
+        ibookerEd!!.textSize = currentTextSize
         ibookerEd!!.setLineSpacing(4f, 1.3f)
         ibookerEd!!.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -208,6 +214,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
      * @param size 字体大小
      */
     fun setIbookerEdTextSize(size: Float): IbookerEditorEditView {
+        currentTextSize = size
         ibookerEd!!.textSize = size
         return this
     }

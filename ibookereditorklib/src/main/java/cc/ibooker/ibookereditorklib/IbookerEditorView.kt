@@ -27,6 +27,12 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.Toast
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IBOOKEREDITER_BACKGROUNDCOLOR
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IBOOKEREDITER_BRIGHTNESS
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IBOOKEREDITER_ISBRIGHTNESS
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IBOOKEREDITER_SET_NAME
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IEEDITVIEW_IBOOKERED_TEXTSIZE
+import cc.ibooker.ibookereditorklib.IbookerEditerSetPopuwindow.Companion.IEEDITVIEW_WEBVIEW_FONTSIZE
 import java.io.File
 import java.io.FileOutputStream
 
@@ -51,7 +57,8 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             // SDK在Android 6.0+需要进行运行检测的权限如下：
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE)
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_SETTINGS)
 
     // 工具栏进入和退出动画
     private var inAnim: Animation? = null
@@ -74,6 +81,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         get() = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
 
     private var tooltipsPopuwindow: TooltipsPopuwindow? = null
+    private var editerSetPopuwindow: IbookerEditerSetPopuwindow? = null
 
     init {
         orientation = LinearLayout.VERTICAL
@@ -82,6 +90,37 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
         init(context, attrs)
         addSoftInputListener()
+
+        Handler().postDelayed({
+            if (ibookerEditorTopView!!.setIBtn!!.visibility == View.VISIBLE) {
+                // 初始化数据
+                val sharedPreferences = context.getSharedPreferences(IBOOKEREDITER_SET_NAME, Context.MODE_PRIVATE)
+                val ibookerediter_isbrightness = sharedPreferences.getBoolean(IBOOKEREDITER_ISBRIGHTNESS, false)
+                val ibookerediter_brightness = sharedPreferences.getInt(IBOOKEREDITER_BRIGHTNESS, 0)
+                val ieeditview_ibookered_textsize = sharedPreferences.getInt(IEEDITVIEW_IBOOKERED_TEXTSIZE, 0)
+                val ieeditview_webview_fontsize = sharedPreferences.getInt(IEEDITVIEW_WEBVIEW_FONTSIZE, 0)
+                val ibookerediter_backgroundcolor = sharedPreferences.getString(IBOOKEREDITER_BACKGROUNDCOLOR, "")
+
+                if (!ScreenBrightnessUtil.checkPermission(context, false)) {
+                    if (ibookerediter_isbrightness) {
+                        ScreenBrightnessUtil.startAutoBrightness(context)
+                    } else {
+                        ScreenBrightnessUtil.stopAutoBrightness(context)
+                        ScreenBrightnessUtil.saveBrightness(context, ibookerediter_brightness)
+                    }
+                }
+
+                if (ieeditview_ibookered_textsize > 0)
+                    setIEEditViewIbookerEdTextSize(ieeditview_ibookered_textsize.toFloat())
+                if (ieeditview_webview_fontsize > 0)
+                    setIEEditViewWebViewFontSize(ieeditview_webview_fontsize)
+                if (!TextUtils.isEmpty(ibookerediter_backgroundcolor)) {
+                    val color = Color.parseColor(ibookerediter_backgroundcolor)
+                    setIEEditViewBackgroundColor(color)
+                    setIEPreViewBackgroundColor(color)
+                }
+            }
+        }, 300)
     }
 
     // 初始化
@@ -478,7 +517,14 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                 }
             }
             IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SET -> {// 设置
-
+                openInputSoft(false)
+                if (editerSetPopuwindow == null)
+                    editerSetPopuwindow = IbookerEditerSetPopuwindow(context, this)
+                if (!ScreenBrightnessUtil.checkPermission(this.context, true)) {
+                    editerSetPopuwindow!!.showAsDropDown(ibookerEditorTopView)
+                } else {
+                    closeEditerSetPopuwindow()
+                }
             }
         }
     }
@@ -672,6 +718,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         outAnim = null
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.destroy()
         closeTooltipsPopuwindow()
+        closeEditerSetPopuwindow()
     }
 
     /**
@@ -806,6 +853,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
     fun setIETopViewElseIBtnVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setElseIBtnVisibility(visibility)
+        return this
+    }
+
+    /**
+     * 设置预览界面字体大小
+     *
+     * @param size 字体大小
+     */
+    fun setIEEditViewWebViewFontSize(size: Int): IbookerEditorView {
+        ibookerEditorVpView!!.preView!!.setIbookerEditorWebViewFontSize(size)
         return this
     }
 
@@ -1488,8 +1545,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      * 关闭tooltipsPopuwindow
      */
     fun closeTooltipsPopuwindow() {
-        if (tooltipsPopuwindow != null)
+        if (tooltipsPopuwindow != null && tooltipsPopuwindow!!.isShowing)
             tooltipsPopuwindow!!.dismiss()
+    }
+
+    /**
+     * 关闭设置弹框
+     */
+    fun closeEditerSetPopuwindow() {
+        if (editerSetPopuwindow != null && editerSetPopuwindow!!.isShowing)
+            editerSetPopuwindow!!.dismiss()
     }
 
     /**

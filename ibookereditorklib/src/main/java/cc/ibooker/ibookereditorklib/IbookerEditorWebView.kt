@@ -2,8 +2,10 @@ package cc.ibooker.ibookereditorklib
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
 import android.text.TextUtils
@@ -29,6 +31,13 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     private var imgPathList: ArrayList<String>? = null// WebView所有图片地址
     private var ibookerEditorJsCheckImgEvent: IbookerEditorJsCheckImgEvent? = null
 
+    private var webSettings: WebSettings? = null
+    private var currentFontSize: Int = 0
+
+    fun getCurrentFontSize(): Int {
+        return currentFontSize
+    }
+
     init {
         isVerticalScrollBarEnabled = false
         setVerticalScrollbarOverlay(false)
@@ -45,36 +54,49 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     // 初始化
     @SuppressLint("AddJavascriptInterface", "SetJavaScriptEnabled", "JavascriptInterface")
     private fun init() {
-        val webSettings = this.settings
+        webSettings = this.settings
         // 支持内容重新布局
-        webSettings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+        webSettings!!.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         // 允许JS
-        webSettings.javaScriptEnabled = true
+        webSettings!!.javaScriptEnabled = true
         // 支持插件
-        webSettings.pluginState = WebSettings.PluginState.ON
+        webSettings!!.pluginState = WebSettings.PluginState.ON
         // 设置允许JS弹窗
-        webSettings.javaScriptCanOpenWindowsAutomatically = true
+        webSettings!!.javaScriptCanOpenWindowsAutomatically = true
         // access Assets and resources
-        webSettings.allowFileAccess = true
-        webSettings.setAppCacheEnabled(false)
+        webSettings!!.allowFileAccess = true
+        webSettings!!.setAppCacheEnabled(false)
         // 提高渲染优先级
-        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH)
+        webSettings!!.setRenderPriority(WebSettings.RenderPriority.HIGH)
         // 设置编码格式
-        webSettings.defaultTextEncodingName = "utf-8"
+        webSettings!!.defaultTextEncodingName = "utf-8"
         // 支持自动加载图片
-        webSettings.loadsImagesAutomatically = true
+        webSettings!!.loadsImagesAutomatically = true
         // 关闭webview中缓存
-        webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
+        webSettings!!.cacheMode = WebSettings.LOAD_NO_CACHE
         // 将图片调整到适合webview的大小
-        webSettings.useWideViewPort = true
+        webSettings!!.useWideViewPort = true
         // 缩放至屏幕的大小
-        webSettings.loadWithOverviewMode = true
+        webSettings!!.loadWithOverviewMode = true
         // 支持缩放，默认为true。
-        webSettings.setSupportZoom(true)
+        webSettings!!.setSupportZoom(true)
         // 设置内置的缩放控件。若为false，则该WebView不可缩放
-        webSettings.builtInZoomControls = true
+        webSettings!!.builtInZoomControls = true
         // 隐藏原生的缩放控件
-        webSettings.displayZoomControls = false
+        webSettings!!.displayZoomControls = false
+
+        // 获取当前字体大小
+        if (webSettings!!.textSize == WebSettings.TextSize.SMALLEST) {
+            currentFontSize = 1
+        } else if (webSettings!!.textSize == WebSettings.TextSize.SMALLER) {
+            currentFontSize = 2
+        } else if (webSettings!!.textSize == WebSettings.TextSize.NORMAL) {
+            currentFontSize = 3
+        } else if (webSettings!!.textSize == WebSettings.TextSize.LARGER) {
+            currentFontSize = 4
+        } else if (webSettings!!.textSize == WebSettings.TextSize.LARGEST) {
+            currentFontSize = 5
+        }
 
         // 隐藏滚动条
         this.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
@@ -84,15 +106,26 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         this.webViewClient = object : WebViewClient() {
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
+                return if (ibookerEditorWebViewUrlLoadingListener != null)
+                    ibookerEditorWebViewUrlLoadingListener!!.shouldOverrideUrlLoading(view, url)
+                else {
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.data = Uri.parse(url)
+                    context.startActivity(intent)
+                    true
+                }
             }
 
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    view.loadUrl(request.url.toString())
+                return if (ibookerEditorWebViewUrlLoadingListener != null)
+                    ibookerEditorWebViewUrlLoadingListener!!.shouldOverrideUrlLoading(view, request)
+                else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        view.loadUrl(request.url.toString())
+                    }
+                    true
                 }
-                return true
             }
 
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -238,6 +271,22 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         return bitmap
     }
 
+    /**
+     * 设置当前字体大小
+     */
+    fun setIbookerEditorWebViewFontSize(fontSize: Int) {
+        if (fontSize in 1..5) {
+            currentFontSize = fontSize
+            when (fontSize) {
+                1 -> webSettings!!.textSize = WebSettings.TextSize.SMALLEST
+                2 -> webSettings!!.textSize = WebSettings.TextSize.SMALLER
+                3 -> webSettings!!.textSize = WebSettings.TextSize.NORMAL
+                4 -> webSettings!!.textSize = WebSettings.TextSize.LARGER
+                5 -> webSettings!!.textSize = WebSettings.TextSize.LARGEST
+            }
+        }
+    }
+
     // 图片预览接口
     interface IbookerEditorImgPreviewListener {
         fun onIbookerEditorImgPreview(currentPath: String, position: Int, imgAllPathList: ArrayList<String>)
@@ -249,6 +298,10 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
 
     // Url加载状态监听
     interface IbookerEditorWebViewUrlLoadingListener {
+        fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean
+
+        fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean
+
         fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError)
 
         fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError)

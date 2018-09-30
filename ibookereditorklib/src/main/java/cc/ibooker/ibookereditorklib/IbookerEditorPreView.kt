@@ -77,6 +77,16 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     /**
+     * 设置WebView控件字体大小
+     *
+     * @param fontSize 字体大小
+     */
+    fun setIbookerEditorWebViewFontSize(fontSize: Int): IbookerEditorPreView {
+        ibookerEditorWebView!!.setIbookerEditorWebViewFontSize(fontSize)
+        return this
+    }
+
+    /**
      * 设置标题显示 或者隐藏
      *
      * @param visibility View.GONE,View.VISIBLE,View.INVISIBLE
