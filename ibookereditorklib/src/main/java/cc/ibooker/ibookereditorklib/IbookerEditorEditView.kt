@@ -100,7 +100,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         linearLayout.addView(lineView)
 
         ibookerEd = EditText(context)
-        ibookerEd!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        ibookerEd!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         ibookerEd!!.gravity = Gravity.TOP or Gravity.START
         ibookerEd!!.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
         ibookerEd!!.setSingleLine(false)
