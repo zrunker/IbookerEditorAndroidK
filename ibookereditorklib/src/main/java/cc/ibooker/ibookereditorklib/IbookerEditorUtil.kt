@@ -45,6 +45,27 @@ class IbookerEditorUtil// 构造方法
         }
     }
 
+
+    /**
+     * 在尾部添加text
+     */
+    internal fun addEnd(addStr: String) {
+        try {
+            val rangeData = selectionInfo
+            val text = ibookerEd.text.toString()
+            val start = rangeData.start
+            val end = rangeData.end
+            val finalTxt = text.substring(0, start) + addStr + text.substring(end, text.length)
+            ibookerEd.setText(finalTxt)
+            // 设置光标位置
+            rangeData.end = end + finalTxt.length - text.length
+            selectionInfo = rangeData
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
     /**
      * 加粗
      */

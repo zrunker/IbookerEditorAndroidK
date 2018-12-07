@@ -53,11 +53,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     var ibookerEditorToolView: IbookerEditorToolView? = null
     // 底部工具栏-操作类
     var ibookerEditorUtil: IbookerEditorUtil? = null
+    // EmjioDialog
+    private var emjioDialog: EmjioDialog? = null
 
     // 权限申请模块
     private val needPermissions = arrayOf(
             // SDK在Android 6.0+需要进行运行检测的权限如下：
-            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_SETTINGS)
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_SETTINGS)
 
     // 工具栏进入和退出动画
     private var inAnim: Animation? = null
@@ -622,7 +627,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR) {// 分割线
             ibookerEditorUtil!!.hr()
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI) {// emoji表情
-
+            showEmjioDialog()
         }
     }
 
@@ -719,6 +724,14 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.ibookerCompile(content)
     }
 
+    // 取消方法
+    fun stopIbookerEditor() {
+        closeTooltipsPopuwindow()
+        closeEditerSetPopuwindow()
+        closeEditerMorePopuwindow()
+        closeEmjioDialog()
+    }
+
     // 销毁方法
     fun destoryIbookerEditor() {
         inAnim!!.cancel()
@@ -729,6 +742,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         closeTooltipsPopuwindow()
         closeEditerSetPopuwindow()
         closeEditerMorePopuwindow()
+        closeEmjioDialog()
     }
 
     /**
@@ -1476,42 +1490,37 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             if (ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.isLoadFinished) {
                 Toast.makeText(this@IbookerEditorView.context, "图片生成中...", Toast.LENGTH_SHORT).show()
                 val bitmap = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
-                if (bitmap != null) {
-                    // 分享图片
-                    try {
-                        val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
-                        val fileName = System.currentTimeMillis().toString() + ".jpg"
-                        val dir = File(filePath)
-                        val bool = dir.exists()
-                        if (!bool)
-                            createSDDirs(filePath)
-                        val file = File(filePath, fileName)
+                try {
+                    val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
+                    val fileName = System.currentTimeMillis().toString() + ".jpg"
+                    val dir = File(filePath)
+                    val bool = dir.exists()
+                    if (!bool)
+                        createSDDirs(filePath)
+                    val file = File(filePath, fileName)
 
-                        val fOut = FileOutputStream(file)
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
-                        fOut.flush()
-                        fOut.close()
+                    val fOut = FileOutputStream(file)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
+                    fOut.flush()
+                    fOut.close()
 
-                        // 进入图片预览
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        val uri: Uri
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.fileProvider", file)
-                        } else {
-                            uri = Uri.fromFile(file)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
-                        intent.setDataAndType(uri, "image/*")
-                        this@IbookerEditorView.context.startActivity(intent)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        bitmap.recycle()
-                        System.gc()
+                    // 进入图片预览
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    val uri: Uri
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.fileProvider", file)
+                    } else {
+                        uri = Uri.fromFile(file)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
-                } else {
-                    Toast.makeText(this@IbookerEditorView.context, "生成图片失败！", Toast.LENGTH_SHORT).show()
+                    intent.setDataAndType(uri, "image/*")
+                    this@IbookerEditorView.context.startActivity(intent)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    bitmap.recycle()
+                    System.gc()
                 }
             } else {
                 generateBitmap()
@@ -1526,29 +1535,24 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         var file: File? = null
         Toast.makeText(this@IbookerEditorView.context, "图片生成中...", Toast.LENGTH_SHORT).show()
         val bitmap = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
-        if (bitmap != null) {
-            // 分享图片
-            try {
-                val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
-                val fileName = System.currentTimeMillis().toString() + ".jpg"
-                val dir = File(filePath)
-                val bool = dir.exists()
-                if (!bool)
-                    createSDDirs(filePath)
-                file = File(filePath, fileName)
+        try {
+            val filePath = Environment.getExternalStorageDirectory().absolutePath + File.separator + "ibookerEditor" + File.separator + "shares" + File.separator
+            val fileName = System.currentTimeMillis().toString() + ".jpg"
+            val dir = File(filePath)
+            val bool = dir.exists()
+            if (!bool)
+                createSDDirs(filePath)
+            file = File(filePath, fileName)
 
-                val fOut = FileOutputStream(file)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
-                fOut.flush()
-                fOut.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                bitmap.recycle()
-                System.gc()
-            }
-        } else {
-            Toast.makeText(this@IbookerEditorView.context, "生成图片失败！", Toast.LENGTH_SHORT).show()
+            val fOut = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut)
+            fOut.flush()
+            fOut.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            bitmap.recycle()
+            System.gc()
         }
         return file
     }
@@ -1611,6 +1615,23 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         this.mDatas = list
         if (editorMorePopuwindow != null)
             editorMorePopuwindow!!.setMoreLvAdapter(mDatas)
+    }
+
+    /**
+     * 展示EmjioDialog
+     */
+    fun showEmjioDialog() {
+        if (emjioDialog == null)
+            emjioDialog = EmjioDialog(context, R.style.emjioDialog, ibookerEditorUtil!!)
+        emjioDialog!!.show()
+    }
+
+    /**
+     * 关闭EmjioDialog
+     */
+    fun closeEmjioDialog() {
+        if (emjioDialog != null)
+            emjioDialog!!.dismiss()
     }
 
     /**
