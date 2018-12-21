@@ -287,6 +287,24 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         }
     }
 
+    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(l, t, oldl, oldt)
+        if (mIbookerEditorWebViewOnScrollChangedCallback != null) {
+            mIbookerEditorWebViewOnScrollChangedCallback!!.onScroll(l - oldl, t - oldt)
+        }
+    }
+
+    // 滚动监听接口
+    interface IbookerEditorWebViewOnScrollChangedCallback {
+        fun onScroll(dx: Int, dy: Int)
+    }
+
+    private var mIbookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebViewOnScrollChangedCallback? = null
+
+    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebViewOnScrollChangedCallback) {
+        mIbookerEditorWebViewOnScrollChangedCallback = ibookerEditorWebViewOnScrollChangedCallback
+    }
+
     // 图片预览接口
     interface IbookerEditorImgPreviewListener {
         fun onIbookerEditorImgPreview(currentPath: String, position: Int, imgAllPathList: ArrayList<String>)

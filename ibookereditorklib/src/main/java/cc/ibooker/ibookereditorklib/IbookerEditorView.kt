@@ -1453,6 +1453,13 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * 滚动监听接口
+     */
+    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebView.IbookerEditorWebViewOnScrollChangedCallback) {
+        ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback)
+    }
+
+    /**
      * 图片预览接口
      */
     fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener) {
