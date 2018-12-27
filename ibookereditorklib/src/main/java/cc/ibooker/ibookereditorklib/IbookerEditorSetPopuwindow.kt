@@ -202,6 +202,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
                 if (!checkPermission(context, true) && progress > 0) {
                     // 延迟1s执行
                     if (handler == null) handler = Handler()
+                    handler!!.removeCallbacksAndMessages(null)
                     handler!!.postDelayed({
                         stopAutoBrightness(context)
                         saveBrightness(context, progress)
