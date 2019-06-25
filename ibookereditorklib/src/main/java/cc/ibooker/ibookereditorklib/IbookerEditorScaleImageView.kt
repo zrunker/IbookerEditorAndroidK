@@ -54,6 +54,8 @@ class IbookerEditorScaleImageView
     // 双击放大和缩小
     private val mGestureDetector: GestureDetector
     private var isAutoScale: Boolean = false
+    // 是否限制大小
+    private var isLimitSize: Boolean = false
 
     /**
      * 获取当前缩放值
@@ -92,6 +94,12 @@ class IbookerEditorScaleImageView
     private var onMyLongClickListener: OnMyLongClickListener? = null
 
     init {
+        if (attrs != null) {
+            // 获取自定义属性，并设置
+            val ta = getContext().obtainStyledAttributes(attrs, R.styleable.IbookerEditorScaleImageView)
+            isLimitSize = ta.getBoolean(R.styleable.IbookerEditorScaleImageView_isLimitSize, false)
+            ta.recycle()
+        }
         // 初始化
         mScaleMatrix = Matrix()
         scaleType = ImageView.ScaleType.MATRIX
@@ -199,14 +207,21 @@ class IbookerEditorScaleImageView
             val dh = d.intrinsicHeight.toFloat()
 
             // 对比图片的高度和宽度和控件的宽度和高度
-            var scale = 0.1f // 缩放比例
+            var scale = 1.0f // 缩放比例
             if (dw > width && dh < height) { // 图片宽度大于控件的宽度，高度小于控件的高度，缩小
                 scale = width * 1.0f / dw
             }
             if (dh > height && dw < width) { // 图片高度大于控件的宽度，宽度小于控件的高度，缩小
                 scale = height * 1.0f / dh
             }
-            if (dw > width && dh > height || dw < width && dh < height) {
+            //            if ((dw > width && dh > height) || (dw < width && dh < height)) {
+            //                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+            //            }
+            if (isLimitSize) {
+                if (dw > width && dh > height) {
+                    scale = Math.min(width * 1.0f / dw, height * 1.0f / dh)
+                }
+            } else if (dw > width && dh > height || dw < width && dh < height) {
                 scale = Math.min(width * 1.0f / dw, height * 1.0f / dh)
             }
 
