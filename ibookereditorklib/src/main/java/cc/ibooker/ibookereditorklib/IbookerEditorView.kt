@@ -605,13 +605,13 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6) {// 六级标题
             ibookerEditorUtil!!.h6()
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK) {// 超链接
-            ibookerEditorUtil!!.link()
+            ibookerEditorUtil!!.link("[链接描述](http://www.ibooker.cc)")
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE) {// 引用
             ibookerEditorUtil!!.quote()
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE) {// 代码
             ibookerEditorUtil!!.code()
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U) {// 图片
-            ibookerEditorUtil!!.imgu()
+            ibookerEditorUtil!!.imgu("![图片描述](http://ibooker.cc/resources/images-logos/ic_launcher_192.png)")
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL) {// 数字列表
             ibookerEditorUtil!!.ol()
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL) {// 普通列表

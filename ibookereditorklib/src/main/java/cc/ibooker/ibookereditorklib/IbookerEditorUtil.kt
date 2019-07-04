@@ -508,7 +508,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 超链接
      */
-    internal fun link() {
+    internal fun link(link: String) {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -520,7 +520,7 @@ class IbookerEditorUtil// 构造方法
             if (line < 0) line = 0
             var thisline = texts[line]
             val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            thisline += "\n[链接描述](http://www.ibooker.cc)"
+            thisline += "\n" + link
             allLine[line] = thisline
             val finalTxt = StringBuilder()
             for (str in allLine) {
@@ -597,7 +597,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 图片
      */
-    internal fun imgu() {
+    internal fun imgu(imgPath: String) {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -609,7 +609,7 @@ class IbookerEditorUtil// 构造方法
             if (line < 0) line = 0
             var thisline = texts[line]
             val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            thisline += "\n![图片描述](http://ibooker.cc/resources/images-logos/ic_launcher_192.png)"
+            thisline += "\n" + imgPath
             allLine[line] = thisline
             val finalTxt = StringBuilder()
             for (str in allLine) {

@@ -52,6 +52,7 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         setBackgroundResource(R.drawable.bg_ibooker_editor_tool)
         isVerticalScrollBarEnabled = false
+        clipToPadding = true
 
         dp13 = IbookerEditorUtil.dpToPx(context, 13f)
 
