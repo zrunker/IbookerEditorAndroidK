@@ -520,7 +520,7 @@ class IbookerEditorUtil// 构造方法
             if (line < 0) line = 0
             var thisline = texts[line]
             val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            thisline += "\n" + link
+            thisline += "\n[链接描述]($link)"
             allLine[line] = thisline
             val finalTxt = StringBuilder()
             for (str in allLine) {
@@ -609,7 +609,7 @@ class IbookerEditorUtil// 构造方法
             if (line < 0) line = 0
             var thisline = texts[line]
             val allLine = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            thisline += "\n" + imgPath
+            thisline += "\n![图片描述]($imgPath)"
             allLine[line] = thisline
             val finalTxt = StringBuilder()
             for (str in allLine) {
