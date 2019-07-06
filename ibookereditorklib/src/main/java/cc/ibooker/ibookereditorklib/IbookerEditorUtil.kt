@@ -49,7 +49,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 在尾部添加text
      */
-    internal fun addEnd(addStr: String) {
+    fun addEnd(addStr: String) {
         try {
             val rangeData = selectionInfo
             val text = ibookerEd.text.toString()
@@ -69,7 +69,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 加粗
      */
-    internal fun bold() {
+    fun bold() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -95,7 +95,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 斜体
      */
-    internal fun italic() {
+    fun italic() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -121,7 +121,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 删除线
      */
-    internal fun strikeout() {
+    fun strikeout() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -147,7 +147,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 下划线
      */
-    internal fun underline() {
+    fun underline() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -174,7 +174,7 @@ class IbookerEditorUtil// 构造方法
      * 单词首字母大写
      */
     @SuppressLint("SetTextI18n")
-    internal fun capitals() {
+    fun capitals() {
         // 初始化
         val rangeData = selectionInfo
         val selectTxt = rangeData.text
@@ -208,7 +208,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 字母转大写
      */
-    internal fun uppercase() {
+    fun uppercase() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -226,7 +226,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 字母转小写
      */
-    internal fun lowercase() {
+    fun lowercase() {
         // 初始化
         val finalTxt: String
         val rangeData = selectionInfo
@@ -244,7 +244,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 一级标题
      */
-    internal fun h1() {
+    fun h1() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -288,7 +288,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 二级标题
      */
-    internal fun h2() {
+    fun h2() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -332,7 +332,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 三级标题
      */
-    internal fun h3() {
+    fun h3() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -376,7 +376,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 四级标题
      */
-    internal fun h4() {
+    fun h4() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -420,7 +420,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 五级标题
      */
-    internal fun h5() {
+    fun h5() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -464,7 +464,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 六级标题
      */
-    internal fun h6() {
+    fun h6() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -508,7 +508,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 超链接
      */
-    internal fun link(link: String) {
+    fun link(link: String) {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -541,7 +541,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 引用
      */
-    internal fun quote() {
+    fun quote() {
         val rangeData = selectionInfo
         val start = rangeData.start
         val end = rangeData.end
@@ -573,7 +573,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 代码
      */
-    internal fun code() {
+    fun code() {
         val finalTxt: String
         val rangeData = selectionInfo
         val start = rangeData.start
@@ -597,7 +597,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 图片
      */
-    internal fun imgu(imgPath: String) {
+    fun imgu(imgPath: String) {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -630,7 +630,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 数字列表
      */
-    internal fun ol() {
+    fun ol() {
         val rangeData = selectionInfo
         val start = rangeData.start
         val end = rangeData.end
@@ -673,7 +673,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 普通列表
      */
-    internal fun ul() {
+    fun ul() {
         val rangeData = selectionInfo
         val start = rangeData.start
         val end = rangeData.end
@@ -704,7 +704,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 复选框未选中
      */
-    internal fun tasklistsUnChecked() {
+    fun tasklistsUnChecked() {
         val rangeData = selectionInfo
         val start = rangeData.start
         val end = rangeData.end
@@ -736,7 +736,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 复选框选中
      */
-    internal fun tasklistsChecked() {
+    fun tasklistsChecked() {
         val rangeData = selectionInfo
         val start = rangeData.start
         val end = rangeData.end
@@ -765,7 +765,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 表格
      */
-    internal fun tables() {
+    fun tables() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -801,7 +801,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * HTML
      */
-    internal fun html() {
+    fun html() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
@@ -834,7 +834,7 @@ class IbookerEditorUtil// 构造方法
     /**
      * 分割线
      */
-    internal fun hr() {
+    fun hr() {
         try {
             val rangeData = selectionInfo
             val start = rangeData.start
