@@ -81,7 +81,6 @@ object ScreenBrightnessUtil {
      */
     @RequiresApi(Build.VERSION_CODES.M)
     fun enterSettingIntent(context: Context) {
-        if (ClickUtil.isFastClick) return
         val selfPackageUri = Uri.parse("package:" + context.applicationContext.packageName)
         val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, selfPackageUri)
         context.startActivity(intent)
