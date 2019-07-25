@@ -11,8 +11,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.PopupWindow
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 更多PopupWindow

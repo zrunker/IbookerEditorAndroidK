@@ -1,7 +1,7 @@
 package cc.ibooker.ibookereditorklib
 
 import android.content.Context
-import android.content.SharedPreferences
+import android.content.Context.MODE_MULTI_PROCESS
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Handler
@@ -11,13 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupWindow
-import android.widget.SeekBar
-import android.widget.TextView
-
-import android.content.Context.MODE_MULTI_PROCESS
+import android.widget.*
 
 /**
  * 编辑界面设置

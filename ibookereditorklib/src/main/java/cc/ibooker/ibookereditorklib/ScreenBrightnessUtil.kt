@@ -1,6 +1,5 @@
 package cc.ibooker.ibookereditorklib
 
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -81,8 +80,8 @@ object ScreenBrightnessUtil {
      * 进入设置界面
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    @Synchronized
     fun enterSettingIntent(context: Context) {
+        if (ClickUtil.isFastClick) return
         val selfPackageUri = Uri.parse("package:" + context.applicationContext.packageName)
         val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, selfPackageUri)
         context.startActivity(intent)

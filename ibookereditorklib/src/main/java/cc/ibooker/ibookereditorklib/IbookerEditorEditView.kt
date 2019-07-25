@@ -56,6 +56,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
     }
 
     // 初始化
+    @SuppressLint("ResourceAsColor")
     private fun init(context: Context) {
         val linearLayout = LinearLayout(context)
         linearLayout.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -68,7 +69,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         titleParams.rightMargin = dp10
         ibookerTitleEd!!.layoutParams = titleParams
         ibookerTitleEd!!.setPadding(0, 0, 0, 0)
-        ibookerTitleEd!!.setBackgroundColor(resources.getColor(android.R.color.transparent))
+        ibookerTitleEd!!.setBackgroundColor(android.R.color.transparent)
         ibookerTitleEd!!.setSingleLine(true)
         ibookerTitleEd!!.setLines(1)
         ibookerTitleEd!!.setTextColor(Color.parseColor("#444444"))

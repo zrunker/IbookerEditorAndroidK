@@ -7,7 +7,7 @@ class EmjioData {
     var text: String? = null
     var emjioStr: String? = null
 
-    constructor() : super() {}
+    constructor() : super()
 
     constructor(text: String, emjioStr: String) {
         this.text = text

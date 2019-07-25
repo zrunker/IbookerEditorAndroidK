@@ -12,11 +12,7 @@ import java.util.*
  * Emjio适配器
  */
 class EmjioGwAdapter(context: Context, private var mDatas: ArrayList<EmjioData>?) : BaseAdapter() {
-    private val inflater: LayoutInflater
-
-    init {
-        this.inflater = LayoutInflater.from(context)
-    }
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     fun reflushData(list: ArrayList<EmjioData>) {
         this.mDatas = list
