@@ -61,8 +61,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             // SDK在Android 6.0+需要进行运行检测的权限如下：
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.WRITE_SETTINGS)
+            Manifest.permission.READ_PHONE_STATE)
 
     // 工具栏进入和退出动画
     private var inAnim: Animation? = null
@@ -1516,7 +1515,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                     val uri: Uri
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.fileProvider", file)
+                        uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.ibookerFileProvider", file)
                     } else {
                         uri = Uri.fromFile(file)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

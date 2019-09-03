@@ -112,46 +112,46 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
         ibookerEd!!.textSize = currentTextSize
         ibookerEd!!.setLineSpacing(4f, 1.3f)
-        ibookerEd!!.customSelectionActionModeCallback = object : ActionMode.Callback {
-            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                return false
-            }
-
-            override fun onDestroyActionMode(mode: ActionMode) {}
-
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-                try {
-                    val mEditor = TextView::class.java.getDeclaredField("mEditor")//找到 TextView中的成员变量mEditor
-                    mEditor.isAccessible = true
-                    val `object` = mEditor.get(ibookerEd)//根具持有对象拿到mEditor变量里的值 （android.widget.Editor类的实例）
-
-                    //--------------------显示选择控制工具------------------------------//
-                    @SuppressLint("PrivateApi")
-                    val mClass = Class.forName("android.widget.Editor")// 拿到隐藏类Editor；
-                    val method = mClass.getDeclaredMethod("getSelectionController")// 取得方法  getSelectionController
-                    method.isAccessible = true// 取消访问私有方法的合法性检查
-                    val resultobject = method.invoke(`object`)// 调用方法，返回SelectionModifierCursorController类的实例
-
-                    val show = resultobject.javaClass.getDeclaredMethod("show")// 查找 SelectionModifierCursorController类中的show方法
-                    show.invoke(resultobject)// 执行SelectionModifierCursorController类的实例的show方法
-                    ibookerEd!!.setHasTransientState(true)
-
-                    //--------------------忽略最后一次TouchUP事件------------------------------//
-                    val mSelectionActionMode = mClass.getDeclaredField("mDiscardNextActionUp")// 查找变量Editor类中mDiscardNextActionUp
-                    mSelectionActionMode.isAccessible = true
-                    mSelectionActionMode.set(`object`, true)//赋值为true
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                return false// 返回false 就是屏蔽ActionMode菜单
-            }
-
-            override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-                return false
-            }
-        }
+//        ibookerEd!!.customSelectionActionModeCallback = object : ActionMode.Callback {
+//            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+//                return false
+//            }
+//
+//            override fun onDestroyActionMode(mode: ActionMode) {}
+//
+//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+//            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+//                try {
+//                    val mEditor = TextView::class.java.getDeclaredField("mEditor")//找到 TextView中的成员变量mEditor
+//                    mEditor.isAccessible = true
+//                    val `object` = mEditor.get(ibookerEd)//根具持有对象拿到mEditor变量里的值 （android.widget.Editor类的实例）
+//
+//                    //--------------------显示选择控制工具------------------------------//
+//                    @SuppressLint("PrivateApi")
+//                    val mClass = Class.forName("android.widget.Editor")// 拿到隐藏类Editor；
+//                    val method = mClass.getDeclaredMethod("getSelectionController")// 取得方法  getSelectionController
+//                    method.isAccessible = true// 取消访问私有方法的合法性检查
+//                    val resultobject = method.invoke(`object`)// 调用方法，返回SelectionModifierCursorController类的实例
+//
+//                    val show = resultobject.javaClass.getDeclaredMethod("show")// 查找 SelectionModifierCursorController类中的show方法
+//                    show.invoke(resultobject)// 执行SelectionModifierCursorController类的实例的show方法
+//                    ibookerEd!!.setHasTransientState(true)
+//
+//                    //--------------------忽略最后一次TouchUP事件------------------------------//
+//                    val mSelectionActionMode = mClass.getDeclaredField("mDiscardNextActionUp")// 查找变量Editor类中mDiscardNextActionUp
+//                    mSelectionActionMode.isAccessible = true
+//                    mSelectionActionMode.set(`object`, true)//赋值为true
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//
+//                return false// 返回false 就是屏蔽ActionMode菜单
+//            }
+//
+//            override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+//                return false
+//            }
+//        }
         ibookerEd!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 if (onIbookerEdTextChangedListener != null)
