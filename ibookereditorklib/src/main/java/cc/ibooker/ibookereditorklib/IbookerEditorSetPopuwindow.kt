@@ -852,6 +852,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
                 val color = Color.parseColor(colorStr)
                 ibookerEditorView.setIEEditViewBackgroundColor(color)
                 ibookerEditorView.setIEPreViewBackgroundColor(color)
+//                ibookerEditorView.setIETopViewBackgroundColor(color)
                 for (i in 0 until backgroundLayout!!.childCount) {
                     val imageView = backgroundLayout!!.getChildAt(i)
                     if (imageView === view)

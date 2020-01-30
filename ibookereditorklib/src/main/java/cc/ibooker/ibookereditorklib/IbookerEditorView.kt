@@ -756,6 +756,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     /**
+     * 设置顶部背景颜色
+     *
+     * @param color 背景颜色
+     */
+    fun setIETopViewBackgroundColor(@ColorInt color: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setBackgroundColor(color)
+        return this
+    }
+
+    /**
      * 设置编辑控件背景颜色
      *
      * @param color 背景颜色
