@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 
@@ -24,7 +23,7 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
 
     init {
         isVerticalScrollBarEnabled = false
-        layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         isFillViewport = true
         init(context)
     }
@@ -34,15 +33,15 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
      */
     private fun init(context: Context) {
         val linearLayout = LinearLayout(context)
-        linearLayout.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        linearLayout.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         linearLayout.orientation = LinearLayout.VERTICAL
         addView(linearLayout)
 
         ibookerTitleTv = TextView(context)
         val titleParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50f))
-        val dp10 = IbookerEditorUtil.dpToPx(context, 10f)
-        titleParams.leftMargin = dp10
-        titleParams.rightMargin = dp10
+        val dp12 = IbookerEditorUtil.dpToPx(context, 12f)
+        titleParams.leftMargin = dp12
+        titleParams.rightMargin = dp12
         ibookerTitleTv!!.layoutParams = titleParams
         ibookerTitleTv!!.setPadding(0, 0, 0, 0)
         ibookerTitleTv!!.setBackgroundColor(resources.getColor(android.R.color.transparent))

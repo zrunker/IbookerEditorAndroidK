@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.support.annotation.ColorInt
-import android.support.annotation.RequiresApi
 import android.support.v4.widget.NestedScrollView
 import android.text.Editable
 import android.text.InputType
@@ -17,7 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.TextView
 import java.util.*
 
 /**
@@ -33,7 +30,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
     private var isSign = true// 标记是否需要记录currentPos=textList.size()和textList
     private var currentPos = 0
 
-    private var dp10 = 0
+    private var dp12 = 0
 
     private var currentTextSize = 16f
 
@@ -50,7 +47,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         isFillViewport = true
 
-        dp10 = IbookerEditorUtil.dpToPx(context, 10f)
+        dp12 = IbookerEditorUtil.dpToPx(context, 12f)
 
         init(context)
     }
@@ -65,8 +62,8 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
 
         ibookerTitleEd = EditText(context)
         val titleParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, IbookerEditorUtil.dpToPx(context, 50f))
-        titleParams.leftMargin = dp10
-        titleParams.rightMargin = dp10
+        titleParams.leftMargin = dp12
+        titleParams.rightMargin = dp12
         ibookerTitleEd!!.layoutParams = titleParams
         ibookerTitleEd!!.setPadding(0, 0, 0, 0)
         ibookerTitleEd!!.setBackgroundColor(android.R.color.transparent)
@@ -74,7 +71,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         ibookerTitleEd!!.setLines(1)
         ibookerTitleEd!!.setTextColor(Color.parseColor("#444444"))
         ibookerTitleEd!!.textSize = 18f
-        ibookerTitleEd!!.setLineSpacing(4f, 1.3f)
+        ibookerTitleEd!!.setLineSpacing(5f, 1.3f)
         ibookerTitleEd!!.hint = "标题"
         ibookerTitleEd!!.gravity = Gravity.CENTER_VERTICAL or Gravity.START
         ibookerTitleEd!!.addTextChangedListener(object : TextWatcher {
@@ -107,7 +104,7 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         ibookerEd!!.setSingleLine(false)
         ibookerEd!!.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         ibookerEd!!.hint = "书客编辑器，从这里开始"
-        ibookerEd!!.setPadding(dp10, dp10, dp10, dp10)
+        ibookerEd!!.setPadding(dp12, dp12, dp12, dp12)
         ibookerEd!!.setBackgroundResource(android.R.color.transparent)
         ibookerEd!!.setTextColor(Color.parseColor("#444444"))
         ibookerEd!!.textSize = currentTextSize

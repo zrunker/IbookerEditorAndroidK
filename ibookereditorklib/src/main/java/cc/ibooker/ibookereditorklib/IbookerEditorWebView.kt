@@ -22,6 +22,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     /**
      * 是否完成本地文件加载
      */
+    private var isLoadError = false// 本地文件是否加载错误
     var isLoadFinished = false // 本地文件是否加载完成
     private var isExecuteCompile = false// 是否执行预览
     private var isExecuteHtmlCompile = false// 是否执行HTML预览
@@ -134,6 +135,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 else
                 // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                isLoadError = true
             }
 
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
@@ -150,6 +152,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 else
                 // 当网页加载出错时，加载本地错误文件
                     this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                isLoadError = true
             }
 
 //            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
@@ -174,6 +177,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         addJavascriptInterface(ibookerEditorJsCheckImgEvent, "ibookerEditorJsCheckImgEvent")
         // 加载本地HTML
         loadUrl("file:///android_asset/ibooker_editor_index.html")
+        isLoadError = false
     }
 
     // 给WebView添加相关监听
@@ -218,7 +222,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
      */
     fun ibookerCompile(ibookerEditorText: String?) {
         var ibookerEditorText1 = ibookerEditorText
-        if (isLoadFinished) {
+        if (isLoadFinished && !isLoadError) {
             ibookerEditorText1 = ibookerEditorText1!!.replace("\\n".toRegex(), "\\\\n")
             val js = "javascript:ibookerCompile('$ibookerEditorText1')"
             this.loadUrl(js)
@@ -231,6 +235,11 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             this.isExecuteHtmlCompile = false
             this.ibookerEditorHtml = null
         } else {
+            if (isLoadError) {
+                // 加载本地HTML
+                loadUrl("file:///android_asset/ibooker_editor_index.html")
+                isLoadError = false
+            }
             this.isExecuteCompile = true
             this.ibookerEditorText = ibookerEditorText1
         }
@@ -243,7 +252,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
      * @param ibookerEditorHtml 待预览内容 HTML
      */
     fun ibookerHtmlCompile(ibookerEditorHtml: String?) {
-        if (isLoadFinished) {
+        if (isLoadFinished && !isLoadError) {
             val js = "javascript:ibookerHtmlCompile('$ibookerEditorHtml')"
             this.loadUrl(js)
 
@@ -255,6 +264,11 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             this.isExecuteCompile = false
             this.ibookerEditorText = null
         } else {
+            if (isLoadError) {
+                // 加载本地HTML
+                loadUrl("file:///android_asset/ibooker_editor_index.html")
+                isLoadError = false
+            }
             this.isExecuteHtmlCompile = true
             this.ibookerEditorHtml = ibookerEditorHtml
         }
