@@ -98,11 +98,12 @@ class IbookerEditorScaleImageView
             // 获取自定义属性，并设置
             val ta = getContext().obtainStyledAttributes(attrs, R.styleable.IbookerEditorScaleImageView)
             isLimitSize = ta.getBoolean(R.styleable.IbookerEditorScaleImageView_isLimitSize, false)
+            mOnce = ta.getBoolean(R.styleable.IbookerEditorScaleImageView_isOpenOnceScale, false)
             ta.recycle()
         }
         // 初始化
         mScaleMatrix = Matrix()
-        scaleType = ImageView.ScaleType.MATRIX
+        scaleType = ScaleType.MATRIX
         mScaleGestureDetector = ScaleGestureDetector(context, this)
         setOnTouchListener(this)
         mGestureDetector = GestureDetector(context,
