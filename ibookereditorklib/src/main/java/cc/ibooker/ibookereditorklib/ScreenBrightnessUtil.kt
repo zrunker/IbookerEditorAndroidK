@@ -79,10 +79,28 @@ object ScreenBrightnessUtil {
     /**
      * 进入设置界面
      */
-    @RequiresApi(Build.VERSION_CODES.M)
     fun enterSettingIntent(context: Context) {
-        val selfPackageUri = Uri.parse("package:" + context.applicationContext.packageName)
-        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, selfPackageUri)
-        context.startActivity(intent)
+//        val selfPackageUri = Uri.parse("package:" + context.applicationContext.packageName)
+//        val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, selfPackageUri)
+//        context.startActivity(intent)
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.System.canWrite(context)) {
+                    Settings.System.putInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, 0)
+                } else {
+                    val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
+                    intent.data = Uri.parse("package:" + context.applicationContext.packageName)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                }
+            } else {
+                Settings.System.putInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, 0)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
     }
 }
