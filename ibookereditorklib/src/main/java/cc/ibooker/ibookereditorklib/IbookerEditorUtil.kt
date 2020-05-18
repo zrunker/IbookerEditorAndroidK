@@ -694,6 +694,13 @@ internal constructor(ibookerEditorEditView: IbookerEditorEditView) {
      * 超链接
      */
     fun link(link: String) {
+        link(link, "链接描述")
+    }
+
+    /**
+     * 超链接
+     */
+    fun link(link: String, des: String) {
         var link = link
         try {
             val rangeData = selectionInfo
@@ -703,7 +710,7 @@ internal constructor(ibookerEditorEditView: IbookerEditorEditView) {
             val finalTxt = StringBuilder()
             if (TextUtils.isEmpty(link))
                 link = "链接地址"
-            val tagStr = "[链接描述]($link)"
+            val tagStr = "[${des}]($link)"
             var thisLine: String
             if (TextUtils.isEmpty(text)) {
                 thisLine = tagStr
@@ -860,6 +867,13 @@ internal constructor(ibookerEditorEditView: IbookerEditorEditView) {
      * 图片
      */
     fun imgu(imgPath: String) {
+        imgu(imgPath, "图片描述")
+    }
+
+    /**
+     * 图片
+     */
+    fun imgu(imgPath: String, des: String) {
         var imgPath = imgPath
         try {
             val rangeData = selectionInfo
@@ -869,7 +883,7 @@ internal constructor(ibookerEditorEditView: IbookerEditorEditView) {
             val finalTxt = StringBuilder()
             if (TextUtils.isEmpty(imgPath))
                 imgPath = "图片地址"
-            val tagStr = "\n![图片描述]($imgPath)\n"
+            val tagStr = "\n![$des]($imgPath)\n"
             var thisLine: String
             if (TextUtils.isEmpty(text)) {
                 thisLine = tagStr
