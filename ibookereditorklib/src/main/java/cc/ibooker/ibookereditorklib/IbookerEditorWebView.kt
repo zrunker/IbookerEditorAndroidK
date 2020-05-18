@@ -132,9 +132,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
-                else
-                // 当网页加载出错时，加载本地错误文件
-                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+//                else
+//                // 当网页加载出错时，加载本地错误文件
+//                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
                 isLoadError = true
             }
 
@@ -149,9 +149,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 }
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
-                else
-                // 当网页加载出错时，加载本地错误文件
-                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+//                else
+//                // 当网页加载出错时，加载本地错误文件
+//                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
                 isLoadError = true
             }
 
