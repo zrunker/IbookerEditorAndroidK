@@ -13,11 +13,7 @@ import java.util.*
  * 更多PopupWindow列表适配器
  */
 class MoreLvAdapter(context: Context, private var mDatas: ArrayList<MoreBean>?) : BaseAdapter() {
-    private val inflater: LayoutInflater
-
-    init {
-        this.inflater = LayoutInflater.from(context)
-    }
+    private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     fun reflashData(list: ArrayList<MoreBean>) {
         this.mDatas = list

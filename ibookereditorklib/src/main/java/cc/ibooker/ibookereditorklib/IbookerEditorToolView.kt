@@ -517,11 +517,13 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         fun onToolLongClick(tag: Any)
     }
 
-    fun setOnToolClickListener(onToolClickListener: OnToolClickListener) {
+    fun setOnToolClickListener(onToolClickListener: OnToolClickListener): IbookerEditorToolView {
         this.onToolClickListener = onToolClickListener
+        return this
     }
 
-    fun setOnToolLongClickListener(onToolLongClickListener: OnToolLongClickListener) {
+    fun setOnToolLongClickListener(onToolLongClickListener: OnToolLongClickListener): IbookerEditorToolView {
         this.onToolLongClickListener = onToolLongClickListener
+        return this
     }
 }// 构造方法

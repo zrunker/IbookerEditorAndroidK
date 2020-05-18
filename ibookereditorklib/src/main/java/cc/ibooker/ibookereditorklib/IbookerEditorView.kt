@@ -470,7 +470,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     // 设置ViewPager变化
-    fun changeVpUpdateIbookerEditorTopView(position: Int) {
+    fun changeVpUpdateIbookerEditorTopView(position: Int): IbookerEditorView {
         if (ibookerEditorTopView != null)
             if (position == 0) {
                 ibookerEditorTopView!!.editIBtn!!.setBackgroundResource(editIBtnSelectedRes)
@@ -499,6 +499,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
                 openInputSoft(false)
             }
+        return this
     }
 
     // 关闭/开启软盘
@@ -577,137 +578,164 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         if (ibookerEditorVpView!!.currentItem != 0)
         // 切换到编辑器模式
             ibookerEditorVpView!!.currentItem = 0
-        if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD) {// 加粗
-            ibookerEditorUtil!!.bold()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC) {// 斜体
-            ibookerEditorUtil!!.italic()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT) {// 删除线
-            ibookerEditorUtil!!.strikeout()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE) {// 下划线
-            ibookerEditorUtil!!.underline()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS) {// 单词首字母大写
-            ibookerEditorUtil!!.capitals()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE) {// 字母转大写
-            ibookerEditorUtil!!.uppercase()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE) {// 字母转小写
-            ibookerEditorUtil!!.lowercase()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1) {// 一级标题
-            ibookerEditorUtil!!.h1()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2) {// 二级标题
-            ibookerEditorUtil!!.h2()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3) {// 三级标题
-            ibookerEditorUtil!!.h3()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4) {// 四级标题
-            ibookerEditorUtil!!.h4()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5) {// 五级标题
-            ibookerEditorUtil!!.h5()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6) {// 六级标题
-            ibookerEditorUtil!!.h6()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK) {// 超链接
-            ibookerEditorUtil!!.link("http://www.ibooker.cc")
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE) {// 引用
-            ibookerEditorUtil!!.quote()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE) {// 代码
-            ibookerEditorUtil!!.code()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U) {// 图片
-            ibookerEditorUtil!!.imgu("http://ibooker.cc/resources/images-logos/ic_launcher_192.png")
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL) {// 数字列表
-            ibookerEditorUtil!!.ol()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL) {// 普通列表
-            ibookerEditorUtil!!.ul()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED) {// 复选框未选中
-            ibookerEditorUtil!!.tasklistsUnChecked()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED) {// 复选框选中
-            ibookerEditorUtil!!.tasklistsChecked()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE) {// 表格
-            ibookerEditorUtil!!.tables()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML) {// HTML
-            ibookerEditorUtil!!.html()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR) {// 分割线
-            ibookerEditorUtil!!.hr()
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI) {// emoji表情
-            showEmjioDialog()
+        when (tag) {
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD -> // 加粗
+                ibookerEditorUtil!!.bold()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC -> // 斜体
+                ibookerEditorUtil!!.italic()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT -> // 删除线
+                ibookerEditorUtil!!.strikeout()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE -> // 下划线
+                ibookerEditorUtil!!.underline()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS -> // 单词首字母大写
+                ibookerEditorUtil!!.capitals()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE -> // 字母转大写
+                ibookerEditorUtil!!.uppercase()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE -> // 字母转小写
+                ibookerEditorUtil!!.lowercase()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1 -> // 一级标题
+                ibookerEditorUtil!!.h1()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2 -> // 二级标题
+                ibookerEditorUtil!!.h2()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3 -> // 三级标题
+                ibookerEditorUtil!!.h3()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4 -> // 四级标题
+                ibookerEditorUtil!!.h4()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5 -> // 五级标题
+                ibookerEditorUtil!!.h5()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6 -> // 六级标题
+                ibookerEditorUtil!!.h6()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK -> // 超链接
+                ibookerEditorUtil!!.link("http://www.ibooker.cc")
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE -> // 引用
+                ibookerEditorUtil!!.quote()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE -> // 代码
+                ibookerEditorUtil!!.code()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U -> // 图片
+                ibookerEditorUtil!!.imgu("http://ibooker.cc/resources/images-logos/ic_launcher_192.png")
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL -> // 数字列表
+                ibookerEditorUtil!!.ol()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL -> // 普通列表
+                ibookerEditorUtil!!.ul()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED -> // 复选框未选中
+                ibookerEditorUtil!!.tasklistsUnChecked()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED -> // 复选框选中
+                ibookerEditorUtil!!.tasklistsChecked()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE -> // 表格
+                ibookerEditorUtil!!.tables()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML -> // HTML
+                ibookerEditorUtil!!.html()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR -> // 分割线
+                ibookerEditorUtil!!.hr()
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI -> // emoji表情
+                showEmjioDialog()
         }
     }
 
     // 工具栏长按事件监听
     override fun onToolLongClick(tag: Any) {
         tooltipsPopuwindow = TooltipsPopuwindow(context)
-        if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD) {// 加粗
-            tooltipsPopuwindow!!.setTooltipsTv("加粗")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.boldIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC) {// 斜体
-            tooltipsPopuwindow!!.setTooltipsTv("斜体")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.italicIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT) {// 删除线
-            tooltipsPopuwindow!!.setTooltipsTv("删除线")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.strikeoutIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE) {// 下划线
-            tooltipsPopuwindow!!.setTooltipsTv("下划线")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.underlineIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS) {// 单词首字母大写
-            tooltipsPopuwindow!!.setTooltipsTv("单词首字母大写")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.capitalsIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE) {// 字母转大写
-            tooltipsPopuwindow!!.setTooltipsTv("字母转大写")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.uppercaseIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE) {// 字母转小写
-            tooltipsPopuwindow!!.setTooltipsTv("字母转小写")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.lowercaseIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1) {// 一级标题
-            tooltipsPopuwindow!!.setTooltipsTv("一级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h1IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2) {// 二级标题
-            tooltipsPopuwindow!!.setTooltipsTv("二级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h2IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3) {// 三级标题
-            tooltipsPopuwindow!!.setTooltipsTv("三级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h3IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4) {// 四级标题
-            tooltipsPopuwindow!!.setTooltipsTv("四级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h4IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5) {// 五级标题
-            tooltipsPopuwindow!!.setTooltipsTv("五级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h5IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6) {// 六级标题
-            tooltipsPopuwindow!!.setTooltipsTv("六级标题")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h6IBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK) {// 超链接
-            tooltipsPopuwindow!!.setTooltipsTv("超链接")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.linkIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE) {// 引用
-            tooltipsPopuwindow!!.setTooltipsTv("引用")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.quoteIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE) {// 代码
-            tooltipsPopuwindow!!.setTooltipsTv("代码")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.codeIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U) {// 图片
-            tooltipsPopuwindow!!.setTooltipsTv("图片")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.imguIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL) {// 数字列表
-            tooltipsPopuwindow!!.setTooltipsTv("数字列表")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.olIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL) {// 普通列表
-            tooltipsPopuwindow!!.setTooltipsTv("普通列表")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.ulIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED) {// 复选框未选中
-            tooltipsPopuwindow!!.setTooltipsTv("复选框未选中")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.unselectedIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED) {// 复选框选中
-            tooltipsPopuwindow!!.setTooltipsTv("复选框选中")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.selectedIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE) {// 表格
-            tooltipsPopuwindow!!.setTooltipsTv("表格")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.tableIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML) {// HTML
-            tooltipsPopuwindow!!.setTooltipsTv("HTML")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.htmlIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR) {// 分割线
-            tooltipsPopuwindow!!.setTooltipsTv("分割线")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.hrIBtn!!, 0)
-        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI) {// emoji表情
-            tooltipsPopuwindow!!.setTooltipsTv("emoji表情")
-            tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.emojiIBtn!!, 0)
+        when (tag) {
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD -> {// 加粗
+                tooltipsPopuwindow!!.setTooltipsTv("加粗")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.boldIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC -> {// 斜体
+                tooltipsPopuwindow!!.setTooltipsTv("斜体")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.italicIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT -> {// 删除线
+                tooltipsPopuwindow!!.setTooltipsTv("删除线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.strikeoutIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE -> {// 下划线
+                tooltipsPopuwindow!!.setTooltipsTv("下划线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.underlineIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS -> {// 单词首字母大写
+                tooltipsPopuwindow!!.setTooltipsTv("单词首字母大写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.capitalsIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE -> {// 字母转大写
+                tooltipsPopuwindow!!.setTooltipsTv("字母转大写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.uppercaseIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE -> {// 字母转小写
+                tooltipsPopuwindow!!.setTooltipsTv("字母转小写")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.lowercaseIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1 -> {// 一级标题
+                tooltipsPopuwindow!!.setTooltipsTv("一级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h1IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2 -> {// 二级标题
+                tooltipsPopuwindow!!.setTooltipsTv("二级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h2IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3 -> {// 三级标题
+                tooltipsPopuwindow!!.setTooltipsTv("三级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h3IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4 -> {// 四级标题
+                tooltipsPopuwindow!!.setTooltipsTv("四级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h4IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5 -> {// 五级标题
+                tooltipsPopuwindow!!.setTooltipsTv("五级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h5IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6 -> {// 六级标题
+                tooltipsPopuwindow!!.setTooltipsTv("六级标题")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.h6IBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK -> {// 超链接
+                tooltipsPopuwindow!!.setTooltipsTv("超链接")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.linkIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE -> {// 引用
+                tooltipsPopuwindow!!.setTooltipsTv("引用")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.quoteIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE -> {// 代码
+                tooltipsPopuwindow!!.setTooltipsTv("代码")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.codeIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U -> {// 图片
+                tooltipsPopuwindow!!.setTooltipsTv("图片")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.imguIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL -> {// 数字列表
+                tooltipsPopuwindow!!.setTooltipsTv("数字列表")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.olIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL -> {// 普通列表
+                tooltipsPopuwindow!!.setTooltipsTv("普通列表")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.ulIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED -> {// 复选框未选中
+                tooltipsPopuwindow!!.setTooltipsTv("复选框未选中")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.unselectedIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED -> {// 复选框选中
+                tooltipsPopuwindow!!.setTooltipsTv("复选框选中")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.selectedIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE -> {// 表格
+                tooltipsPopuwindow!!.setTooltipsTv("表格")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.tableIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML -> {// HTML
+                tooltipsPopuwindow!!.setTooltipsTv("HTML")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.htmlIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR -> {// 分割线
+                tooltipsPopuwindow!!.setTooltipsTv("分割线")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.hrIBtn!!, 0)
+            }
+            IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI -> {// emoji表情
+                tooltipsPopuwindow!!.setTooltipsTv("emoji表情")
+                tooltipsPopuwindow!!.showViewTop(context, ibookerEditorToolView!!.emojiIBtn!!, 0)
+            }
         }
     }
 
@@ -724,15 +752,16 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     // 取消方法
-    fun stopIbookerEditor() {
+    fun stopIbookerEditor(): IbookerEditorView {
         closeTooltipsPopuwindow()
         closeEditerSetPopuwindow()
         closeEditerMorePopuwindow()
         closeEmjioDialog()
+        return this
     }
 
     // 销毁方法
-    fun destoryIbookerEditor() {
+    fun destoryIbookerEditor(): IbookerEditorView {
         inAnim!!.cancel()
         inAnim = null
         outAnim!!.cancel()
@@ -742,6 +771,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         closeEditerSetPopuwindow()
         closeEditerMorePopuwindow()
         closeEmjioDialog()
+        return this
     }
 
     /**
@@ -1413,8 +1443,9 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param ibookerEditorText 待预览内容 非HTML
      */
-    fun ibookerCompile(ibookerEditorText: String) {
+    fun ibookerCompile(ibookerEditorText: String): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.ibookerCompile(ibookerEditorText)
+        return this
     }
 
     /**
@@ -1422,64 +1453,73 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
      *
      * @param ibookerEditorHtml 待预览内容 HTML
      */
-    fun ibookerHtmlCompile(ibookerEditorHtml: String) {
+    fun ibookerHtmlCompile(ibookerEditorHtml: String): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.ibookerHtmlCompile(ibookerEditorHtml)
+        return this
     }
 
     /**
      * 编辑框顶部按钮点击监听
      */
-    fun setOnTopClickListener(onTopClickListener: IbookerEditorTopView.OnTopClickListener) {
+    fun setOnTopClickListener(onTopClickListener: IbookerEditorTopView.OnTopClickListener): IbookerEditorView {
         ibookerEditorTopView!!.setOnTopClickListener(onTopClickListener)
+        return this
     }
 
     /**
      * 编辑区输入标题监听
      */
-    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: IbookerEditorEditView.OnIbookerTitleEdTextChangedListener) {
+    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: IbookerEditorEditView.OnIbookerTitleEdTextChangedListener): IbookerEditorView {
         ibookerEditorVpView!!.editView!!.setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener)
+        return this
     }
 
     /**
      * 编辑区输入内容监听
      */
-    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: IbookerEditorEditView.OnIbookerEdTextChangedListener) {
+    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: IbookerEditorEditView.OnIbookerEdTextChangedListener): IbookerEditorView {
         ibookerEditorVpView!!.editView!!.setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener)
+        return this
     }
 
     /**
      * 底部工具栏监听
      */
-    fun setOnToolClickListener(onToolClickListener: IbookerEditorToolView.OnToolClickListener) {
+    fun setOnToolClickListener(onToolClickListener: IbookerEditorToolView.OnToolClickListener): IbookerEditorView {
         ibookerEditorToolView!!.setOnToolClickListener(onToolClickListener)
+        return this
     }
 
     /**
      * 底部工具栏长按监听
      */
-    fun setOnToolLongClickListener(onToolLongClickListener: IbookerEditorToolView.OnToolLongClickListener) {
+    fun setOnToolLongClickListener(onToolLongClickListener: IbookerEditorToolView.OnToolLongClickListener): IbookerEditorView {
         ibookerEditorToolView!!.setOnToolLongClickListener(onToolLongClickListener)
+        return this
     }
 
     /**
      * 滚动监听接口
      */
-    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebView.IbookerEditorWebViewOnScrollChangedCallback) {
+    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebView.IbookerEditorWebViewOnScrollChangedCallback): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback)
+        return this
     }
 
     /**
      * 图片预览接口
      */
-    fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener) {
+    fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorWebView.IbookerEditorImgPreviewListener): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener)
+        return this
     }
 
     /**
      * Url加载状态接口
      */
-    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebView.IbookerEditorWebViewUrlLoadingListener) {
+    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebView.IbookerEditorWebViewUrlLoadingListener): IbookerEditorView {
         ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener)
+        return this
     }
 
     /**
@@ -1501,7 +1541,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * 生成图片
      */
-    fun generateBitmap() {
+    fun generateBitmap(): IbookerEditorView {
         Handler().postDelayed({
             if (ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.isLoadFinished) {
                 Toast.makeText(this@IbookerEditorView.context, "图片生成中...", Toast.LENGTH_SHORT).show()
@@ -1542,6 +1582,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                 generateBitmap()
             }
         }, 500)
+        return this
     }
 
     /**
@@ -1588,66 +1629,74 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     /**
      * 权限请求方法
      */
-    fun requestPermission(code: Int, vararg permissions: String) {
+    fun requestPermission(code: Int, vararg permissions: String): IbookerEditorView {
         ActivityCompat.requestPermissions(this.context as Activity, permissions, code)
+        return this
     }
 
     /**
      * 关闭tooltipsPopuwindow
      */
-    fun closeTooltipsPopuwindow() {
+    fun closeTooltipsPopuwindow(): IbookerEditorView {
         if (tooltipsPopuwindow != null && tooltipsPopuwindow!!.isShowing)
             tooltipsPopuwindow!!.dismiss()
+        return this
     }
 
     /**
      * 关闭设置弹框
      */
-    fun closeEditerSetPopuwindow() {
+    fun closeEditerSetPopuwindow(): IbookerEditorView {
         if (editorSetPopuwindow != null && editorSetPopuwindow!!.isShowing)
             editorSetPopuwindow!!.dismiss()
+        return this
     }
 
     /**
      * 关闭更多弹框
      */
-    fun closeEditerMorePopuwindow() {
+    fun closeEditerMorePopuwindow(): IbookerEditorView {
         if (editorMorePopuwindow != null && editorMorePopuwindow!!.isShowing)
             editorMorePopuwindow!!.dismiss()
+        return this
     }
 
     /**
      * 设置更多弹框点击事件
      */
-    fun setOnMoreLvItemClickListener(onMoreLvItemClickListener: IbookerEditorMorePopuwindow.OnMoreLvItemClickListener) {
+    fun setOnMoreLvItemClickListener(onMoreLvItemClickListener: IbookerEditorMorePopuwindow.OnMoreLvItemClickListener): IbookerEditorView {
         if (editorMorePopuwindow != null)
             editorMorePopuwindow!!.setOnMoreLvItemClickListener(onMoreLvItemClickListener)
+        return this
     }
 
     /**
      * 设置更多弹框数据
      */
-    fun setEditorMorePopuwindowData(list: ArrayList<MoreBean>) {
+    fun setEditorMorePopuwindowData(list: ArrayList<MoreBean>): IbookerEditorView {
         this.mDatas = list
         if (editorMorePopuwindow != null)
             editorMorePopuwindow!!.setMoreLvAdapter(mDatas)
+        return this
     }
 
     /**
      * 展示EmjioDialog
      */
-    fun showEmjioDialog() {
+    fun showEmjioDialog(): IbookerEditorView {
         if (emjioDialog == null)
             emjioDialog = EmjioDialog(context, R.style.emjioDialog, ibookerEditorUtil!!)
         emjioDialog!!.show()
+        return this
     }
 
     /**
      * 关闭EmjioDialog
      */
-    fun closeEmjioDialog() {
+    fun closeEmjioDialog(): IbookerEditorView {
         if (emjioDialog != null)
             emjioDialog!!.dismiss()
+        return this
     }
 
     /**

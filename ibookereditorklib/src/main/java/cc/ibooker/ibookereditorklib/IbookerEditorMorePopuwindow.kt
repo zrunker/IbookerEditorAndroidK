@@ -77,7 +77,8 @@ class IbookerEditorMorePopuwindow(private val context: Context, attrs: Attribute
         fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long)
     }
 
-    fun setOnMoreLvItemClickListener(onMoreLvItemClickListener: OnMoreLvItemClickListener) {
+    fun setOnMoreLvItemClickListener(onMoreLvItemClickListener: OnMoreLvItemClickListener): IbookerEditorMorePopuwindow {
         this.onMoreLvItemClickListener = onMoreLvItemClickListener
+        return this
     }
 }

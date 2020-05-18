@@ -123,7 +123,11 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                     ibookerEditorWebViewUrlLoadingListener!!.shouldOverrideUrlLoading(view, request)
                 else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        view.loadUrl(request.url.toString())
+//                        view.loadUrl(request.url.toString())
+                        val intent = Intent()
+                        intent.action = Intent.ACTION_VIEW
+                        intent.data = Uri.parse(request.url.toString())
+                        context.startActivity(intent)
                     }
                     true
                 }
@@ -132,9 +136,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
-//                else
-//                // 当网页加载出错时，加载本地错误文件
-//                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                else
+                // 当网页加载出错时，加载本地错误文件
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
                 isLoadError = true
             }
 
@@ -149,9 +153,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 }
                 if (ibookerEditorWebViewUrlLoadingListener != null)
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
-//                else
-//                // 当网页加载出错时，加载本地错误文件
-//                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                else
+                // 当网页加载出错时，加载本地错误文件
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
                 isLoadError = true
             }
 
@@ -220,7 +224,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param ibookerEditorText 待预览内容 非HTML
      */
-    fun ibookerCompile(ibookerEditorText: String?) {
+    fun ibookerCompile(ibookerEditorText: String?): IbookerEditorWebView {
         var ibookerEditorText1 = ibookerEditorText
         if (isLoadFinished && !isLoadError) {
             ibookerEditorText1 = ibookerEditorText1!!.replace("\\n".toRegex(), "\\\\n")
@@ -243,7 +247,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             this.isExecuteCompile = true
             this.ibookerEditorText = ibookerEditorText1
         }
-
+        return this
     }
 
     /**
@@ -251,7 +255,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
      *
      * @param ibookerEditorHtml 待预览内容 HTML
      */
-    fun ibookerHtmlCompile(ibookerEditorHtml: String?) {
+    fun ibookerHtmlCompile(ibookerEditorHtml: String?): IbookerEditorWebView {
         if (isLoadFinished && !isLoadError) {
             val js = "javascript:ibookerHtmlCompile('$ibookerEditorHtml')"
             this.loadUrl(js)
@@ -272,6 +276,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
             this.isExecuteHtmlCompile = true
             this.ibookerEditorHtml = ibookerEditorHtml
         }
+        return this
     }
 
     /**
@@ -288,7 +293,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     /**
      * 设置当前字体大小
      */
-    fun setIbookerEditorWebViewFontSize(fontSize: Int) {
+    fun setIbookerEditorWebViewFontSize(fontSize: Int): IbookerEditorWebView {
         if (fontSize in 1..5) {
             currentFontSize = fontSize
             when (fontSize) {
@@ -299,6 +304,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 5 -> webSettings!!.textSize = WebSettings.TextSize.LARGEST
             }
         }
+        return this
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
@@ -315,8 +321,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
 
     private var mIbookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebViewOnScrollChangedCallback? = null
 
-    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebViewOnScrollChangedCallback) {
+    fun setIbookerEditorWebViewOnScrollChangedCallback(ibookerEditorWebViewOnScrollChangedCallback: IbookerEditorWebViewOnScrollChangedCallback): IbookerEditorWebView {
         mIbookerEditorWebViewOnScrollChangedCallback = ibookerEditorWebViewOnScrollChangedCallback
+        return this
     }
 
     // 图片预览接口
@@ -324,8 +331,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         fun onIbookerEditorImgPreview(currentPath: String, position: Int, imgAllPathList: ArrayList<String>)
     }
 
-    fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorImgPreviewListener) {
+    fun setIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener: IbookerEditorImgPreviewListener): IbookerEditorWebView {
         ibookerEditorJsCheckImgEvent!!.setmIbookerEditorImgPreviewListener(ibookerEditorImgPreviewListener)
+        return this
     }
 
     // Url加载状态监听
@@ -345,7 +353,8 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
 
     private var ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebViewUrlLoadingListener? = null
 
-    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebViewUrlLoadingListener) {
+    fun setIbookerEditorWebViewUrlLoadingListener(ibookerEditorWebViewUrlLoadingListener: IbookerEditorWebViewUrlLoadingListener): IbookerEditorWebView {
         this.ibookerEditorWebViewUrlLoadingListener = ibookerEditorWebViewUrlLoadingListener
+        return this
     }
 }

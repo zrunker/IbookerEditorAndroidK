@@ -339,7 +339,8 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         fun onTopClick(tag: Any)
     }
 
-    fun setOnTopClickListener(onTopClickListener: OnTopClickListener) {
+    fun setOnTopClickListener(onTopClickListener: OnTopClickListener): IbookerEditorTopView {
         this.onTopClickListener = onTopClickListener
+        return this
     }
 }// 构造方法

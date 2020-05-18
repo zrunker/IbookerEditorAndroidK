@@ -26,8 +26,9 @@ class TooltipsPopuwindow @JvmOverloads constructor(context: Context, attrs: Attr
         width = ViewGroup.LayoutParams.WRAP_CONTENT
     }
 
-    fun setTooltipsTv(text: String) {
+    fun setTooltipsTv(text: String): TooltipsPopuwindow {
         tooltipsTv.text = text
+        return this
     }
 
     /**
@@ -36,7 +37,7 @@ class TooltipsPopuwindow @JvmOverloads constructor(context: Context, attrs: Attr
      * @param view    指定的View
      * @param yOffset Y轴偏移量
      */
-    fun showViewTop(context: Context?, view: View, yOffset: Int) {
+    fun showViewTop(context: Context?, view: View, yOffset: Int): TooltipsPopuwindow {
         if (context != null) {
             // 获取需要在其上方显示的控件的位置信息
             val location = IntArray(2)
@@ -46,6 +47,7 @@ class TooltipsPopuwindow @JvmOverloads constructor(context: Context, attrs: Attr
             val popupHeight = this.contentView.measuredHeight
             showAtLocation(view, Gravity.NO_GRAVITY, location[0] - 5, location[1] - popupHeight - yOffset)
         }
+        return this
     }
 
 }

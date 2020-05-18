@@ -1,5 +1,6 @@
 package cc.ibooker.ibookereditorklib
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_MULTI_PROCESS
 import android.graphics.Color
@@ -185,6 +186,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView(view: View) {
         currentEditTextSize = ibookerEditorView.ibookerEditorVpView!!.editView!!.getCurrentTextSize().toInt()
         currentPreFontSize = ibookerEditorView.ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getCurrentFontSize()
@@ -541,8 +543,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
      * 获取屏幕宽度
      */
     private fun getScreenW(aty: Context): Int {
-        val dm: DisplayMetrics
-        dm = aty.resources.displayMetrics
+        val dm: DisplayMetrics = aty.resources.displayMetrics
         return dm.widthPixels
     }
 
@@ -905,7 +906,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
      * @param size 10 - 30
      */
     private fun setIEEditViewIbookerEdTextSize(size: Int) {
-        if (size >= 10 && size <= 30) {
+        if (size in 10..30) {
             ibookerEditorView.setIEEditViewIbookerEdTextSize(size.toFloat())
             editFontSizeTv!!.text = size.toString() + ""
             currentEditTextSize = size
@@ -924,7 +925,7 @@ class IbookerEditorSetPopuwindow internal constructor(private val context: Conte
      * @param size 字体大小 - 1-5倍
      */
     private fun setIEEditViewWebViewFontSize(size: Int) {
-        if (size >= 1 && size <= 5) {
+        if (size in 1..5) {
             ibookerEditorView.setIEEditViewWebViewFontSize(size)
             preFontSizeTv!!.text = size.toString() + "倍"
             currentPreFontSize = size

@@ -1,9 +1,17 @@
 package cc.ibooker.ibookereditorandroidk
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
+import android.net.http.SslError
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.webkit.SslErrorHandler
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
 import android.widget.Toast
 import cc.ibooker.ibookereditorklib.IbookerEditorView
 import cc.ibooker.ibookereditorklib.IbookerEditorWebView
@@ -20,19 +28,51 @@ class MainActivity : AppCompatActivity() {
         ibookerEditorView = findViewById(R.id.ibookereditorview)
 
         ibookerEditorView!!.setIEEditViewBackgroundColor(Color.parseColor("#DDDDDD"))
-                //                .setIETopViewBackImgVisibility(View.VISIBLE)
-                //                .setIETopViewHelpIBtnVisibility(View.VISIBLE)
                 .setIEEditViewIbookerEdHint("书客编辑器")
-                //                .setIEToolViewEmojiIBtnVisibility(View.GONE)
                 .setIbookerEditorImgPreviewListener(object : IbookerEditorWebView.IbookerEditorImgPreviewListener {
                     override fun onIbookerEditorImgPreview(currentPath: String, position: Int, imgAllPathList: ArrayList<String>) {
-                        Toast.makeText(this@MainActivity, currentPath + "===" + position + "===" + imgAllPathList.toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, "$currentPath===$position===$imgAllPathList", Toast.LENGTH_LONG).show()
 
                         val intent = Intent(this@MainActivity, ImgVPagerActivity::class.java)
                         intent.putExtra("currentPath", currentPath)
                         intent.putExtra("position", position)
                         intent.putStringArrayListExtra("imgAllPathList", imgAllPathList)
                         startActivity(intent)
+                    }
+                })
+                .setIbookerEditorWebViewUrlLoadingListener(object : IbookerEditorWebView.IbookerEditorWebViewUrlLoadingListener {
+                    override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                        val intent = Intent()
+                        intent.action = Intent.ACTION_VIEW
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                        return true
+                    }
+
+                    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            val intent = Intent()
+                            intent.action = Intent.ACTION_VIEW
+                            intent.data = Uri.parse(request.url.toString())
+                            startActivity(intent)
+                        }
+                        return true
+                    }
+
+                    override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+
+                    }
+
+                    override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
+
+                    }
+
+                    override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+
+                    }
+
+                    override fun onPageFinished(view: WebView, url: String) {
+
                     }
                 })
 

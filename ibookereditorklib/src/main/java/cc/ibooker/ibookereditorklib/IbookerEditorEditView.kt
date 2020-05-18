@@ -10,7 +10,10 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -344,8 +347,9 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         fun afterTextChanged(s: Editable)
     }
 
-    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener) {
+    fun setOnIbookerTitleEdTextChangedListener(onIbookerTitleEdTextChangedListener: OnIbookerTitleEdTextChangedListener): IbookerEditorEditView {
         this.onIbookerTitleEdTextChangedListener = onIbookerTitleEdTextChangedListener
+        return this
     }
 
     /**
@@ -359,7 +363,8 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
         fun afterTextChanged(s: Editable?)
     }
 
-    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener) {
+    fun setOnIbookerEdTextChangedListener(onIbookerEdTextChangedListener: OnIbookerEdTextChangedListener): IbookerEditorEditView {
         this.onIbookerEdTextChangedListener = onIbookerEdTextChangedListener
+        return this
     }
 }// 三种构造方法
