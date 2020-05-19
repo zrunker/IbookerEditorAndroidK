@@ -58,7 +58,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     private var onTopClickListener: OnTopClickListener? = null
 
     init {
-        orientation = LinearLayout.HORIZONTAL
+        orientation = HORIZONTAL
         setBackgroundColor(Color.parseColor("#EFEFEF"))
         gravity = Gravity.CENTER_VERTICAL
         minimumHeight = IbookerEditorUtil.dpToPx(context, 48f)
@@ -239,6 +239,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         return this
     }
 
+    fun setUndoImageBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        undoIBtn!!.setBackgroundResource(resId)
+        return this
+    }
+
     fun setUndoIBtnVisibility(visibility: Int): IbookerEditorTopView {
         undoIBtn!!.visibility = visibility
         return this
@@ -247,6 +252,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     // 设置重做按钮
     fun setRedoImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
         redoIBtn!!.setImageResource(resId)
+        return this
+    }
+
+    fun setRedoImageBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        redoIBtn!!.setBackgroundResource(resId)
         return this
     }
 
@@ -261,6 +271,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         return this
     }
 
+    fun setEditImageBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        editIBtn!!.setBackgroundResource(resId)
+        return this
+    }
+
     fun setEditIBtnVisibility(visibility: Int): IbookerEditorTopView {
         editIBtn!!.visibility = visibility
         return this
@@ -269,6 +284,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     // 设置预览按钮
     fun setPreviewImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
         previewIBtn!!.setImageResource(resId)
+        return this
+    }
+
+    fun setPreviewImageBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        previewIBtn!!.setBackgroundResource(resId)
         return this
     }
 
@@ -305,6 +325,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         return this
     }
 
+    fun setShareIBtnBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        shareIBtn!!.setBackgroundResource(resId)
+        return this
+    }
+
     fun setShareIBtnVisibility(visibility: Int): IbookerEditorTopView {
         shareIBtn!!.visibility = visibility
         return this
@@ -316,6 +341,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         return this
     }
 
+    fun setElseIBtnBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        elseIBtn!!.setBackgroundResource(resId)
+        return this
+    }
+
     fun setElseIBtnVisibility(visibility: Int): IbookerEditorTopView {
         elseIBtn!!.visibility = visibility
         return this
@@ -324,6 +354,11 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     // 设置按钮
     fun setSetIBtnResource(@DrawableRes resId: Int): IbookerEditorTopView {
         setIBtn!!.setImageResource(resId)
+        return this
+    }
+
+    fun setSetIBtnBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        setIBtn!!.setBackgroundResource(resId)
         return this
     }
 

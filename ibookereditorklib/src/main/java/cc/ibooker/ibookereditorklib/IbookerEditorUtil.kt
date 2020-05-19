@@ -710,7 +710,7 @@ internal constructor(ibookerEditorEditView: IbookerEditorEditView) {
             val finalTxt = StringBuilder()
             if (TextUtils.isEmpty(link))
                 link = "链接地址"
-            val tagStr = "[${des}]($link)"
+            val tagStr = "\n[${des}]($link)"
             var thisLine: String
             if (TextUtils.isEmpty(text)) {
                 thisLine = tagStr
