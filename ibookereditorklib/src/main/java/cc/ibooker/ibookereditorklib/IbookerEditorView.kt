@@ -76,7 +76,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     private var editorMorePopuwindow: IbookerEditorMorePopuwindow? = null
 
     private var mDatas = ArrayList<MoreBean>()
-    private val moreBean1 = MoreBean(R.drawable.draw_help, resources.getString(R.string.help))
+    private val moreBean1 = MoreBean(R.drawable.ibooker_editor_draw_help, resources.getString(R.string.help))
     private val moreBean2 = MoreBean(R.drawable.ibooker_editor_logo, resources.getString(R.string.about))
 
     /**
@@ -181,7 +181,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             // 返回按钮
             val backImgVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_BackImg_Visible, true)
-            val backImgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_BackImg_Res, R.drawable.icon_back_black)
+            val backImgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_BackImg_Res, R.drawable.icon_ibooker_editor_back_black)
             //            ibookerEditorTopView.getBackImg().setVisibility(backImgVisible ? VISIBLE : GONE);
             //            ibookerEditorTopView.getBackImg().setImageResource(backImgRes);
             ibookerEditorTopView!!.backTv!!.visibility = if (backImgVisible) View.VISIBLE else View.GONE
@@ -189,15 +189,15 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             // 撤销按钮
             val undoIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_UndoIBtn_Visible, true)
-            val undoIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_UndoIBtn_Res, R.drawable.draw_undo)
+            val undoIBtnBgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_UndoIBtn_BgRes, R.drawable.ibooker_editor_draw_undo)
             ibookerEditorTopView!!.undoIBtn!!.visibility = if (undoIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.undoIBtn!!.setBackgroundResource(undoIBtnRes)
+            ibookerEditorTopView!!.undoIBtn!!.setBackgroundResource(undoIBtnBgRes)
 
             // 重做按钮
             val redoIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_RedoIBtn_Visible, true)
-            val redoIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_RedoIBtn_Res, R.drawable.draw_redo)
+            val redoIBtnBgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_RedoIBtn_BgRes, R.drawable.ibooker_editor_draw_redo)
             ibookerEditorTopView!!.redoIBtn!!.visibility = if (redoIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.redoIBtn!!.setBackgroundResource(redoIBtnRes)
+            ibookerEditorTopView!!.redoIBtn!!.setBackgroundResource(redoIBtnBgRes)
 
             // 编辑模式
             val editIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_EditIBtn_Visible, true)
@@ -215,7 +215,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             //            // 帮助
             //            boolean helpIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_HelpIBtn_Visible, true);
-            //            int helpIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_HelpIBtn_Res, R.drawable.draw_help);
+            //            int helpIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_HelpIBtn_Res, R.drawable.ibooker_editor_draw_help);
             //            ibookerEditorTopView.getHelpIBtn().setVisibility(helpIBtnVisible ? VISIBLE : GONE);
             //            ibookerEditorTopView.getHelpIBtn().setBackgroundResource(helpIBtnRes);
             //
@@ -227,21 +227,21 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
 
             // 分享
             val shareIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_ShareIBtn_Visible, true)
-            val shareIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ShareIBtn_Res, R.drawable.draw_share)
+            val shareIBtnBgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ShareIBtn_BgRes, R.drawable.ibooker_editor_draw_share)
             ibookerEditorTopView!!.shareIBtn!!.visibility = if (shareIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.shareIBtn!!.setBackgroundResource(shareIBtnRes)
+            ibookerEditorTopView!!.shareIBtn!!.setBackgroundResource(shareIBtnBgRes)
 
             // 更多
             val elseIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_ElseIBtn_Visible, true)
-            val elseIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ElseIBtn_Res, R.drawable.draw_else)
+            val elseIBtnBgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_ElseIBtn_BgRes, R.drawable.ibooker_editor_draw_else)
             ibookerEditorTopView!!.elseIBtn!!.visibility = if (elseIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.elseIBtn!!.setBackgroundResource(elseIBtnRes)
+            ibookerEditorTopView!!.elseIBtn!!.setBackgroundResource(elseIBtnBgRes)
 
             // 设置
             val setIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorTopView_SetIBtn_Visible, true)
-            val setIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_SetIBtn_Res, R.drawable.draw_set)
+            val setIBtnBgRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorTopView_SetIBtn_BgRes, R.drawable.ibooker_editor_draw_set)
             ibookerEditorTopView!!.setIBtn!!.visibility = if (setIBtnVisible) View.VISIBLE else View.GONE
-            ibookerEditorTopView!!.setIBtn!!.setBackgroundResource(setIBtnRes)
+            ibookerEditorTopView!!.setIBtn!!.setBackgroundResource(setIBtnBgRes)
 
             // 编辑框
             val ibookerEditorEditViewBackgroundColor = ta.getColor(R.styleable.IbookerEditorView_IbookerEditorEditView_BackgroundColor, -0x1)
@@ -314,127 +314,127 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                 ibookerEditorToolView!!.setBackgroundColor(ibookerEditorToolViewBackgroundColor)
 
             val boldIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_BoldIBtn_Visible, true)
-            val boldIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_BoldIBtn_Res, R.drawable.draw_bold)
+            val boldIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_BoldIBtn_Res, R.drawable.ibooker_editor_draw_bold)
             ibookerEditorToolView!!.boldIBtn!!.visibility = if (boldIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.boldIBtn!!.setBackgroundResource(boldIBtnRes)
 
             val italicIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_ItalicIBtn_Visible, true)
-            val italicIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_ItalicIBtn_Res, R.drawable.draw_italic)
+            val italicIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_ItalicIBtn_Res, R.drawable.ibooker_editor_draw_italic)
             ibookerEditorToolView!!.italicIBtn!!.visibility = if (italicIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.italicIBtn!!.setBackgroundResource(italicIBtnRes)
 
             val strikeoutIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_StrikeoutIBtn_Visible, true)
-            val strikeoutIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_StrikeoutIBtn_Res, R.drawable.draw_strikeout)
+            val strikeoutIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_StrikeoutIBtn_Res, R.drawable.ibooker_editor_draw_strikeout)
             ibookerEditorToolView!!.strikeoutIBtn!!.visibility = if (strikeoutIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.strikeoutIBtn!!.setBackgroundResource(strikeoutIBtnRes)
 
             val underlineIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_UnderlineIBtn_Visible, true)
-            val underlineIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UnderlineIBtn_Res, R.drawable.draw_underline)
+            val underlineIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UnderlineIBtn_Res, R.drawable.ibooker_editor_draw_underline)
             ibookerEditorToolView!!.underlineIBtn!!.visibility = if (underlineIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.underlineIBtn!!.setBackgroundResource(underlineIBtnRes)
 
             val capitalsIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_CapitalsIBtn_Visible, true)
-            val capitalsIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_CapitalsIBtn_Res, R.drawable.draw_capitals)
+            val capitalsIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_CapitalsIBtn_Res, R.drawable.ibooker_editor_draw_capitals)
             ibookerEditorToolView!!.capitalsIBtn!!.visibility = if (capitalsIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.capitalsIBtn!!.setBackgroundResource(capitalsIBtnVisibleRes)
 
             val uppercaseIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_UppercaseIBtn_Visible, true)
-            val uppercaseIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UppercaseIBtnBackImg_Res, R.drawable.draw_uppercase)
+            val uppercaseIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UppercaseIBtnBackImg_Res, R.drawable.ibooker_editor_draw_uppercase)
             ibookerEditorToolView!!.uppercaseIBtn!!.visibility = if (uppercaseIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.uppercaseIBtn!!.setBackgroundResource(uppercaseIBtnVisibleRes)
 
             val lowercaseIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_LowercaseIBtn_Visible, true)
-            val lowercaseIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_LowercaseIBtn_Res, R.drawable.draw_lowercase)
+            val lowercaseIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_LowercaseIBtn_Res, R.drawable.ibooker_editor_draw_lowercase)
             ibookerEditorToolView!!.lowercaseIBtn!!.visibility = if (lowercaseIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.lowercaseIBtn!!.setBackgroundResource(lowercaseIBtnVisibleRes)
 
             val h1IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H1IBtn_Visible, true)
-            val h1IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H1IBtn_Res, R.drawable.draw_h1)
+            val h1IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H1IBtn_Res, R.drawable.ibooker_editor_draw_h1)
             ibookerEditorToolView!!.h1IBtn!!.visibility = if (h1IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h1IBtn!!.setBackgroundResource(h1IBtnVisibleRes)
 
             val h2IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H2IBtn_Visible, true)
-            val h2IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H2IBtn_Res, R.drawable.draw_h2)
+            val h2IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H2IBtn_Res, R.drawable.ibooker_editor_draw_h2)
             ibookerEditorToolView!!.h2IBtn!!.visibility = if (h2IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h2IBtn!!.setBackgroundResource(h2IBtnVisibleRes)
 
             val h3IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H3IBtn_Visible, true)
-            val h3IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H3IBtn_Res, R.drawable.draw_h3)
+            val h3IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H3IBtn_Res, R.drawable.ibooker_editor_draw_h3)
             ibookerEditorToolView!!.h3IBtn!!.visibility = if (h3IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h3IBtn!!.setBackgroundResource(h3IBtnVisibleRes)
 
             val h4IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H4IBtn_Visible, true)
-            val h4IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H4IBtn_Res, R.drawable.draw_h4)
+            val h4IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H4IBtn_Res, R.drawable.ibooker_editor_draw_h4)
             ibookerEditorToolView!!.h4IBtn!!.visibility = if (h4IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h4IBtn!!.setBackgroundResource(h4IBtnVisibleRes)
 
             val h5IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H5IBtn_Visible, true)
-            val h5IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H5IBtn_Res, R.drawable.draw_h5)
+            val h5IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H5IBtn_Res, R.drawable.ibooker_editor_draw_h5)
             ibookerEditorToolView!!.h5IBtn!!.visibility = if (h5IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h5IBtn!!.setBackgroundResource(h5IBtnVisibleRes)
 
             val h6IBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_H6IBtn_Visible, true)
-            val h6IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H6IBtn_Res, R.drawable.draw_h6)
+            val h6IBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_H6IBtn_Res, R.drawable.ibooker_editor_draw_h6)
             ibookerEditorToolView!!.h6IBtn!!.visibility = if (h6IBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.h6IBtn!!.setBackgroundResource(h6IBtnVisibleRes)
 
             val linkIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_LinkIBtn_Visible, true)
-            val linkIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_LinkIBtn_Res, R.drawable.draw_link)
+            val linkIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_LinkIBtn_Res, R.drawable.ibooker_editor_draw_link)
             ibookerEditorToolView!!.linkIBtn!!.visibility = if (linkIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.linkIBtn!!.setBackgroundResource(linkIBtnVisibleRes)
 
             val quoteIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_QuoteIBtn_Visible, true)
-            val quoteIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_QuoteIBtn_Res, R.drawable.draw_quote)
+            val quoteIBtnVisibleRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_QuoteIBtn_Res, R.drawable.ibooker_editor_draw_quote)
             ibookerEditorToolView!!.quoteIBtn!!.visibility = if (quoteIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.quoteIBtn!!.setBackgroundResource(quoteIBtnVisibleRes)
 
             val codeIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_CodeIBtn_Visible, true)
-            val codeIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_CodeIBtn_Res, R.drawable.draw_code)
+            val codeIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_CodeIBtn_Res, R.drawable.ibooker_editor_draw_code)
             ibookerEditorToolView!!.codeIBtn!!.visibility = if (codeIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.codeIBtn!!.setBackgroundResource(codeIBtnRes)
 
             val imguIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_ImguIBtn_Visible, true)
-            val imguIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_ImguIBtn_Res, R.drawable.draw_img_u)
+            val imguIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_ImguIBtn_Res, R.drawable.ibooker_editor_draw_img_u)
             ibookerEditorToolView!!.imguIBtn!!.visibility = if (imguIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.imguIBtn!!.setBackgroundResource(imguIBtnRes)
 
             val olIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_OlIBtn_Visible, true)
-            val olIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_OlIBtn_Res, R.drawable.draw_ol)
+            val olIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_OlIBtn_Res, R.drawable.ibooker_editor_draw_ol)
             ibookerEditorToolView!!.olIBtn!!.visibility = if (olIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.olIBtn!!.setBackgroundResource(olIBtnRes)
 
             val ulIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_UlIBtn_Visible, true)
-            val ulIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UlIBtn_Res, R.drawable.draw_ul)
+            val ulIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UlIBtn_Res, R.drawable.ibooker_editor_draw_ul)
             ibookerEditorToolView!!.ulIBtn!!.visibility = if (ulIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.ulIBtn!!.setBackgroundResource(ulIBtnRes)
 
             val unselectedIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_UnselectedIBtn_Visible, true)
-            val unselectedIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UnselectedIBtn_Res, R.drawable.draw_unselected)
+            val unselectedIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_UnselectedIBtn_Res, R.drawable.ibooker_editor_draw_unselected)
             ibookerEditorToolView!!.unselectedIBtn!!.visibility = if (unselectedIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.unselectedIBtn!!.setBackgroundResource(unselectedIBtnRes)
 
             val selectedIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_SelectedIBtn_Visible, true)
-            val selectedIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_SelectedIBtn_Res, R.drawable.draw_selected)
+            val selectedIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_SelectedIBtn_Res, R.drawable.ibooker_editor_draw_selected)
             ibookerEditorToolView!!.selectedIBtn!!.visibility = if (selectedIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.selectedIBtn!!.setBackgroundResource(selectedIBtnRes)
 
             val tableIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_TableIBtn_Visible, true)
-            val tableIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_TableIBtn_Res, R.drawable.draw_table)
+            val tableIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_TableIBtn_Res, R.drawable.ibooker_editor_draw_table)
             ibookerEditorToolView!!.tableIBtn!!.visibility = if (tableIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.tableIBtn!!.setBackgroundResource(tableIBtnRes)
 
             val htmlIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_HtmlIBtn_Visible, true)
-            val htmlIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_HtmlIBtn_Res, R.drawable.draw_html)
+            val htmlIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_HtmlIBtn_Res, R.drawable.ibooker_editor_draw_html)
             ibookerEditorToolView!!.htmlIBtn!!.visibility = if (htmlIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.htmlIBtn!!.setBackgroundResource(htmlIBtnRes)
 
             val hrIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_HrIBtn_Visible, true)
-            val hrIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_HrIBtn_Res, R.drawable.draw_hr)
+            val hrIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_HrIBtn_Res, R.drawable.ibooker_editor_draw_hr)
             ibookerEditorToolView!!.hrIBtn!!.visibility = if (hrIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.hrIBtn!!.setBackgroundResource(hrIBtnRes)
 
             val emojiIBtnVisible = ta.getBoolean(R.styleable.IbookerEditorView_IbookerEditorToolView_EmojiIBtn_Visible, true)
-            val emojiIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_EmojiIBtng_Res, R.drawable.draw_emoji)
+            val emojiIBtnRes = ta.getResourceId(R.styleable.IbookerEditorView_IbookerEditorToolView_EmojiIBtng_Res, R.drawable.ibooker_editor_draw_emoji)
             ibookerEditorToolView!!.emojiIBtn!!.visibility = if (emojiIBtnVisible) View.VISIBLE else View.GONE
             ibookerEditorToolView!!.emojiIBtn!!.setBackgroundResource(emojiIBtnRes)
 
@@ -532,14 +532,14 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP) {// 帮助
             val intent = Intent()
             intent.action = Intent.ACTION_VIEW
-            val content_url = Uri.parse("http://ibooker.cc/article/1/detail")
-            intent.data = content_url
+            val contentUrl = Uri.parse("http://ibooker.cc/article/1/detail")
+            intent.data = contentUrl
             context.startActivity(intent)
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ABOUT) {// 关于
             val intent = Intent()
             intent.action = Intent.ACTION_VIEW
-            val content_url = Uri.parse("http://ibooker.cc/article/182/detail")
-            intent.data = content_url
+            val contentUrl = Uri.parse("http://ibooker.cc/article/182/detail")
+            intent.data = contentUrl
             context.startActivity(intent)
         } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SHARE) {// 分享
             ibookerEditorVpView!!.currentItem = 1
@@ -564,6 +564,9 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
             } else {
                 editorMorePopuwindow!!.showAsDropDown(ibookerEditorTopView!!.elseIBtn, 0, IbookerEditorUtil.dpToPx(context, 13f))
             }
+        } else if (tag == IbookerEditorEnum.TOOLVIEW_TAG.IBTN_FUJIAN) {// 附件
+            ibookerEditorVpView?.currentItem = 0
+            ibookerEditorVpView?.editView?.pickFile()
         }
     }
 
@@ -774,6 +777,11 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         return this
     }
 
+    // 获取附件返回内容（文件地址）
+    fun getPickFile(intent: Intent): String {
+        return UriUtil.getFilePathByUri(context, intent.data)!!
+    }
+
     /**
      * 显示或者隐藏顶部工具栏
      *
@@ -847,6 +855,11 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         return this
     }
 
+    fun setIETopViewUndoImageBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setUndoImageBgResource(resId)
+        return this
+    }
+
     fun setIETopViewUndoIBtnVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setUndoIBtnVisibility(visibility)
         return this
@@ -855,6 +868,11 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     // 设置重做按钮
     fun setIETopViewRedoImageResource(@DrawableRes resId: Int): IbookerEditorView {
         ibookerEditorTopView!!.setRedoImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewRedoImageBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setRedoImageBgResource(resId)
         return this
     }
 
@@ -869,6 +887,11 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         return this
     }
 
+    fun setIETopViewEditImageBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setEditImageBgResource(resId)
+        return this
+    }
+
     fun setIETopViewEditIBtnVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setEditIBtnVisibility(visibility)
         return this
@@ -880,36 +903,46 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         return this
     }
 
+    fun setIETopViewPreviewImageBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setPreviewImageBgResource(resId)
+        return this
+    }
+
     fun setIETopViewPreviewIBtnVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setPreviewIBtnVisibility(visibility)
         return this
     }
 
-    //    // 设置帮助按钮
-    //    public IbookerEditorView setIETopViewHelpImageResource(@DrawableRes int resId) {
-    //        ibookerEditorTopView.setHelpImageResource(resId);
-    //        return this;
-    //    }
-    //
-    //    public IbookerEditorView setIETopViewHelpIBtnVisibility(int visibility) {
-    //        ibookerEditorTopView.setHelpIBtnVisibility(visibility);
-    //        return this;
-    //    }
-    //
-    //    // 设置关于按钮
-    //    public IbookerEditorView setIETopViewAboutImageResource(@DrawableRes int resId) {
-    //        ibookerEditorTopView.setAboutImageResource(resId);
-    //        return this;
-    //    }
-    //
-    //    public IbookerEditorView setIETopViewAboutImgVisibility(int visibility) {
-    //        ibookerEditorTopView.setAboutImgVisibility(visibility);
-    //        return this;
-    //    }
+//    // 设置帮助按钮
+//    public IbookerEditorView setIETopViewHelpImageResource(@DrawableRes int resId) {
+//        ibookerEditorTopView.setHelpImageResource(resId);
+//        return this;
+//    }
+//
+//    public IbookerEditorView setIETopViewHelpIBtnVisibility(int visibility) {
+//        ibookerEditorTopView.setHelpIBtnVisibility(visibility);
+//        return this;
+//    }
+//
+//    // 设置关于按钮
+//    public IbookerEditorView setIETopViewAboutImageResource(@DrawableRes int resId) {
+//        ibookerEditorTopView.setAboutImageResource(resId);
+//        return this;
+//    }
+//
+//    public IbookerEditorView setIETopViewAboutImgVisibility(int visibility) {
+//        ibookerEditorTopView.setAboutImgVisibility(visibility);
+//        return this;
+//    }
 
     // 设置分享按钮
     fun setIETopViewShareIBtnResource(@DrawableRes resId: Int): IbookerEditorView {
         ibookerEditorTopView!!.setShareIBtnResource(resId)
+        return this
+    }
+
+    fun setIETopViewShareIBtnBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setShareIBtnBgResource(resId)
         return this
     }
 
@@ -924,8 +957,29 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         return this
     }
 
+    fun setIETopViewElseIBtnBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setElseIBtnBgResource(resId)
+        return this
+    }
+
     fun setIETopViewElseIBtnVisibility(visibility: Int): IbookerEditorView {
         ibookerEditorTopView!!.setElseIBtnVisibility(visibility)
+        return this
+    }
+
+    // 设置附件按钮
+    fun setIETopViewFujianIBtnResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setFujianImageResource(resId)
+        return this
+    }
+
+    fun setIETopViewFujianIBtnBgResource(@DrawableRes resId: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setFujianImageBgResource(resId)
+        return this
+    }
+
+    fun setIETopViewFujianIBtnVisibility(visibility: Int): IbookerEditorView {
+        ibookerEditorTopView!!.setFujianIBtnVisibility(visibility)
         return this
     }
 

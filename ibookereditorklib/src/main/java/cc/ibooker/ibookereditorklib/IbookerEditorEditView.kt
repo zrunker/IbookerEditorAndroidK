@@ -3,6 +3,7 @@ package cc.ibooker.ibookereditorklib
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.support.annotation.ColorInt
 import android.support.v4.widget.NestedScrollView
@@ -25,6 +26,7 @@ import java.util.*
  * Created by 邹峰立 on 2018/2/11.
  */
 open class IbookerEditorEditView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : NestedScrollView(context, attrs, defStyleAttr) {
+    val PICKFILE_REQUEST_CODE = 11111
     var ibookerTitleEd: EditText? = null
     var lineView: View? = null
     var ibookerEd: EditText? = null
@@ -207,6 +209,16 @@ open class IbookerEditorEditView @JvmOverloads constructor(context: Context, att
             isSign = true
         }
 
+    }
+
+    /**
+     * 打开系统的文件选择器
+     */
+    fun pickFile() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "*/*"
+        (context as Activity).startActivityForResult(intent, PICKFILE_REQUEST_CODE)
     }
 
     /**

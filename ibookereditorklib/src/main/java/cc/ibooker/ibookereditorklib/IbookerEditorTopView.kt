@@ -47,6 +47,8 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
     var elseIBtn: ImageButton? = null
         private set
     var setIBtn: ImageButton? = null
+    var fujianIBtn: ImageButton? = null
+        private set
     private val helpIBtn: ImageButton? = null
     private val dp13: Int
     private val dp3_5: Int
@@ -71,7 +73,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         dp29 = IbookerEditorUtil.dpToPx(context, 29f)
 
         setPadding(dp5, dp5, dp5, dp5)
-        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         init(context)
     }
@@ -82,7 +84,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         //        LayoutParams backParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22F));
         //        backParams.setMargins(dp5, 0, dp5, 0);
         //        backImg.setLayoutParams(backParams);
-        //        backImg.setImageResource(R.drawable.icon_back_black);
+        //        backImg.setImageResource(R.drawable.icon_ibooker_editor_back_black);
         //        backImg.setAdjustViewBounds(true);
         //        backImg.setContentDescription(getResources().getString(R.string.back));
         //        backImg.setTag(IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK);
@@ -90,10 +92,10 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         //        addView(backImg);
 
         backTv = TextView(context)
-        val backParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22f))
+        val backParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, IbookerEditorUtil.dpToPx(context, 22f))
         backParams.setMargins(dp5, 0, dp5, 0)
         backTv!!.layoutParams = backParams
-        backTv!!.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_back_black, 0, 0, 0)
+        backTv!!.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_ibooker_editor_back_black, 0, 0, 0)
         backTv!!.compoundDrawablePadding = dp5
         backTv!!.contentDescription = resources.getString(R.string.back)
         backTv!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IMG_BACK
@@ -104,16 +106,16 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
         addView(backTv)
 
         rightLayout = LinearLayout(context)
-        rightLayout!!.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
+        rightLayout!!.layoutParams = LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f)
         rightLayout!!.gravity = Gravity.END or Gravity.CENTER_VERTICAL
         addView(rightLayout)
 
-        val layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val layoutParams = LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         layoutParams.setMargins(dp5, 0, dp5, 0)
 
         undoIBtn = ImageButton(context)
         undoIBtn!!.layoutParams = layoutParams
-        undoIBtn!!.setBackgroundResource(R.drawable.draw_undo)
+        undoIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_undo)
         undoIBtn!!.contentDescription = resources.getString(R.string.undo)
         undoIBtn!!.setPadding(dp13, dp13, dp13, dp13)
         undoIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDO
@@ -122,7 +124,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         redoIBtn = ImageButton(context)
         redoIBtn!!.layoutParams = layoutParams
-        redoIBtn!!.setBackgroundResource(R.drawable.draw_redo)
+        redoIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_redo)
         redoIBtn!!.contentDescription = resources.getString(R.string.redo)
         redoIBtn!!.setPadding(dp13, dp13, dp13, dp13)
         redoIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_REDO
@@ -131,7 +133,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         editIBtn = ImageButton(context)
         editIBtn!!.layoutParams = layoutParams
-        editIBtn!!.setBackgroundResource(R.drawable.draw_edit)
+        editIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_edit)
         editIBtn!!.contentDescription = resources.getString(R.string.edit)
         editIBtn!!.setPadding(dp13, dp13, dp13, dp13)
         editIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EDIT
@@ -140,16 +142,25 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         previewIBtn = ImageButton(context)
         previewIBtn!!.layoutParams = layoutParams
-        previewIBtn!!.setBackgroundResource(R.drawable.draw_preview)
+        previewIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_preview)
         previewIBtn!!.contentDescription = resources.getString(R.string.preview)
         previewIBtn!!.setPadding(dp13, dp13, dp13, dp13)
         previewIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_PREVIEW
         previewIBtn!!.setOnClickListener(this)
         rightLayout!!.addView(previewIBtn)
 
+        fujianIBtn = ImageButton(context)
+        fujianIBtn!!.layoutParams = layoutParams
+        fujianIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_fujian)
+        fujianIBtn!!.contentDescription = resources.getString(R.string.fujian)
+        fujianIBtn!!.setPadding(dp12, dp12, dp12, dp12)
+        fujianIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_FUJIAN
+        fujianIBtn!!.setOnClickListener(this)
+        rightLayout!!.addView(fujianIBtn)
+
         shareIBtn = ImageButton(context)
         shareIBtn!!.layoutParams = layoutParams
-        shareIBtn!!.setBackgroundResource(R.drawable.draw_share)
+        shareIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_share)
         shareIBtn!!.contentDescription = resources.getString(R.string.share)
         shareIBtn!!.setPadding(dp12, dp12, dp12, dp12)
         shareIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SHARE
@@ -158,7 +169,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         setIBtn = ImageButton(context)
         setIBtn!!.layoutParams = layoutParams
-        setIBtn!!.setBackgroundResource(R.drawable.draw_set)
+        setIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_set)
         setIBtn!!.contentDescription = resources.getString(R.string.set)
         setIBtn!!.setPadding(dp12, dp12, dp12, dp12)
         setIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SET
@@ -167,7 +178,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         //        helpIBtn = new ImageButton(context);
         //        helpIBtn.setLayoutParams(layoutParams);
-        //        helpIBtn.setBackgroundResource(R.drawable.draw_help);
+        //        helpIBtn.setBackgroundResource(R.drawable.ibooker_editor_draw_help);
         //        helpIBtn.setContentDescription(getResources().getString(R.string.help));
         //        helpIBtn.setPadding(dp13, dp13, dp13, dp13);
         //        helpIBtn.setTag(IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HELP);
@@ -187,7 +198,7 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
 
         elseIBtn = ImageButton(context)
         elseIBtn!!.layoutParams = layoutParams
-        elseIBtn!!.setBackgroundResource(R.drawable.draw_else)
+        elseIBtn!!.setBackgroundResource(R.drawable.ibooker_editor_draw_else)
         elseIBtn!!.contentDescription = resources.getString(R.string._else)
         elseIBtn!!.setPadding(dp12, dp12, dp12, dp12)
         elseIBtn!!.tag = IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ELSE
@@ -230,6 +241,22 @@ class IbookerEditorTopView @JvmOverloads constructor(context: Context, attrs: At
                 text = (num / 100000).toString() + "W"
             backTv!!.text = text
         }
+        return this
+    }
+
+    // 设置附件按钮fujianIBtn
+    fun setFujianImageResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        fujianIBtn!!.setImageResource(resId)
+        return this
+    }
+
+    fun setFujianImageBgResource(@DrawableRes resId: Int): IbookerEditorTopView {
+        fujianIBtn!!.setBackgroundResource(resId)
+        return this
+    }
+
+    fun setFujianIBtnVisibility(visibility: Int): IbookerEditorTopView {
+        fujianIBtn!!.visibility = visibility
         return this
     }
 

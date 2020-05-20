@@ -73,127 +73,127 @@ class IbookerEditorToolView @JvmOverloads constructor(context: Context, attrs: A
         layoutParams.setMargins(dp6, dp6, dp6, dp6)
         // 粗体
         boldIBtn = ImageButton(context)
-        setImageBtn(boldIBtn!!, layoutParams, R.drawable.draw_bold, resources.getString(R.string.bold), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD)
+        setImageBtn(boldIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_bold, resources.getString(R.string.bold), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_BOLD)
         toolLayout!!.addView(boldIBtn)
 
         // 斜体
         italicIBtn = ImageButton(context)
-        setImageBtn(italicIBtn!!, layoutParams, R.drawable.draw_italic, resources.getString(R.string.italic), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC)
+        setImageBtn(italicIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_italic, resources.getString(R.string.italic), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_ITALIC)
         toolLayout!!.addView(italicIBtn)
 
         // 删除线
         strikeoutIBtn = ImageButton(context)
-        setImageBtn(strikeoutIBtn!!, layoutParams, R.drawable.draw_strikeout, resources.getString(R.string.strikeout), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT)
+        setImageBtn(strikeoutIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_strikeout, resources.getString(R.string.strikeout), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_STRIKEOUT)
         toolLayout!!.addView(strikeoutIBtn)
 
         // 下划线
         underlineIBtn = ImageButton(context)
-        setImageBtn(underlineIBtn!!, layoutParams, R.drawable.draw_underline, resources.getString(R.string.underline), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE)
+        setImageBtn(underlineIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_underline, resources.getString(R.string.underline), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNDERLINE)
         toolLayout!!.addView(underlineIBtn)
 
         // 单词首字母大写
         capitalsIBtn = ImageButton(context)
-        setImageBtn(capitalsIBtn!!, layoutParams, R.drawable.draw_capitals, resources.getString(R.string.capitals), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS)
+        setImageBtn(capitalsIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_capitals, resources.getString(R.string.capitals), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CAPITALS)
         toolLayout!!.addView(capitalsIBtn)
 
         // 单词转大写
         uppercaseIBtn = ImageButton(context)
-        setImageBtn(uppercaseIBtn!!, layoutParams, R.drawable.draw_uppercase, resources.getString(R.string.uppercase), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE)
+        setImageBtn(uppercaseIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_uppercase, resources.getString(R.string.uppercase), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UPPERCASE)
         toolLayout!!.addView(uppercaseIBtn)
 
         // 单词转小写
         lowercaseIBtn = ImageButton(context)
-        setImageBtn(lowercaseIBtn!!, layoutParams, R.drawable.draw_lowercase, resources.getString(R.string.lowercase), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE)
+        setImageBtn(lowercaseIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_lowercase, resources.getString(R.string.lowercase), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LOWERCASE)
         toolLayout!!.addView(lowercaseIBtn)
 
         // 一级标题
         h1IBtn = ImageButton(context)
-        setImageBtn(h1IBtn!!, layoutParams, R.drawable.draw_h1, resources.getString(R.string.h1), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1)
+        setImageBtn(h1IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h1, resources.getString(R.string.h1), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H1)
         toolLayout!!.addView(h1IBtn)
 
         // 二级标题
         h2IBtn = ImageButton(context)
-        setImageBtn(h2IBtn!!, layoutParams, R.drawable.draw_h2, resources.getString(R.string.h2), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2)
+        setImageBtn(h2IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h2, resources.getString(R.string.h2), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H2)
         toolLayout!!.addView(h2IBtn)
 
         // 三级标题
         h3IBtn = ImageButton(context)
-        setImageBtn(h3IBtn!!, layoutParams, R.drawable.draw_h3, resources.getString(R.string.h3), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3)
+        setImageBtn(h3IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h3, resources.getString(R.string.h3), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H3)
         toolLayout!!.addView(h3IBtn)
 
         // 四级标题
         h4IBtn = ImageButton(context)
-        setImageBtn(h4IBtn!!, layoutParams, R.drawable.draw_h4, resources.getString(R.string.h4), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4)
+        setImageBtn(h4IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h4, resources.getString(R.string.h4), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H4)
         toolLayout!!.addView(h4IBtn)
 
         // 五级标题
         h5IBtn = ImageButton(context)
-        setImageBtn(h5IBtn!!, layoutParams, R.drawable.draw_h5, resources.getString(R.string.h5), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5)
+        setImageBtn(h5IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h5, resources.getString(R.string.h5), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H5)
         toolLayout!!.addView(h5IBtn)
 
         // 六级标题
         h6IBtn = ImageButton(context)
-        setImageBtn(h6IBtn!!, layoutParams, R.drawable.draw_h6, resources.getString(R.string.h6), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6)
+        setImageBtn(h6IBtn!!, layoutParams, R.drawable.ibooker_editor_draw_h6, resources.getString(R.string.h6), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_H6)
         toolLayout!!.addView(h6IBtn)
 
         // 链接
         linkIBtn = ImageButton(context)
-        setImageBtn(linkIBtn!!, layoutParams, R.drawable.draw_link, resources.getString(R.string.link), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK)
+        setImageBtn(linkIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_link, resources.getString(R.string.link), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_LINK)
         toolLayout!!.addView(linkIBtn)
 
         // 引用
         quoteIBtn = ImageButton(context)
-        setImageBtn(quoteIBtn!!, layoutParams, R.drawable.draw_quote, resources.getString(R.string.quote), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE)
+        setImageBtn(quoteIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_quote, resources.getString(R.string.quote), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_QUOTE)
         toolLayout!!.addView(quoteIBtn)
 
         // 代码
         codeIBtn = ImageButton(context)
-        setImageBtn(codeIBtn!!, layoutParams, R.drawable.draw_code, resources.getString(R.string.code), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE)
+        setImageBtn(codeIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_code, resources.getString(R.string.code), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_CODE)
         toolLayout!!.addView(codeIBtn)
 
         // 图片
         imguIBtn = ImageButton(context)
-        setImageBtn(imguIBtn!!, layoutParams, R.drawable.draw_img_u, resources.getString(R.string.img_u), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U)
+        setImageBtn(imguIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_img_u, resources.getString(R.string.img_u), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_IMG_U)
         toolLayout!!.addView(imguIBtn)
 
         // 数字列表
         olIBtn = ImageButton(context)
-        setImageBtn(olIBtn!!, layoutParams, R.drawable.draw_ol, resources.getString(R.string.ol), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL)
+        setImageBtn(olIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_ol, resources.getString(R.string.ol), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_OL)
         toolLayout!!.addView(olIBtn)
 
         // 普通列表
         ulIBtn = ImageButton(context)
-        setImageBtn(ulIBtn!!, layoutParams, R.drawable.draw_ul, resources.getString(R.string.ul), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL)
+        setImageBtn(ulIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_ul, resources.getString(R.string.ul), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UL)
         toolLayout!!.addView(ulIBtn)
 
         // 列表未选中
         unselectedIBtn = ImageButton(context)
-        setImageBtn(unselectedIBtn!!, layoutParams, R.drawable.draw_unselected, resources.getString(R.string.unselected), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED)
+        setImageBtn(unselectedIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_unselected, resources.getString(R.string.unselected), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_UNSELECTED)
         toolLayout!!.addView(unselectedIBtn)
 
         // 列表选中
         selectedIBtn = ImageButton(context)
-        setImageBtn(selectedIBtn!!, layoutParams, R.drawable.draw_selected, resources.getString(R.string.selected), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED)
+        setImageBtn(selectedIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_selected, resources.getString(R.string.selected), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_SELECTED)
         toolLayout!!.addView(selectedIBtn)
 
         // 表格
         tableIBtn = ImageButton(context)
-        setImageBtn(tableIBtn!!, layoutParams, R.drawable.draw_table, resources.getString(R.string.table), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE)
+        setImageBtn(tableIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_table, resources.getString(R.string.table), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_TABLE)
         toolLayout!!.addView(tableIBtn)
 
         // HTML
         htmlIBtn = ImageButton(context)
-        setImageBtn(htmlIBtn!!, layoutParams, R.drawable.draw_html, resources.getString(R.string.html), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML)
+        setImageBtn(htmlIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_html, resources.getString(R.string.html), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HTML)
         toolLayout!!.addView(htmlIBtn)
 
         // 分割线
         hrIBtn = ImageButton(context)
-        setImageBtn(hrIBtn!!, layoutParams, R.drawable.draw_hr, resources.getString(R.string.hr), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR)
+        setImageBtn(hrIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_hr, resources.getString(R.string.hr), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_HR)
         toolLayout!!.addView(hrIBtn)
 
         // 表情
         emojiIBtn = ImageButton(context)
-        setImageBtn(emojiIBtn!!, layoutParams, R.drawable.draw_emoji, resources.getString(R.string.emoji), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI)
+        setImageBtn(emojiIBtn!!, layoutParams, R.drawable.ibooker_editor_draw_emoji, resources.getString(R.string.emoji), IbookerEditorEnum.TOOLVIEW_TAG.IBTN_EMOJI)
         toolLayout!!.addView(emojiIBtn)
     }
 
