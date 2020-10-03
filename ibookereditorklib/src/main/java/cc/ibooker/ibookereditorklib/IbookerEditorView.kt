@@ -1619,12 +1619,12 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
                     val uri: Uri
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        uri = FileProvider.getUriForFile(context, "cc.ibooker.ibookereditorlib.ibookerFileProvider", file)
+                        uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".ibookerFileProvider", file)
                     } else {
                         uri = Uri.fromFile(file)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     }
                     intent.setDataAndType(uri, "image/*")
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     this@IbookerEditorView.context.startActivity(intent)
                 } catch (e: Exception) {
                     e.printStackTrace()
