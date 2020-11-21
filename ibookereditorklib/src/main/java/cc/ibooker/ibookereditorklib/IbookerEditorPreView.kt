@@ -65,6 +65,12 @@ class IbookerEditorPreView @JvmOverloads constructor(context: Context, attrs: At
         linearLayout.addView(ibookerEditorWebView)
     }
 
+    // 设置请求头
+    fun setAdditionalHttpHeaders(additionalHttpHeaders: Map<String, String>): IbookerEditorPreView {
+        ibookerEditorWebView?.setAdditionalHttpHeaders(additionalHttpHeaders)
+        return this
+    }
+
     /**
      * 设置WebView控件背景颜色
      *

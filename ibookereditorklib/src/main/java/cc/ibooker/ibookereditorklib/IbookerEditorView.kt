@@ -92,8 +92,8 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         get() = ibookerEditorVpView!!.preView!!.ibookerEditorWebView!!.getWebViewBitmap()
 
     init {
-        orientation = LinearLayout.VERTICAL
-        layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        orientation = VERTICAL
+        layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         setBackgroundColor(Color.parseColor("#FFFFFF"))
 
         init(context, attrs)
@@ -139,7 +139,7 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
         addView(ibookerEditorTopView)
         // 中间区域ViewPager
         ibookerEditorVpView = IbookerEditorVpView(context)
-        ibookerEditorVpView!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
+        ibookerEditorVpView!!.layoutParams = LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f)
         ibookerEditorVpView!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
@@ -780,6 +780,12 @@ class IbookerEditorView @JvmOverloads constructor(context: Context, attrs: Attri
     // 获取附件返回内容（文件地址）
     fun getPickFile(intent: Intent): String {
         return UriUtil.getFilePathByUri(context, intent.data)!!
+    }
+
+    // 设置请求头
+    fun setAdditionalHttpHeaders(additionalHttpHeaders: Map<String, String>): IbookerEditorView {
+        ibookerEditorVpView?.preView?.setAdditionalHttpHeaders(additionalHttpHeaders)
+        return this
     }
 
     /**

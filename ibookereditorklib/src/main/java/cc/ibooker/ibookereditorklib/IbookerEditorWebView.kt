@@ -29,6 +29,9 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     private var ibookerEditorText: String? = null
     private var ibookerEditorHtml: String? = null
 
+
+    private var additionalHttpHeaders: Map<String, String>? = null
+
     private var imgPathList: ArrayList<String>? = null// WebView所有图片地址
     private var ibookerEditorJsCheckImgEvent: IbookerEditorJsCheckImgEvent? = null
 
@@ -48,7 +51,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
+        val expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE shr 2, View.MeasureSpec.AT_MOST)
         super.onMeasure(widthMeasureSpec, expandSpec)
     }
 
@@ -100,7 +103,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         }
 
         // 隐藏滚动条
-        this.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
+        this.scrollBarStyle = SCROLLBARS_OUTSIDE_OVERLAY
         // 使页面获取焦点，防止点击无响应
         requestFocus()
         // 设置WebViewClient
@@ -123,7 +126,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                     ibookerEditorWebViewUrlLoadingListener!!.shouldOverrideUrlLoading(view, request)
                 else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        view.loadUrl(request.url.toString())
+//                        view.loadUrl(request.url.toString(), additionalHttpHeaders)
                         val intent = Intent()
                         intent.action = Intent.ACTION_VIEW
                         intent.data = Uri.parse(request.url.toString())
@@ -138,7 +141,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedError(view, request, error)
                 else
                 // 当网页加载出错时，加载本地错误文件
-                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html", additionalHttpHeaders)
                 isLoadError = true
             }
 
@@ -155,7 +158,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                     ibookerEditorWebViewUrlLoadingListener!!.onReceivedSslError(view, handler, error)
                 else
                 // 当网页加载出错时，加载本地错误文件
-                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html")
+                    this@IbookerEditorWebView.loadUrl("file:///android_asset/error.html", additionalHttpHeaders)
                 isLoadError = true
             }
 
@@ -180,7 +183,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         ibookerEditorJsCheckImgEvent = IbookerEditorJsCheckImgEvent()
         addJavascriptInterface(ibookerEditorJsCheckImgEvent, "ibookerEditorJsCheckImgEvent")
         // 加载本地HTML
-        loadUrl("file:///android_asset/ibooker_editor_index.html")
+        loadUrl("file:///android_asset/ibooker_editor_index.html", additionalHttpHeaders)
         isLoadError = false
     }
 
@@ -216,7 +219,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
                 + "          window.ibookerEditorJsCheckImgEvent.onCheckImg(this.src);"
                 + "     }"
                 + "  }"
-                + "})()")
+                + "})()", additionalHttpHeaders)
     }
 
     /**
@@ -229,7 +232,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         if (isLoadFinished && !isLoadError) {
             ibookerEditorText1 = ibookerEditorText1!!.replace("\\n".toRegex(), "\\\\n")
             val js = "javascript:ibookerCompile('$ibookerEditorText1')"
-            this.loadUrl(js)
+            this.loadUrl(js, additionalHttpHeaders)
 
             // 重新WebView添加监听
             addWebViewListener()
@@ -241,12 +244,19 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         } else {
             if (isLoadError) {
                 // 加载本地HTML
-                loadUrl("file:///android_asset/ibooker_editor_index.html")
+                loadUrl("file:///android_asset/ibooker_editor_index.html", additionalHttpHeaders)
                 isLoadError = false
             }
             this.isExecuteCompile = true
             this.ibookerEditorText = ibookerEditorText1
         }
+        return this
+    }
+
+    // 设置请求头
+    fun setAdditionalHttpHeaders(additionalHttpHeaders: Map<String, String>): IbookerEditorWebView {
+        this.additionalHttpHeaders = additionalHttpHeaders
+        loadUrl("file:///android_asset/ibooker_editor_index.html", additionalHttpHeaders)
         return this
     }
 
@@ -258,7 +268,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
     fun ibookerHtmlCompile(ibookerEditorHtml: String?): IbookerEditorWebView {
         if (isLoadFinished && !isLoadError) {
             val js = "javascript:ibookerHtmlCompile('$ibookerEditorHtml')"
-            this.loadUrl(js)
+            this.loadUrl(js, additionalHttpHeaders)
 
             // 重新WebView添加监听
             addWebViewListener()
@@ -270,7 +280,7 @@ class IbookerEditorWebView @JvmOverloads constructor(context: Context, attrs: At
         } else {
             if (isLoadError) {
                 // 加载本地HTML
-                loadUrl("file:///android_asset/ibooker_editor_index.html")
+                loadUrl("file:///android_asset/ibooker_editor_index.html", additionalHttpHeaders)
                 isLoadError = false
             }
             this.isExecuteHtmlCompile = true
